@@ -1,0 +1,13 @@
+.card-body{
+  &:not(first-child){
+    padding: 0rem 1.25rem;
+  }
+  h5{
+    background-color: #e3e3e3;
+    padding: 0.8rem 2rem;
+  }
+  .title{
+    margin-right: -.95rem;
+  }
+}
+

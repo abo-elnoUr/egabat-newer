@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="chat-recent-block">
+
+      <div class="card ">
+        <div class="card-header ">
+          <i class="fas fa-envelope"></i>
+          قائمة الطلاب
+        </div>
+        <div class="card-body">
+
+          <ul class="list-group" *ngIf="listOfStudents.length">
+            <li class="list-group-item" *ngFor="let chatItem of listOfStudents" (click)="getChatHistoryId(chatItem)">
+              <i class="fa fa-user-graduate"></i>
+              {{chatItem.senderName}}
+              <small class="form-text text-muted">
+                {{chatItem.date | date: 'yyyy/MM/dd' }} &nbsp;
+                {{chatItem.date | date: 'yyyy/MM/dd' }}
+              </small>
+
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+  <div class="col-md-8">
+
+    <div class="chat-window" *ngIf="chatHistory">
+      <div class="card ">
+        <div class="card-header">
+          <i class="fa fa-comments"></i>
+          مراسلة الطالب :
+          {{currentStudentChatingName.senderName}}
+        </div>
+        <div class="card-body" #chatWindow>
+          <div *ngFor="let chatBlock of chatHistory " [class]="chatBlock.isAdmin ? 'admin-message' : 'student-message '"
+            data-aos=" fade-in">
+            <div *ngIf="!chatBlock.isAdmin">
+              <i class="fa fa-user-graduate"></i>
+
+              <span class="message-content">
+                {{chatBlock.message}}
+              </span>
+              <small class="form-text text-muted">
+                <span><i class="fa fa-calendar"></i> {{chatBlock.date | date: 'yyyy/MM/dd' }} </span>
+                &nbsp;
+                <span><i class="fa fa-clock"></i>{{chatBlock.date | date : 'yyyy/MM/dd'}}</span>
+              </small>
+            </div>
+            <!--  Admin Chat Block  -->
+            <div *ngIf="chatBlock.isAdmin">
+              <i class="fa fa-user-cog"></i>
+
+              <span class="message-content">
+                {{chatBlock.message}}
+              </span>
+              <small class="form-text text-muted">
+                <span><i class="fa fa-calendar"></i> {{chatBlock.date | date: 'yyyy/MM/dd' }} </span>
+                &nbsp;
+                <span><i class="fa fa-clock"></i>{{chatBlock.date | date: 'yyyy/MM/dd' }}</span>
+              </small>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          <form class="" (submit)="$event.preventDefault() ; adminReplayToStudent() ">
+            <div class="input-group ">
+              <div class="input-group-append">
+                <label class="input-group-text" for="replay" id="basic-addon1"> <i class="fa fa-edit"></i> </label>
+              </div>
+              <input type="text" id="replay" class="form-control" placeholder="اكتب رساله ..." aria-label="Username"
+                aria-describedby="basic-addon1" (keyup)="adminReplayData.message = $any($event.target).value"
+                autocomplete="off" [value]="adminReplayData.message">
+              <div class="input-group-prepend">
+                <button class="btn btn-primary" [disabled]="!adminReplayData.message"> <i
+                    class="fab fa-telegram-plane"></i> إرسال </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!chatHistory">
+
+      <div class="select-chat-message">
+
+        <div>
+          <img src="../../../assets/images/logo/undraw_emails_6uqr.svg" />
+
+          <h5> اختر إحدى المحادثات لعرض محتواها </h5>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

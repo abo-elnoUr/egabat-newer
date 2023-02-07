@@ -1,0 +1,52 @@
+<aside id="aside-bar-control">
+
+
+  <div class="aside-bar-container {{showAsidebarInMobiles ? 'show' : ''}} " id="aside-bar-container">
+    <div class="logo">
+      <img src="../../../../assets/images/logo/Logo.png" width="100%" />
+    </div>
+    <nav class="dashboard-links">
+      <ul>
+        <li>
+          <a routerLink="/Admin/dashboard/home" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}"> 
+            <i class="icofont-chart-pie"></i> <span> لوحة التحكم </span> </a>
+        </li>
+        <li *ngFor="let link of sidebarLinks">
+          <a *RoleAction="link.role" [routerLink]="link.route" [routerLinkActive]="'active-link'"
+            [routerLinkActiveOptions]="{exact: true}"> <i class="{{link.icon}}"> </i> <span>{{link.label}}</span> </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+
+
+  <!-- <div *ngIf="!isAdmin" class="aside-bar-container {{showAsidebarInMobiles ? 'show' : ''}} " id="aside-bar-container">
+    <div class="logo">
+      <img src="../../../../assets/images/logo/Logo.png" width="100%" />
+    </div>
+    <nav class="dashboard-links">
+      <ul>
+        <li *ngFor="let link of rolesLinks">
+          <a [routerLink]="link.route" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}"> <i
+              class="{{link.icon}}"> </i> <span>{{link.label}}</span> </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+
+  <div *ngIf="isAdmin" class="aside-bar-container {{showAsidebarInMobiles ? 'show' : ''}} " id="aside-bar-container">
+    <div class="logo">
+      <img src="../../../../assets/images/logo/Logo.png" width="100%" />
+    </div>
+    <nav class="dashboard-links">
+      <ul>
+        <li *ngFor="let link of adminLinks">
+          <a [routerLink]="link.route" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}"> <i
+              class="{{link.icon}}"> </i> <span>{{link.label}}</span> </a>
+        </li>
+      </ul>
+    </nav>
+  </div> -->
+</aside>

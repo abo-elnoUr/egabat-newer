@@ -1,0 +1,64 @@
+.dashboard-container {
+  .dashboard-body {
+    display: flex;
+    .dashboard-aside {
+      width: 15%;
+    }
+    .content-container {
+      width: 85%;
+      // padding: 10px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 60px;
+      
+    }
+  }
+
+  .dashboard-header {
+    .content-container {
+      max-width: 100%;
+      margin-top: 40px;
+
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .dashboard-container {
+    .dashboard-body {
+      display: flex;
+      .dashboard-aside {
+        width: 0%;
+      }
+      .content-container {
+        width: 100%;
+        padding: 10px;
+        position: relative;
+        overflow: auto;
+      }
+    }
+
+    .dashboard-header {
+      .content-container {
+        margin-top: 40px;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+// @media (min-width: 992px ) {
+//     .dashboard-container {
+//         display: flex;
+//         .dashboard-body {
+//             width: 15%;
+//         }
+
+//         .dashboard-header {
+//             width: 85%;
+//             .content-container {
+//                 max-width: 100%;
+//             }
+//         }
+//     }
+// }

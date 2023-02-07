@@ -1,0 +1,87 @@
+<div class="card border-0">
+  <div class="card-header">
+    <h5>تعديل وحدة</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="updateUnitForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <!-- <div class="col-md-5">
+              <div class='mb-4'>
+                <label> المجموعة</label>
+                <select class='form-control' formControlName="sectionId">
+                  <option selected disabled [ngValue]="null"> اختر المجموعة </option>
+                  <option *ngFor="let section of listOfSections" [ngValue]="section.sectionId">{{section.sectionName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> المرحلة</label>
+                <select class='form-control' formControlName="stageId" (change)="changeStageAndGetGrades()">
+                  <option selected disabled [ngValue]="null"> اختر المرحلة </option>
+                  <option *ngFor="let stage of listOfStages" [ngValue]="stage.stageId">{{stage.stageName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> الصف</label>
+                <select class='form-control' formControlName="gradeId" (change)="changeGradeAndGetSubjects()">
+                  <option selected disabled [ngValue]="null"> اختر الصف </option>
+                  <option *ngFor="let grade of listOfGrades" [ngValue]="grade.gradeId">{{grade.gradeName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> المادة</label>
+                <select class='form-control' formControlName="subjectId">
+                  <option selected disabled [ngValue]="null"> اختر المادة </option>
+                  <option *ngFor="let subject of listOfSubjects" [ngValue]="subject.subjectId">{{subject.subjectName}}</option>
+                </select>
+              </div>
+            </div> -->
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> الفصل الدراسي</label>
+                <select class='form-control' formControlName="semesterId">
+                  <option selected disabled [ngValue]="null"> اختر الفصل الدراسي</option>
+                  <option *ngFor="let semester of listOfSemesters" [ngValue]="semester.semesterId">{{semester.semesterName}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> اسم الوحدة</label>
+                <input type="text" class='form-control' formControlName="unitName" />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class='mb-4'>
+                <label> الترتيب</label>
+                <input type="number" class='form-control' formControlName="index" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Units,permessionHelper.Update)">
+      <button class="btn btn-primary" type="submit" *ngIf="updateUnitForm.valid && !isSubmiting && updateUnitForm.dirty"> <i
+        class="fa fa-save"></i> حفظ البيانات</button></div>
+        <div *RoleAction="[ROLES.SUPER_ADMIN,ROLES.SUBJECTS]">
+          <button class="btn btn-primary" type="submit" *ngIf="updateUnitForm.valid && !isSubmiting && updateUnitForm.dirty"> <i
+            class="fa fa-save"></i> حفظ البيانات</button></div>
+    <button class="btn btn-primary" type="button" disabled *ngIf="updateUnitForm.invalid || isSubmiting || !updateUnitForm.dirty">
+      <i class="fa fa-save"></i> حفظ البيانات
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+        *ngIf="isSubmiting"></span>
+    </button>
+    </form>
+  </div>
+</div>
+<!-- <div class="col-md-12 mt-4">
+
+</div> -->

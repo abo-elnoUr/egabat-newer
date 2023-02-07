@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> تعديل الاسئلة الإضافية </h4>
+</div>
+<div class="modal-body">
+  <!-- <div class="text-center"  >
+    <div class="spinner-border text-success  " role="status">
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Example select</label>
+        <select class="form-control" id="exampleFormControlSelect1"
+          (change)="subjectId = $any($event.target).value; getExtraRequsetData()">
+          <option selected disabled> اختر المادة </option>
+          <option *ngFor="let subject of studentSubjects.subjects" [value]="subject.subjectId"> {{subject.subjectName}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Example select</label>
+        <input class="form-control" id="exampleFormControlSelect1" type="number" min="0" value="0"
+          [(ngModel)]="requestsCount" />
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-success" (click)="addExtraRequest()"> <i class="fa fa-save"></i>
+    حفظ</button>
+
+  <!-- <div class="spinner-border text-success" role="status">
+  </div> -->
+  <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
+    إلغاء</button>
+</div>
+
+
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

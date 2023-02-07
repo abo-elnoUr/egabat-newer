@@ -1,0 +1,164 @@
+<div class="mt-3">
+  <div class="d-flex justify-content-end">
+    <a class="btn btn-primary" (click)="openAddLibrary(openLibrary)">اضافة مكتبه <i class="fa fa-plus"></i> </a>
+  </div>
+  <h2>المكتبات</h2>
+  <table class="table mt-4 table-sm table-hover " data-aos="fade-up" data-aos-duration="3000">
+    <thead>
+      <tr>
+        <th> الترتيب </th>
+        <th> الاسم </th>
+        <th> الاقسام </th>
+        <th> تعديل </th>
+        <th> تفعيل </th>
+        <th> حذف </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let library of listOfLibrarys?.mainCategories; let i = index">
+        <td> {{ i + 1 }} </td>
+        <td>{{ library.mainCategory_Name }}</td>
+        <td>
+          <a class="btn btn-primary"
+            routerLink="/Admin/dashboard/library-category/{{library.mainCategory_Id}}">الاقسام</a>
+        </td>
+        <td>
+          <button class="btn btn-primary"
+            (click)="openEditLibrry(openEditLibrary, library.mainCategory_Id);getLibraryById(library.mainCategory_Id)">تعديل</button>
+        </td>
+        <td>
+          <div class='switch-button'>
+            <input [id]="library.mainCategory_Id"
+              (change)="toggleLibraryActive(library.mainCategory_Id, library.isActive)" type='checkbox'
+              [checked]="library.isActive ? true : false " />
+            <label [for]="library.mainCategory_Id"></label>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-danger"
+            (click)="deleteLibrary(library.mainCategory_Id);getLibraryById(library.mainCategory_Id)">حذف</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-center">
+  <ngb-pagination [collectionSize]="listOfLibrarys?.rowCount" [(page)]="pagination.pageNo"
+    [pageSize]="pagination.pageSize" [maxSize]="3" [boundaryLinks]="true" (pageChange)="getLibrarys()"></ngb-pagination>
+</div>
+
+
+<ng-template #openLibrary let-modal>
+  <div class="d-flex justify-content-between p-3">
+    <h4 class="modal-title" id="modal-basic-title">اضافه مكتبه</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div [formGroup]="libraryForm">
+      <div class="mb-3">
+        <label class="form-label">اسم المكتبه</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="اسم المكتبه">
+      </div>
+      <div class=" mb-3">
+        <input class="form-check-input" type="checkbox" [checked]="!general" (change)="general = !general"
+          id="flexCheckChecked1">
+        <label class="form-check-label" for="flexCheckChecked1">
+          مكتبه عامه
+        </label>
+      </div>
+      <div *ngIf="general">
+        <div class="mb-3">
+          <label class="form-label">المرحله</label>
+          <select class="form-select" (change)="getGradesOfStage()" formControlName="stageId">
+            <option disabled [value]="null">اختر مرحله</option>
+            <option [value]="stage.stageId" *ngFor="let stage of listOfStages">{{ stage.stageName }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">الصف الدراسي</label>
+          <select class="form-select" formControlName="gradeId">
+            <option disabled [value]="null">اختر الصف</option>
+            <option [value]="grade.gradeId" *ngFor="let grade of listOfGrades">{{ grade.gradeName }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">الفصل الدراسي</label>
+          <select class="form-select" formControlName="semsterId">
+            <option disabled [ngValue]="null">اختر الصف</option>
+            <option [value]="semester.semesterId" *ngFor="let semester of listOfSemester">{{ semester.semesterName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">الصوره</label>
+        <input type="file" class="form-control" (change)="getLibraryImage($any($event.target).files[0])">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="addLibrary();modal.close('Save click')">حفظ</button>
+  </div>
+</ng-template>
+
+
+<ng-template #openEditLibrary let-modal>
+  <div class="d-flex justify-content-between p-3">
+    <h4 class="modal-title" id="modal-basic-title">تعديل مكتبه</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div [formGroup]="editLibraryForm">
+      <div class="mb-3">
+        <label class="form-label">اسم المكتبه</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="اسم المكتبه">
+      </div>
+      <div class="form-check mb-3">
+        <input class="form-check-input" [checked]="general == true" type="checkbox" (change)="general = !general"
+          id="flexCheckChecked1">
+        <label class="form-check-label" for="flexCheckChecked1">
+          مكتبه عامه
+        </label>
+      </div>
+      <div *ngIf="!general">
+        <div class="mb-3">
+          <label class="form-label">المرحله</label>
+          <select class="form-select" (change)="getGradesOfStageOnEdit()" formControlName="stageId">
+            <option [value]="null">اختر مرحله</option>
+            <option [value]="stage.stageId" *ngFor="let stage of listOfStages">{{ stage.stageName }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">الصف الدراسي</label>
+          <select class="form-select" formControlName="gradeId">
+            <option [value]="null">اختر الصف</option>
+            <option [value]="grade.gradeId" *ngFor="let grade of listOfGrades">{{ grade.gradeName }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">الفصل الدراسي</label>
+          <select class="form-select" formControlName="semsterId">
+            <option [value]="null">اختر الصف</option>
+            <option [value]="semester.semesterId" *ngFor="let semester of listOfSemester">{{ semester.semesterName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">الصوره</label>
+        <div class="input-group">
+          <input type="file" class="form-control" (change)="editlibraryImage($any($event.target).files[0])">
+          <span *ngIf="currentImage">
+            <img class="rounded" [src]="imgUrl + currentImage " width="35">
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="editLibrary();modal.close('Save click')">حفظ</button>
+  </div>
+</ng-template>

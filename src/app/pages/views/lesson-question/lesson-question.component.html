@@ -1,0 +1,80 @@
+<div class="container-fluid mt-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/Admin/dashboard/subjects">المواد</a></li>
+      <li class="breadcrumb-item"><a href="/Admin/dashboard/subjects/{{subjectId}}/units">الوحدات</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><a href="/Admin/dashboard/subjects/{{subjectId}}/units/{{unitId}}/lessons">الدروس</a></li>
+      <li class="breadcrumb-item active" aria-current="page">الأسئلة</li>
+    </ol>
+  </nav>
+  <div class="d-flex justify-content-between mb-3">
+
+    <h4>{{subjectName}} / {{unitName}} / {{lessonName}} </h4>
+    <h3 class='m-0'> قائمة الاسئلة </h3>
+    <a  *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Questions,permessionHelper.Add)" routerLink="create" class="btn btn-primary"> اضافة سؤال </a>
+    <a  *RoleAction="[ROLES.SUPER_ADMIN,ROLES.SUBJECTS]" routerLink="create" class="btn btn-primary"> اضافة سؤال </a>
+  </div>
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item mb-4 border border-muted rounded shadow" *ngFor="let q of listOfQuestions; index as qI">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#lesson-question'+qI" aria-expanded="true" aria-controls="collapseOne">
+          <i class="fa fa-question-circle"></i> {{q.question}} ؟
+        </button>
+        <i (click)="deleteQuestion(q.lessonQuestionId)" class="fa fa-trash-alt text-danger cursor-pointer"></i>
+      </h2>
+      <div [id]="'lesson-question'+qI" class="accordion-collapse collapse " aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+
+          <div *ngIf="q.contentType === 'Image'">
+            <img [src]="SITE_URL+q.question" width="300px" />
+          </div>
+          <div *ngIf="q.contentType === 'Text'">
+            <p> {{q.question}} </p>
+
+          </div>
+
+
+          <button  *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Questions,permessionHelper.Update)" class='mb-4 btn btn-outline-success' [disabled]="q.answers.length >= 4" (click)="addAnswer(qI)"> <i
+              class="fa fa-plus"></i> اضافة اجابة </button>
+
+              <button  *RoleAction="[ROLES.SUPER_ADMIN,ROLES.SUBJECTS]" class='mb-4 btn btn-outline-success' [disabled]="q.answers.length >= 4" (click)="addAnswer(qI)"> <i
+                class="fa fa-plus"></i> اضافة اجابة </button>
+          <div class="row">
+            <div   class="col-md-3" *ngFor="let a of listOfQuestions[qI].answers; index as aI">
+             <div  *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Questions,permessionHelper.Update)"> <app-answer-form *ngIf="a.isNew" [lessonQuestionId]="q.lessonQuestionId" (onDelete)="removeNewQuestion(qI, aI)" (onCreated)="getQuestions()" ></app-answer-form>
+</div>
+              <div class="card" *ngIf="!a.isNew">
+                <div class="card-header d-flex justify-content-between">
+                  <h5 class='m-0'><i class="fa fa-hashtag"></i> {{a.index}} - محتوى الإجابة </h5>
+                  <div>
+                    <span class="badge badge-success" *ngIf="a.isRight">اجابة صحيحة</span>
+                    <span class="badge badge-danger" *ngIf="!a.isRight">اجابة خاطئة</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div *ngIf="a.contentType === 'Text'">
+                    <p class='m-0'> {{a.answer}} </p>
+                  </div>
+                  <div *ngIf="a.contentType === 'Image'">
+                    <img [src]="SITE_URL+a.answer" width="100%" height="100px" />
+                  </div>
+                  <button  *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Questions,permessionHelper.Update)" (click)="deleteAnswer(a.lessonQuestionAnswerId)"
+                    class="btn btn-sm btn-outline-danger w-100 mt-4">
+                    <i class="fa fa-trash-alt"></i> حذف الإجابة
+                  </button>
+                  <button  *RoleAction="[ROLES.SUPER_ADMIN,ROLES.SUBJECTS]" (click)="deleteAnswer(a.lessonQuestionAnswerId)"
+                  class="btn btn-sm btn-outline-danger w-100 mt-4">
+                  <i class="fa fa-trash-alt"></i> حذف الإجابة
+                </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,51 @@
+<div class="card border-0">
+  <div class="card-header">
+    <h5>اضافة وحدة</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="createUnitForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> الفصل الدراسي</label>
+                <select class='form-control' formControlName="semesterId">
+                  <option selected disabled [ngValue]="null"> اختر الفصل الدراسي</option>
+                  <option *ngFor="let semester of listOfSemesters" [ngValue]="semester.semesterId">{{semester.semesterName}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <div class='mb-4'>
+                <label> اسم الوحدة</label>
+                <input type="text" class='form-control' formControlName="unitName" />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class='mb-4'>
+                <label> الترتيب</label>
+                <input type="number" class='form-control' formControlName="index" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Units,permessionHelper.Add)">
+      <button class="btn btn-primary" type="submit" *ngIf="createUnitForm.valid && !isSubmiting && createUnitForm.dirty"> <i
+        class="fa fa-save"></i> حفظ البيانات</button>
+      </div>
+
+      <div *RoleAction="[ROLES.SUPER_ADMIN,ROLES.SUBJECTS]">
+        <button class="btn btn-primary" type="submit" *ngIf="createUnitForm.valid && !isSubmiting && createUnitForm.dirty"> <i
+          class="fa fa-save"></i> حفظ البيانات</button>
+        </div>
+    <button class="btn btn-primary" type="button" disabled *ngIf="createUnitForm.invalid || isSubmiting || !createUnitForm.dirty">
+      <i class="fa fa-save"></i> حفظ البيانات
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+        *ngIf="isSubmiting"></span>
+    </button>
+    </form>
+  </div>
+</div>

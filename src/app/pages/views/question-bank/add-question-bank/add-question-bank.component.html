@@ -1,0 +1,84 @@
+<div class="card border-0 ">
+  <div class="card-header">
+    <h4>اضافة بنك اسئلة</h4>
+  </div>
+  <!-- <div class="d-flex justify-content-end">
+    <div class="form-group my-3">
+      <button type="button" class="btn btn-primary" (click)="addQuestion()">
+        <i class="fa fa-plus"></i>
+         إضافة سؤال
+        </button>
+    </div>
+  </div> -->
+  <div class="card-body">
+    <form [formGroup]="addForm">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+              <label for="Question" class="form-label fw-bold">الأسئلة: </label>
+              <div class="input-group">
+                <input type="text" id="Question" class="form-control" formControlName="data" #question
+                  (keyup.enter)="addToListOfQuestions(question.value)">
+                <i (click)="addToListOfQuestions(this.addForm.get('data')?.value)" class="fa fa-plus btn-primary"></i>
+              </div>
+              <ng-container *ngIf="listOfQuestions.length > 0">
+                <table class="table text-center table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>السؤال</th>
+                      <th>حذف</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let question of listOfQuestions; let i = index">
+                      <td>{{ i + 1}}</td>
+                      <td>{{question}}</td>
+                      <td>
+                        <span (click)="removeFromQuestionList(i)" title="delete">
+                          <i role="button" class="fa fa-trash-alt text-danger"></i>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+
+              <!-- <div formArrayName="questions">
+                <div class="form-group mb-3" *ngFor="let question of addForm.get('questions')['controls'];index as i">
+                  <ng-container [formGroupName]="i">
+                    <label [for]="'input' + i">السؤال {{i+1}}</label>
+                    <div class="row align-items-center">
+                      <span class="col-8">
+                        <input type="text" class="form-control" (keyup.enter)="addQuestion()" [id]="'input' + i" formControlName="question" />
+                      </span>
+                      <span *ngIf="addForm.get('questions').length > 1" role="button" class="col-4" (click)="removeQuestion(i)">
+                        <i class="fa fa-trash-alt text-danger"></i>
+                      </span>
+                    </div>
+                  </ng-container>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <div class="col-md-8">
+              <label for="exampleFormControlSelect6" class="form-label fw-bold">الإجابة</label>
+              <input type="text" class="form-control" id="semesterName" formControlName="answer" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-8 mt-3">
+          <div class="d-flex flex-row-reverse">
+            <input class="btn btn-cancel mx-2" (click)="goBack()" type="button" value="إلغاء">
+            <input class="btn btn-primary" [disabled]="!addForm.valid" (click)="submit()" type="button"
+              [value]="update ? 'تعديل' : 'حفظ'">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

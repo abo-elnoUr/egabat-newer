@@ -1,0 +1,58 @@
+<div class="card border-0">
+  <div class="card-header">
+    <h5>تعديل فصل دراسي</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="updateSemsterForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">الدولة</label>
+                <select type="text" class="form-control" id="semesterName" formControlName="countryId" >
+               <option value="">أختر الدولة</option>
+               <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">اسم الفصل الدراسي</label>
+                <input type="text" class="form-control" id="semesterName" formControlName="semesterName" />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">تاريخ بداية الفصل الدراسي</label>
+                <input type="date" class="form-control" id="startDate" formControlName="startDate"  placeholder="yyyy-mm-dd" />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">تاريخ نهاية الفصل الدراسي</label>
+                <input type="date" class="form-control" id="endDate" formControlName="endDate" placeholder="yyyy-mm-dd" />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">ترتيب الفصل الدراسي</label>
+                <input type="number" class="form-control" id="index" formControlName="index" />
+              </div>
+            </div>
+            <div class="col-md-12 mt-4">
+              <button class="btn btn-primary" type="submit" *ngIf="updateSemsterForm.valid && !isSubmiting && updateSemsterForm.dirty"> <i
+                  class="fa fa-save"></i> حفظ البيانات</button>
+              <button class="btn btn-primary" type="button" disabled *ngIf="updateSemsterForm.invalid || isSubmiting || !updateSemsterForm.dirty">
+                <i class="fa fa-save"></i> حفظ البيانات
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  *ngIf="isSubmiting"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

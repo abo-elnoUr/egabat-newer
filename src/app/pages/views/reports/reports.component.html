@@ -1,0 +1,184 @@
+<ng-container *ngIf="requestsReport ; then view_table ; else loading_skeleton "></ng-container>
+
+
+
+<ng-template #view_table>
+
+  <form [formGroup]="reportFilterForm">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="exampleFormControlSelect2">المجموعة</label>
+          <select class="form-control" id="exampleFormControlSelect2" formControlName="sectionId"
+            (change)="getSubjects();submit()">
+            <option selected [value]="null" disabled>اختر المجموعة</option>
+            <option [ngValue]="null">الكل</option>
+            <option *ngFor="let s of listOfSections" [value]="s.sectionId"> {{s.sectionName}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="exampleFormControlSelect3">المرحلة</label>
+          <select class="form-control" id="exampleFormControlSelect3" formControlName="stageId"
+            (change)=" getGrades();submit()">
+            <option selected [value]="null" disabled>اختر المرحلة</option>
+            <option [ngValue]="null">الكل</option>
+            <option *ngFor="let s of listOfStages" [value]="s.stageId"> {{s.stageName}} </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="exampleFormControlSelect4">الصف</label>
+          <select class="form-control" id="exampleFormControlSelect4" formControlName="gradeId"
+            (change)="getSubjects();submit()">
+            <option selected [value]="null" disabled>اختر الصف</option>
+            <option [ngValue]="null">الكل</option>
+            <option *ngFor="let g of listOfGrades" [value]="g.gradeId"> {{g.gradeName}} </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group mb-0">
+          <label for="exampleFormControlSelect5">المادة</label>
+          <select class="form-control" id="exampleFormControlSelec5" formControlName="subjectId" (change)="submit()">
+            <option selected [value]="null" disabled>اختر المادة</option>
+            <option [ngValue]="null">الكل</option>
+            <option *ngFor="let s of listOfSubjects" [value]="s.subjectId"> {{s.subjectName}} </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group mb-0">
+          <label for="exampleFormControlSelect6">اسم الطالب</label>
+          <input type="text" class="form-control" id="exampleFormControlSelect6" formControlName="studentName"
+            (keyup)="submit()" />
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group mb-0">
+          <label for="exampleFormControlSelect6">اسم المعلم</label>
+          <input type="text" class="form-control" id="exampleFormControlSelect6" formControlName="teacherName"
+            (keyup)="submit()" />
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group mb-0">
+              <label for="exampleFormControlSelect6">من تاريخ</label>
+              <input type="date" class="form-control" id="exampleFormControlSelect6" formControlName="dateFrom"
+                (change)="submit()" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-0">
+              <label for="exampleFormControlSelect7">إلى تاريخ</label>
+              <input type="date" class="form-control" id="exampleFormControlSelect7" formControlName="dateTo"
+                (change)="submit()" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-0">
+              <label for="exampleFormControlSelect7">رقم الطلب</label>
+              <input type="number" class="form-control" id="exampleFormControlSelect7" formControlName="requestNo"
+                (keyup)="submit()" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <button class="btn btn-primary">
+      <i class="fa fa-search"> نتائج البحث </i>
+    </button> -->
+  </form>
+
+  <table class="table mt-4 table-sm table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">رقم الطلب</th>
+        <th scope="col">التاريخ</th>
+        <!-- <th scope="col">الوقت</th> -->
+        <th scope="col">الصف</th>
+        <th scope="col">الطالب</th>
+        <th scope="col">المادة</th>
+        <th scope="col">المعلم</th>
+        <th scope="col">حالة الطلب</th>
+        <th scope="col"> عرض </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requestsReport.requestsReport; index as i">
+        <td>{{ request.requestNo }} </td>
+        <td>{{ request.date.slice(0,10) }} </td>
+        <!-- <td>{{ request.date.slice(11,request.date.length - 1) }} </td> -->
+        <td>{{ request.gradeName }} </td>
+        <td>{{ request.studentName }} </td>
+        <td>{{ request.subjectName }} </td>
+        <td>{{ request.teacherName }} </td>
+        <td>
+          <ng-container *ngIf="request.replied ; then Replied ; else notReplied "></ng-container>
+        </td>
+        <ng-template #Replied> <span class="badge badge-success"> تم الرد </span> </ng-template>
+        <ng-template #notReplied><span class="badge badge-danger"> لم يتم الرد </span></ng-template>
+        <td>
+          <button class="btn btn-sm btn-outline-info" (click)="openDetailsModal(Details_Modal, request.requestId)"
+            ngbTooltip="عرض التفاصل"> <i class="fa fa-eye"></i> </button>
+        </td>
+        <!-- <td>
+          <button class="btn btn-outline-primary btn-sm" >
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-outline-danger btn-sm"  > <i
+              class="fa fa-trash-alt"></i>
+          </button>
+        </td> -->
+      </tr>
+    </tbody>
+  </table>
+  <!-- <ngb-pagination  [disabled]="filterStatus" [collectionSize]="120" (pageChange)="filterReports()" [(page)]="page"
+    [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination> -->
+
+
+  <ngb-pagination [collectionSize]="requestsReport.rowCount" [(page)]="paginationModel.pageNo" [maxSize]="5"
+    [pageSize]="paginationModel.pageSize" (pageChange)="filterReports()" [boundaryLinks]="true"></ngb-pagination>
+
+  <!-- {{page}} -->
+  <!-- <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item" *ngFor="let page of paginationButtons ; last as l"><button class="page-link" (click)="filterReports(page,10)" > {{page}} </button></li>
+    </ul>
+  </nav> -->
+</ng-template>
+
+<ng-template #loading_skeleton>
+  <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+        'border-radius': '5px',
+        height: '40px',
+        'background-color': '#efefef',
+        width: '130px',
+        border: '1px solid white'
+      }"></ngx-skeleton-loader>
+
+  <div class="item">
+    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+            'border-radius': '5px',
+            height: '30px',
+            'background-color': '#efefef',
+            border: '1px solid white'
+          }"></ngx-skeleton-loader>
+  </div>
+</ng-template>
+
+
+<ng-template #Details_Modal let-modal>
+  <app-report-details [modal]="modal" [requestId]="viewRequestId"></app-report-details>
+</ng-template>

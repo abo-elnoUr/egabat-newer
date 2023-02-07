@@ -1,0 +1,17 @@
+.fa-plus{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  margin: -1px;
+  cursor: pointer;
+}
+.btn-cancel{
+  background-color: white;
+  color: gray;
+  border: 1px solid gray;
+  &:hover{
+    background-color: rgb(225, 219, 219);
+  }
+}

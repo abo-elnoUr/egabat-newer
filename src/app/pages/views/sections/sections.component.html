@@ -1,0 +1,121 @@
+<ng-container *ngIf="listOfSections; then view_table; else loading_skeleton"></ng-container>
+
+<ng-template #view_table>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-primary" (click)="openAddModal(AddModal)">
+      <i class="fa fa-plus"></i> إضافة مجموعة
+    </button>
+  </div>
+  <div class="page-header w-25">
+    <!-- <h3 class="page-title"> المجموعات </h3> -->
+    <div class="form-group">
+      <label for="newStageName fw-bolder"> الدولة</label>
+      <div class="input-group">
+        <select (change)="getCountrySections($any($event.target).value)" id="newStageName" class="form-control">
+          <option value="">اختر الدولة</option>
+          <option *ngFor="let country of countries" [value]="country.id">
+            {{ country.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <table class="table mt-4 table-hover table-sm">
+    <thead>
+      <tr>
+        <th scope="col">الترتيب</th>
+        <th scope="col">الدولة</th>
+        <th scope="col">المجموعة</th>
+        <th scope="col">تفعيل</th>
+        <th scope="col">تعديل</th>
+        <th scope="col">حذف</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let section of listOfSections; index as i">
+        <td>
+          {{ section.index }}
+        </td>
+        <td>
+          {{ section.countryName }}
+        </td>
+        <td>
+          {{ section.sectionName }}
+        </td>
+        <td>
+          <div class="switch-button">
+            <input id="{{ section.sectionId }}" name="lang" (change)="toggleSectionActivation(section.sectionId)"
+              type="checkbox" [checked]="section.isActive ? true : false" />
+            <label for="{{ section.sectionId }}"></label>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-outline-primary btn-sm" (click)="
+              openEdit(
+                EditModal,
+                section.sectionId,
+                section.sectionName,
+                section.index,
+                section.countryId
+              )
+            ">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-outline-danger btn-sm" [swal]="ConfirmSwal"
+            (click)="deleteSectionId = section.sectionId">
+            <i class="fa fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+
+<ng-template #loading_skeleton>
+  <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+      'border-radius': '5px',
+      height: '40px',
+      'background-color': '#efefef',
+      width: '130px',
+      border: '1px solid white'
+    }"></ngx-skeleton-loader>
+
+  <div class="item">
+    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+        'border-radius': '5px',
+        height: '30px',
+        'background-color': '#efefef',
+        border: '1px solid white'
+      }"></ngx-skeleton-loader>
+  </div>
+</ng-template>
+
+<!-- Create Stage Modal -->
+<ng-template #AddModal let-modal>
+  <app-add-section [modal]="modal" [countries]="countries"></app-add-section>
+</ng-template>
+
+<!-- Edit Stage Modal -->
+<ng-template #EditModal let-modal>
+  <app-edit-section [modal]="modal" [countryId]="editSectionCountry" [countries]="countries"
+    [sectionId]="editingSectionId" [sectionName]="editSectionName" [index]="editSectionIndex"></app-edit-section>
+</ng-template>
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>
+
+<!-- Confirm Delete Stage Modal Swal -->
+<swal #ConfirmSwal title="انتبه" [text]="'هل انت متأكد من حذف هذا القسم'" icon="warning" [showConfirmButton]="true"
+  [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" (confirm)="delteteSection()" [showCancelButton]="true"
+  [cancelButtonText]="'إالغاء'" class="swal-modal">
+</swal>
+
+<!-- Confirm Delete Stage Modal Swal -->
+<swal #ErrorSwal title="انتبه" [text]="errorMessage" icon="error" [showConfirmButton]="true"
+  [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" [showCancelButton]="true" class="swal-modal">
+</swal>

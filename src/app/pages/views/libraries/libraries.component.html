@@ -1,0 +1,57 @@
+<div class="mt-4 d-flex justify-content-end">
+  <a class='btn btn-primary' routerLink="create"> <i class="fa fa-plus"></i> إضافة مكتبة </a>
+</div>
+<!-- <table class="table mt-4 table-sm table-hover ">
+  <thead>
+    <tr>
+      <th scope="col">الصف الدراسي</th>
+      <th scope="col">الفصل الدراسي</th>
+      <th scope="col"> نوع المكتبة </th>
+      <th scope="col">اسم المكتبة</th>
+      <th scope="col">حذف</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table> -->
+<div class="row mt-4">
+  <div class="col-md-4" *ngFor="let l of listOfLibraries">
+    <div class="card">
+      <img *ngIf="l.fileImage" [src]="SITE_URL+l.fileImage" class="card-img-top" alt="..." width="100%"
+        height="250px" />
+      <div *ngIf="!l.fileImage" style="width: 100%;height: 250px; line-height: 250px;">
+        <h6> لا يوجد صورة </h6>
+      </div>
+      <div></div>
+      <div class="card-body">
+
+        <h6 class="card-title"> <i class="fa fa-hashtag"></i> {{l.index}} </h6>
+        <h5 class="card-title"> {{l.name}} </h5>
+        <div class="row">
+          <div class="col-6">
+            <p class="card-text"> <small> <b>الصف الدراسي</b>: {{l.gradeName}}</small> </p>
+            <p class="card-text"> <small> <b>الفصل الدراسي</b>: {{l.semesterName}}</small> </p>
+            <p class="card-text"> <a [href]="''+l.file" target="_blacnk">ملف المكتبة</a></p>
+          </div>
+          <div class="col-6">
+            <qrcode *ngIf="l.qrCode" [qrdata]="l.qrCode" [errorCorrectionLevel]="'M'"></qrcode>
+          </div>
+        </div>
+        <div class='d-flex justify-content-between align-items-center'>
+          <div>
+
+            <span *ngIf="l.categoryCode === LibsCategs.Exams" class='badge badge-info'> إختبارات </span>
+            <span *ngIf="l.categoryCode === LibsCategs.Lessons" class='badge badge-info'> دروس </span>
+            <span *ngIf="l.categoryCode === LibsCategs.Notes" class='badge badge-info'> مذكرات</span>
+            <span *ngIf="l.categoryCode === LibsCategs.Teacher" class='badge badge-info'> تحضيرات المعلم</span>
+          </div>
+          <!-- <button class="btn btn-outline-danger btn-sm" (click)="deleteQuestion(l.libraryId)"><i
+              class="fa fa-trash-alt"></i> حذف </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

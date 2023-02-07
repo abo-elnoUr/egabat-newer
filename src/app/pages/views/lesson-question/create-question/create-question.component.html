@@ -1,0 +1,34 @@
+<form [formGroup]="questionForm" (ngSubmit)="submit()">
+  <div class="card">
+    <div class='card-body'>
+      <!-- <div class='mb-2'>
+        <small class="text-muted"> <i class="fa fa-info-circle ml-1"></i>
+          يمكنك ادخال نوع واحد من البيانات , النص او الملف </small>
+      </div> -->
+      <div class="form-group">
+        <label for="exampleInputEmail1">نص السؤال</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" formControlName="Question" autocomplete="false"
+          autocapitalize="true">
+      </div>
+      <div>
+        <label for="exampleInputPassword1">ملف السؤال</label>
+        <div class="custom-file mb-3">
+          <input type="file" class="custom-file-input" id="validatedCustomFile" [disabled]="isDisableFile" (change)="uploadFile($event)"
+            [disabled]="isDisableFile">
+          <label class="custom-file-label" for="validatedCustomFile">اختر ملف</label>
+        </div>
+        <div *ngIf="file">
+          <label class="bg-light p-2 mt-2 rounded-pill"> {{file.name}} <i
+              class="fa fa-trash-alt text-danger cursor-pointer" (click)="removeFile()"></i> </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">ترتيب السؤال</label>
+        <input type="number" class="form-control" id="exampleInputPassword1" formControlName="Index">
+      </div>
+    </div>
+    <div class="card-footer">
+      <button  *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Questions,permessionHelper.Add)"   class="btn btn-primary btn-sm ml-4" [disabled]="questionForm.invalid" ><i class="fa fa-save"> حفظ السؤال</i></button>
+    </div>
+  </div>
+</form>

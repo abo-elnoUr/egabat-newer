@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> تعديل مرحلة </h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="editStageForm">
+
+    <div class="form-group">
+      <label for="newStageName"> الدولة</label>
+      <div class="input-group">
+        <select id="newStageName" class="form-control" formControlName="countryId">
+          <option value="">اختر الدولة</option>
+          <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+        </select>
+
+      </div>
+      <small class="text-danger" *ngIf="CountryId?.touched && CountryId?.invalid && CountryId?.dirty">
+        الدولة مطلوبة
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="newStageName"> اسم المرحلة </label>
+      <div class="input-group">
+        <input id="newStageName" class="form-control" placeholder="اكتب اسم المرحلة" formControlName="stageName">
+      </div>
+      <small id="" class="form-text  text-success "
+        *ngIf=" StageName?.valid && StageName?.touched && StageName?.dirty  ">اسم المرحلة صحيح
+      </small>
+      <small id="" class="form-text  text-danger "
+        *ngIf="StageName?.touched && StageName?.invalid && StageName?.dirty ">اسم المرحلة مطلوب </small>
+    </div>
+    <div class="form-group">
+      <label for="newStageName"> رقم المرحلة </label>
+      <div class="input-group">
+        <input id="newStageName" class="form-control" placeholder="اكتب رقم المرحلة" type="number"
+          formControlName="index">
+      </div>
+
+      <small id="" class="form-text  text-success "
+        *ngIf=" StageIndex?.valid && StageIndex?.touched && StageIndex?.dirty ">رقم المرحلة صحيح
+      </small>
+      <small id="" class="form-text  text-danger "
+        *ngIf="StageIndex?.touched && StageIndex?.invalid && StageIndex?.dirty ">رقم المرحلة مطلوب </small>
+    </div>
+    <button hidden type="submit"></button>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-success" *ngIf="!requestStatus" (click)="editStage()"
+    [disabled]="editStageForm.invalid || !editStageForm.dirty">
+    <i class="fa fa-save"></i>
+    حفظ</button>
+  <div class="spinner-border text-success" role="status" *ngIf="requestStatus">
+
+  </div>
+  <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')"> <i
+      class="fa fa-times-circle"></i> إلغاء</button>
+</div>
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

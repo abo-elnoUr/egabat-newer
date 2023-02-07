@@ -1,0 +1,101 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> عرض تفاصيل طلب </h4>
+</div>
+<div class="modal-body">
+
+  <div>
+    <div class="jumbotron" style="padding: 1rem;" *ngIf="RequestDetails">
+
+
+
+      <span class="text-muted"> <strong>السؤال:</strong> {{RequestDetails.request.requestNo}} </span>
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      <span class="text-muted"> <strong>المجموعة:</strong> {{RequestDetails.request.sectionName}} </span>
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      <span class="text-muted"> <strong>الصف:</strong> {{RequestDetails.request.gradeName}} </span>
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+
+
+      <div class="float-left">
+        <span class="text-muted  "> <strong>الوقت:</strong> {{RequestDetails.request.date }}
+        </span>
+        <span class="text-muted  mr-4 "> <strong>التاريخ:</strong> {{RequestDetails.request.date }}
+        </span>
+      </div>
+      <span class="text-muted"> <strong>المادة:</strong> {{RequestDetails.request.subjectName}} </span>
+      <h4 class="my-4"> نص السؤال </h4>
+      <q class="lead"> {{RequestDetails.request.description}} </q>
+      <hr class="my-4">
+      <h4 class=""> مرفقات السؤال </h4>
+      <div class="row">
+        <div class="col-md-3" *ngFor="let file of RequestDetails.request.attachments  index as i;">
+          <div class="text-center">
+            <a target="_blank" href="{{env.API_ROOT}}/{{file.file}}" (click)="changeImageExtention(file.file)"
+              download="download">
+              <img *ngIf="file" [src]="env.API_ROOT + '/' + file.file" class="rounded " alt="ملف السؤال رقم {{i+1}}"
+                width="50%">
+
+              <!-- <img *ngIf="file" src="{{env.API_ROOT}}/{{file.file}}" class="rounded " alt="صورة السؤال" width="50%"> -->
+            </a>
+            <!-- <button class="btn btn-primary btn-sm"   (click)="changeImageExtention(file.file)" > تنزيل </button> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="jumbotron" style="padding: 1rem;" *ngIf="RequestDetails.answer && RequestDetails.answer != null ">
+      <div class="float-left">
+        <span class="text-muted  "> <strong>الوقت:</strong> {{RequestDetails?.answer?.date }}
+        </span>
+        <span class="text-muted  mr-4 "> <strong>التاريخ:</strong> {{RequestDetails?.answer?.date }}
+        </span>
+      </div>
+      <h4 class="my-4"> نص الإجابة </h4>
+      <q class="lead"> {{RequestDetails?.answer?.description}} </q>
+      <hr class="my-4">
+      <h4 class=""> مرفقات الإجابة </h4>
+      <div class="row">
+        <div class="col-md-3" *ngFor="let file of RequestDetails.answer.attachments">
+          <div class="text-center" *ngIf="file.type === 'Image'  ">
+
+
+            <img src="{{env.API_ROOT}}/{{file.file}}" class="rounded " alt="..." width="50%">
+            <!-- <button (click)="changeImageExtention(file.file)" class="btn btn-primary btn-sm"> تنزيل </button> -->
+
+          </div>
+          <div class="text-center" *ngIf="file.type !== 'Image'">
+            <!-- <a class="btn btn-link" (click)="DownloadAttachment(file.file)"> {{file.type}} </a> -->
+
+            <button class="btn btn-primary btn-sm" (click)="changeImageExtention(file.file)"> تنزيل الملف </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-outline-danger btn-sm mt-4 "
+        (click)="deleteAnswerFromRequest(RequestDetails.answer.answerId)"> حذف الاجابة </button>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal-footer">
+
+
+  <!-- <button type="button" class="btn btn-outline-success" > <i
+      class="fa fa-save"></i>
+    حفظ</button> -->
+  <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
+    إلغاء</button>
+</div>
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

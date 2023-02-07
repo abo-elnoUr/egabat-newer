@@ -1,0 +1,22 @@
+<div class="mt-4">
+  <div class="d-flex justify-content-end mb-4">
+    <a href="" class="btn btn-primary" routerLink="create"> <i class="fa fa-plus"></i> إضاافة إعلانات </a>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-4" *ngFor="let ad of listOfAdvertisemnet; index as i">
+      <div class="card">
+        <img [src]="SITE_URL+ad.image" class="card-img-top" width="100%" height="250px">
+        <div class="card-body">
+          <p class="card-text">رقم المساحة الإعلانية {{ad.slideNumber}}</p>
+          <p class="card-text">رقم الإعلان في المساحة الإعلانية {{ad.index}}</p>
+          <p class="card-text">رابط الإعلان <a [href]="ad.url"> {{ad.url}}</a></p>
+
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteQuestion(ad.advertisementId)"><i
+                class="fa fa-trash-alt"></i> حذف </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

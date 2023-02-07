@@ -1,0 +1,52 @@
+<div class="w-75 mx-auto">
+  <h2>اضافه المكتبه وملحقاتها</h2>
+  <div [formGroup]="attachmentForm">
+    <div class="mb-3">
+      <label class="form-label">اسم</label>
+      <input type="text" class="form-control" formControlName="name" placeholder="اسم ">
+    </div>
+    <div class="mb-3">
+      <label class="form-label"> الصوره</label>
+      <input type="file" class="form-control" accept="image/png, image/jpeg,image/jpg"
+        (change)="getLibraraySubCategoryImage($any($event.target).files[0])" placeholder=" الصوره">
+    </div>
+    <div formArrayName="createSubCategoryAttachmentDtos">
+      <div class="row">
+        <div class="col-md-12" *ngFor="let file of Files['controls']; let i = index">
+          <div [formGroupName]="i">
+            <div class="">
+              <div class="row align-items-center">
+                <div class="col-md-3 mb-3">
+                  <label> اسم الملف </label>
+                  <input type="text" class="form-control" placeholder="اسم الملف" formControlName="title">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label> صوره الملف </label>
+                  <input type="file" class="form-control" placeholder="صوره الملف"
+                    accept="image/png, image/jpeg,image/jpg" (change)="uploadImage($event, i)">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label> الملف </label>
+                  <input type="file" class="form-control" placeholder=" الملف" accept="application/pdf"
+                    (change)="uploadPdf($event, i)">
+                </div>
+                <div class="col-md-1 pt-2">
+                  <i class="fa fa-trash text-danger cursor-pointer" (click)="removeLibraryFile(i)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="text-start">
+      <button type="button" (click)="addlLibraryAttachment()" class='btn btn-dark btn-sm mb-3'> اضافة ملف <i
+          class="fa fa-plus"></i></button>
+    </div>
+  </div>
+  <div>
+    <button type="button" (click)="addAttachment()" class='btn btn-primary mb-3'>حفظ <i class="fa fa-plus"></i>
+    </button>
+  </div>
+</div>

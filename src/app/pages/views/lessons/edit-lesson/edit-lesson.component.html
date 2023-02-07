@@ -1,0 +1,280 @@
+<div class="card border-0 ">
+  <div class="card-header">
+    <h4>تعديل درس</h4>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="updateLessonForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">اسم الدرس</label>
+                <input type="text" class="form-control" id="semesterName" formControlName="LessonName" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group mb-3">
+                <label for="exampleFormControlSelect6">ترتيب الدرس</label>
+                <input type="number" class="form-control" id="index" formControlName="Index" />
+              </div>
+            </div>
+          </div>
+          <div class='d-flex justify-content-between align-items-center mt-4'>
+            <h5 class="mb-0"> ملفات الدرس </h5>
+            <button type="button" class='btn btn-light btn-sm mb-3' (click)="addNewLessonPDF()"> <i
+                class="fa fa-plus"></i> اضافة ملف </button>
+          </div>
+          <div *ngIf="!Files.length">
+            <p class="alert alert-info text-center">
+              لا يوجد ملفات , اضغط على زر اضافة ملف لإضافة ملف وتعبئة بياناته.
+            </p>
+          </div>
+          <div *ngIf="Files.length" formArrayName="Pdf">
+            <div class="row">
+              <div class="col-md-12 " *ngFor="let v of Files['controls']; index as i">
+                <div [formGroupName]="i" class="card mb-3" *ngIf="!v.get('isNew')?.value">
+                  <div class="card-header  py-2 d-flex justify-content-between align-items-center">
+                    <h6 class='mb-0 text-secondary'> ملف رقم {{i + 1}}</h6>
+                    <i class="fa fa-trash text-danger cursor-pointer"
+                      (click)="deleteLessonAttchment(v.get('fileId')?.value, i)"></i>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <b> اسم الملف </b>
+                          </div>
+                          <div class="col-md-4">
+                            {{v.get('Title')?.value}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <b> صورة الملف</b>
+                          </div>
+                          <div class="col-md-9">
+                            <a class='btn btn-link btn-sm ml-3' [href]="SITE_URL+v.get('Image')?.value" target="_blank">
+                              عرض الصورة </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <b> الملف</b>
+                          </div>
+                          <div class="col-md-4">
+                            <a class='btn btn-link btn-sm ml-3' [href]="SITE_URL+v.get('Pdf')?.value" target="_blank">
+                              عرض الملف </a>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3">
+                              <b>Qr Code </b>
+                            </div>
+                            <div class="col-md-4">
+                              <qrcode *ngIf="getFileQr(i)" [qrdata]="getFileQr(i)" [width]="256"
+                                [errorCorrectionLevel]="'M'"></qrcode>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div [formGroupName]="i" class="card mb-3" *ngIf="v.get('isNew')?.value">
+                  <div class="card-header  py-2 d-flex justify-content-between align-items-center">
+                    <h6 class='mb-0 text-secondary'> ملف رقم {{i + 1}}</h6>
+                    <i class="fa fa-trash text-danger cursor-pointer" (click)="removeLessonFile(i)"></i>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label> عنوان الملف </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-tag"></i> </span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="عنوان الملف" aria-label="Username"
+                            aria-describedby="basic-addon1" formControlName="Title">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label> غلاف الملف </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-tag"></i> </span>
+                          </div>
+                          <input type="file" class="form-control" placeholder="غلاف الملف" aria-label="Username"
+                            aria-describedby="basic-addon1" accept="image/png, image/jpeg,image/jpg"
+                            (change)="upLoadFileImage($event, i)">
+                        </div>
+                        <a *ngIf="v.get('Image')?.value"> <i class="fa fa-eye m-2"
+                            (click)="previewFile(i,'Image')"></i></a>
+
+                      </div>
+                      <div class="col-md-4">
+                        <label> الملف </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-tag"></i> </span>
+                          </div>
+                          <input type="file" class="form-control" placeholder="الملف الملف" accept="application/pdf"
+                            aria-label="Username" aria-describedby="basic-addon1" (change)="upLoadFilePdf($event, i)">
+                        </div>
+                        <a *ngIf="v.get('Pdf')?.value"> <i class="fa fa-eye m-2" *ngIf="v.get('Pdf')?.value"
+                            (click)="previewFile(i,'Pdf')"></i></a>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class='d-flex justify-content-between align-items-center mt-4'>
+            <h5 class="mb-0"> فيديوهات الدرس </h5>
+            <button type="button" class='btn btn-light btn-sm mb-3' (click)="addNewLessonVideo()"> <i
+                class="fa fa-plus"></i> اضافة فيديو </button>
+          </div>
+          <div *ngIf="!Videos.length">
+            <p class="alert alert-info text-center">
+              لا يوجد فيديوهات , اضغط على زر اضافة فيديو لإضافة فيديو وتعبئة بياناته.
+            </p>
+          </div>
+          <div *ngIf="Videos.length" formArrayName="Videos">
+            <div class="row">
+              <div class="col-md-12 " *ngFor="let v of Videos.controls; index as i">
+                <div [formGroupName]="i" class="card mb-3">
+                  <div class="card-header  py-2 d-flex justify-content-between align-items-center">
+                    <h6 class='mb-0 text-secondary'> فيديو رقم {{i + 1}} </h6>
+                    <i class="fa fa-trash text-danger cursor-pointer" (click)="removeLessonVideo(i)"></i>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label> عنوان الفيديو </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-tag"></i> </span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="عنوان الفيديو" aria-label="Username"
+                            aria-describedby="basic-addon1" formControlName="Title">
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <label> رابط الفيديو </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-link"></i> </span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="رابط الفيديو" aria-label="Username"
+                            aria-describedby="basic-addon1" formControlName="VideoLink">
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <label> نوع الفيديو </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01"><i
+                                class="fa fa-hand-pointer"></i></label>
+                          </div>
+                          <select class="custom-select " id="inputGroupSelect01" formControlName="ContentTypeFor">
+                            <option selected disabled [ngValue]="null">نوع الفيديو</option>
+                            <option [value]="ContentTypeFor.Egabat">اجابات</option>
+                            <option [value]="ContentTypeFor.KuwaitPlatform">القناة التربوية</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-3">
+                        <label> Qr Code</label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-link"></i> </span>
+                          </div>
+                          <qrcode *ngIf="getVideoQr(i)" [qrdata]="getVideoQr(i)" [width]="256"
+                            [errorCorrectionLevel]="'M'"></qrcode>
+
+                        </div>
+
+                      </div>
+
+
+
+
+
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='d-flex justify-content-between align-items-center mt-4'>
+            <h5 class="mb-0"> فيديوهات مباشرة </h5>
+            <button type="button" class='btn btn-light btn-sm mb-3' (click)="addNewLessonLiveVideo()"> <i
+                class="fa fa-plus"></i> اضافة فيديو </button>
+          </div>
+          <div *ngIf="!Lives.length">
+            <p class="alert alert-info text-center">
+              لا يوجد فيديوهات مباشرة, اضغط على زر اضافة فيديو لإضافة فيديو وتعبئة بياناته.
+            </p>
+          </div>
+          <div *ngIf="Lives.length" formArrayName="Rooms">
+            <div class="row">
+              <div class="col-md-12 " *ngFor="let v of Lives.controls; index as i">
+                <div [formGroupName]="i" class="card mb-3">
+                  <div class="card-header  py-2 d-flex justify-content-between align-items-center">
+                    <h6 class='mb-0 text-secondary'> فيديو رقم {{i + 1}} </h6>
+                    <i class="fa fa-trash text-danger cursor-pointer" (click)="removeLessonLiveVideo(i)"></i>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label> تاريخ الفيديو </label>
+                        <div class="input-group input-group-sm mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-tag"></i> </span>
+                          </div>
+                          <input type="date" class="form-control" placeholder="عنوان الفيديو" aria-label="Username"
+                            aria-describedby="basic-addon1" formControlName="LiveDate">
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *TeacherPermession="permessionHelper.getPermession(subjectId,modules.Lessons,permessionHelper.Add)"
+        class="col-md-12 mt-4 d-flex justify-content-end">
+        <button class="btn btn-primary" type="submit" *ngIf="updateLessonForm.valid && !isSubmiting"> <i
+            class="fa fa-save"></i> حفظ البيانات</button>
+        <button class="btn btn-primary" type="button" disabled *ngIf="updateLessonForm.invalid || isSubmiting">
+          <i class="fa fa-save"></i> حفظ البيانات
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isSubmiting"></span>
+        </button>
+      </div>
+
+      <div *RoleAction="[Roles.SUPER_ADMIN,Roles.SUBJECTS]" class="col-md-12 mt-4 d-flex justify-content-end">
+        <button class="btn btn-primary" type="submit" *ngIf="updateLessonForm.valid && !isSubmiting"> <i
+            class="fa fa-save"></i> حفظ البيانات</button>
+        <button class="btn btn-primary" type="button" disabled *ngIf="updateLessonForm.invalid || isSubmiting">
+          <i class="fa fa-save"></i> حفظ البيانات
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isSubmiting"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

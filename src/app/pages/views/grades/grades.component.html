@@ -1,0 +1,151 @@
+<ng-container *ngIf="listOfGrades ; then view_table ; else loading_skeleton "></ng-container>
+
+
+<ng-template #view_table>
+  <div class="d-flex justify-content-end form-group">
+    <button *RoleAction="RolesEnum.SUPER_ADMIN" class="btn btn-primary mb-3" (click)="openAddModal(AddModal)"> <i
+        class="fa fa-plus"></i>
+      إضافة صف دراسي
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="gradesFilter">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">الدولة</label>
+            <select (change)="getStagesByCountryId($any($event.target).value);getAllGrades()"
+              formControlName="countryId" class="form-select" id="inputGroupSelect01">
+              <option selected [ngValue]="null"> الكل </option>
+              <option *ngFor="let country of countries" [value]="country.id"> {{country.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
+            <select class="form-select" id="inputGroupSelect01" formControlName="stageId" (change)="getAllGrades()">
+              <option selected [ngValue]="null"> الكل </option>
+              <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">حالة التفعيل</label>
+            <select class="form-select" id="inputGroupSelect01" formControlName="isActive" (change)="getAllGrades()">
+              <option selected [ngValue]="null"> الكل </option>
+              <option [ngValue]="true"> مفعل </option>
+              <option [ngValue]="false"> غير مفعل</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">اسم المرحلة</label>
+            <input class="form-control" id="inputGroupSelect01" formControlName="name" (keyup)="getAllGrades()" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <table class="table  mt-4 table-sm table-hover  ">
+    <thead>
+      <tr>
+        <th scope="col"> الدولة</th>
+        <th scope="col">المرحلة الدراسية</th>
+        <th> الصف الدراسي </th>
+        <th> المكتبات </th>
+        <th *RoleAction="RolesEnum.SUPER_ADMIN" scope="col">تفعيل</th>
+        <th *RoleAction="RolesEnum.SUPER_ADMIN" scope="col">تعديل</th>
+        <th *RoleAction="RolesEnum.SUPER_ADMIN" scope="col">حذف</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let grade of listOfGrades.grades; index as i">
+        <td> {{ grade.countryName }} </td>
+        <td> {{ grade.stageName }} </td>
+        <td> {{ grade.gradeName }} </td>
+        <td> <a class='btn btn-sm btn-outline-info' routerLink="{{grade.gradeId}}/libraries"> <i
+              class="icofont-library"></i> </a> </td>
+        <td>
+          <div *RoleAction="RolesEnum.SUPER_ADMIN" class='switch-button'>
+            <input id="{{grade.gradeId}}" name='lang' (change)="toggleGradeActivation(grade.gradeId)" type='checkbox'
+              [checked]="grade.isActive ? true : false " />
+            <label for="{{grade.gradeId}}"></label>
+          </div>
+        </td>
+        <td>
+
+          <button *RoleAction="RolesEnum.SUPER_ADMIN" class="btn btn-outline-primary btn-sm"
+            (click)="open(EditModal, grade.gradeId)"> <i class="fa fa-edit"></i>
+          </button>
+        </td>
+        <td>
+          <button *RoleAction="RolesEnum.SUPER_ADMIN" class="btn btn-outline-danger btn-sm" [swal]="ConfirmSwal"
+            (click)="deleteGradeID = grade.gradeId"> <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center aligns-content-center">
+    <ngb-pagination [collectionSize]="listOfGrades.rowCount" [(page)]="pagination.pageNo"
+      [pageSize]="pagination.pageSize" [maxSize]="3" [boundaryLinks]="true"
+      (pageChange)="getAllGrades()"></ngb-pagination>
+  </div>
+
+
+
+
+
+</ng-template>
+
+<ng-template #loading_skeleton>
+  <ngx-skeleton-loader count="2" appearance="line" [theme]="{
+        'border-radius': '5px',
+        height: '40px',
+        'background-color': '#efefef',
+        width: '130px',
+        border: '1px solid white'
+      }"></ngx-skeleton-loader>
+
+  <div class="item">
+    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+            'border-radius': '5px',
+            height: '30px',
+            'background-color': '#efefef',
+            border: '1px solid white'
+          }"></ngx-skeleton-loader>
+  </div>
+</ng-template>
+
+<ng-template #AddModal let-modal>
+  <app-create-grade [countries]="countries" [modal]="modal"></app-create-grade>
+</ng-template>
+
+
+
+<!-- Edit Stage Modal -->
+<ng-template #EditModal let-modal>
+  <app-edit-grade [modal]='modal' [countries]="countries" [gradeId]="gradeId"></app-edit-grade>
+</ng-template>
+
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>
+
+
+<!-- Confirm Delete Stage Modal Swal -->
+<swal #ConfirmSwal title="انتبه" [text]="'هل انت متأكد من حذف هذا الصف'" icon="warning" [showConfirmButton]="true"
+  [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" (confirm)="deleteGrade()" [showCancelButton]="true"
+  [cancelButtonText]="'إالغاء'" class="swal-modal">
+</swal>

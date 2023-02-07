@@ -1,0 +1,43 @@
+// .switch-button{
+//     position: relative;
+//     margin:  auto;
+//     text-align: center;
+//     display: inline-block
+//   }
+//   .switch-button input{
+//     opacity: 0;
+//   }
+//   .switch-button label {
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%,-50%);
+//     width: 40px;
+//     height: 15px;
+//     background: #999;
+//     border-radius: 10px;
+//     transition: all .2s linear;
+//     cursor: pointer;
+//   }
+//   .switch-button label::after{
+//     position: absolute;
+//     top: 50%;
+//     right: 0%;
+//     transform: translateY(-50%) translateX(0);
+//     content: '';
+//     width: 20px;
+//     height: 20px;
+//     background: #efefef;
+//     border-radius: 50%;
+//     transition: all .2s linear;
+//     box-shadow: 1px 1px 1px rgba(0,0,0,.5);
+//   }
+//   .switch-button input:checked + label {
+//     background: #ccc;
+//   }
+//   .switch-button input:checked + label::after {
+//     background-color: #00112c;
+//     right: 100%;
+//     transform: translateY(-50%)  translateX(100%);
+//   }
+

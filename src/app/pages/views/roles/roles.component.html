@@ -1,0 +1,262 @@
+<ng-container *ngIf="listOfAdmins ; then view_table ; else loading_skeleton "></ng-container>
+
+
+
+<ng-template #view_table>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-primary" (click)="openAddModal(AddModal)"> <i class="fa fa-plus"></i> إضافة مشرف </button>
+  </div>
+  <table class="table mt-4 table-sm table-hover ">
+    <thead>
+      <tr>
+        <th scope="col">اسم المشرف</th>
+        <th scope="col">البريد</th>
+        <th scope="col" colspan="3">إدارة المشرفين</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of listOfAdmins; index as i">
+        <td>
+          {{ admin.userName }}
+        </td>
+        <td>
+          {{ admin.email }}
+        </td>
+
+        <td>
+          <!-- *ngIf="!SUPPER_ADMIN" -->
+
+          <div *ngIf="!SUPPER_ADMIN">
+            <button class="btn btn-outline-primary btn-sm mx-2" disabled>
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-outline-info btn-sm mx-2" disabled>
+              <i class="fas fa-key"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary mx-2" disabled>
+              <i class="fa fa-lock"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm mx-2" disabled> <i class="fa fa-trash"></i> </button>
+          </div>
+
+          <div *ngIf="SUPPER_ADMIN">
+            <a class="btn btn-outline-primary btn-sm mx-2" routerLink="edit-role/{{admin.id}}"
+              ngbTooltip="تعديل الحساب">
+              <i class="fa fa-edit"></i>
+            </a>
+            <button class="btn btn-outline-info btn-sm mx-2" ngbTooltip="الصلاحيات" (click)="open(EditModal, admin.id)">
+              <i class="fas fa-key"></i>
+            </button>
+
+            <button class="btn btn-sm btn-outline-secondary mx-2"
+              (click)="openResetPasswordModal(Reset_Password,admin.id, admin.userName)" ngbTooltip="كلمة المرور"> <i
+                class="fa fa-lock"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm mx-2" ngbTooltip="حذف" [swal]="ConfirmDelete"
+              (click)="ConfirmDeleteAdmin(admin.id, admin.userName)"> <i class="fa fa-trash"></i> </button>
+          </div>
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+
+<ng-template #loading_skeleton>
+  <ngx-skeleton-loader count="1" appearance="line" [theme]="{
+        'border-radius': '5px',
+        height: '40px',
+        'background-color': '#efefef',
+        width: '130px',
+        border: '1px solid white'
+      }"></ngx-skeleton-loader>
+
+  <div class="item">
+    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+            'border-radius': '5px',
+            height: '30px',
+            'background-color': '#efefef',
+            border: '1px solid white'
+          }"></ngx-skeleton-loader>
+  </div>
+</ng-template>
+
+
+
+
+<ng-template #AddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> اضافة مشرف </h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="newStageName"> اسم المشرف </label>
+          <div class="input-group">
+            <input id="newStageName" class="form-control" placeholder="اكتب اسم المشرف"
+              (keyup)="newAdminData.userName = $any($event.target).value" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="newStageName"> البريد الإلكتروني </label>
+          <div class="input-group">
+            <input id="newStageName" class="form-control" placeholder="اكتب البريد الإلكتروني"
+              (keyup)="newAdminData.email = $any($event.target).value" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="newStageName"> رقم الموبايل </label>
+          <div class="input-group">
+            <input id="newStageName" class="form-control" placeholder="اكتب رقم الموبايل"
+              (keyup)="newAdminData.phoneNumber = $any($event.target).value" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="newStageName"> كلمة المرور </label>
+          <div class="input-group">
+            <input id="newStageName" class="form-control" placeholder="كلمة المرور"
+              (keyup)="newAdminData.password = $any($event.target).value" type="password">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="newStageName"> تأكيد كلمة المرور </label>
+          <div class="input-group">
+            <input id="newStageName" class="form-control" placeholder="تأكيد كلمة المرور "
+              (keyup)="newAdminData.confirmPassword = $any($event.target).value" type="password">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label> المجموعة </label>
+          <div class="form-group">
+            <select class="form-control" (change)="newAdminData.sectionId = $any($event.target).value">
+              <option selected disabled> اختر المجموعة </option>
+              <option *ngFor="let sec of listOfSections" [value]="sec.sectionId"> {{sec.sectionName}} </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="createAdmin()"> <i class="fa fa-save"></i>
+      حفظ</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
+      إلغاء</button>
+  </div>
+</ng-template>
+
+
+
+<!-- Edit Roles Modal -->
+<ng-template #EditModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> تعديل صلاحيات المشرف </h4>
+  </div>
+  <div class="modal-body">
+
+    <table class="table table-hover table-sm  table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">اسم الصلاحية</th>
+          <th scope="col">إيقاف \ تفعيل</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of adminEditingRoles ; index as i">
+          <td>
+            {{role.roleName}}
+          </td>
+          <td class="">
+            <div class='switch-button '>
+              <input id="{{role.roleName}}" name='lang' type='checkbox'
+                (change)="adminEditingRoles[i].selected = !role.selected" [checked]="role.selected ? true : false " />
+              <label for="{{role.roleName}}"></label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="editAdminRoles()">
+      <i class="fa fa-save"></i>
+      حفظ</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')"> <i
+        class="fa fa-times-circle"></i> إلغاء</button>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+
+<ng-template #Reset_Password let-modal>
+  <div class="modal-header ">
+    <h4 class="modal-title  " id="modal-basic-title"> تغيير كلمة مرور المشرف {{editingAdminPasswordName}} </h4>
+  </div>
+  <div class="modal-body">
+
+    <div class="input-group mb-3">
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2"> <i class="fa fa-lock"></i> </span>
+      </div>
+      <input type="password" class="form-control" placeholder="كملة المرور الجديدة" aria-label="Recipient's username"
+        aria-describedby="basic-addon2" (keyup)="newAdminPassword = $any($event.target).value">
+    </div>
+    <small id="emailHelp" class="form-text text-muted"> كلمة المرور يجب ان تحتوي على الاقل 6 من الاحرف او الارقام او
+      الرموز </small>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" [disabled]="newAdminPassword.length < 6"
+      (click)="resetAdminPassword()"> <i class="fa fa-save"></i>
+      حفظ
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')">
+      <i class="fa fa-times-circle"></i> إلغاء
+    </button>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+<swal #ConfirmDelete title="انتبه" text=" هل أنت متأكد من حذف المشرف : '{{deletingAdminName}}'" icon="warning"
+  [showConfirmButton]="true" [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" class="swal-modal"
+  (confirm)="deleteAdmin()">
+</swal>
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

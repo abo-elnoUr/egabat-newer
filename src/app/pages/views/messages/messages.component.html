@@ -1,0 +1,311 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="chat-recent-block">
+      <div class="card ">
+        <div class="card-header ">
+          <i class="fas fa-envelope"></i>
+          المراسلات
+        </div>
+        <div class="card-body">
+
+
+
+
+          <div class="messages-tabs">
+            <div class="tab ">
+              <label for="chats" [class.active-tab]="activeTab(ChatTabs.HISTORY)"
+                (click)="changeChatType(ChatTabs.HISTORY)"> السجل </label>
+              <!-- <input type="radio" id="chats" name='chat_type' /> -->
+            </div>
+            <div class="tab">
+              <label for="contacts" [class.active-tab]="activeTab(ChatTabs.NEWCHAT)"
+                (click)="changeChatType(ChatTabs.NEWCHAT)"> قائمة الطلاب </label>
+            </div>
+            <div class="tab">
+              <label for="group" [class.active-tab]="activeTab(ChatTabs.GROUPMESSAGE)"
+                (click)="changeChatType(ChatTabs.GROUPMESSAGE)"> رسالة جماعية </label>
+            </div>
+          </div>
+          <div class="tabs-content">
+
+            <div *ngIf="chatType === ChatTabs.HISTORY">
+              <form [formGroup]="filterChatForm">
+                <div class="mb-2 mx-2 mt-2" *RoleAction="Roles.SUPER_ADMIN">
+                  <select class='form-control form-control-sm' formControlName="sectionId" (change)="getRecentChats();">
+                    <option disabled selected [ngValue]="null"> المجموعة </option>
+                    <option *ngFor="let s of listOfSections" [ngValue]="s.sectionId">{{s.sectionName}}</option>
+                  </select>
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <select class='form-control form-control-sm' formControlName="stageId"
+                    (change)="getRecentChats(); getGrades()">
+                    <option disabled selected [ngValue]="null"> المرحلة </option>
+                    <option *ngFor="let s of listOfStages" [ngValue]="s.stageId">{{s.stageName}}</option>
+                  </select>
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <select class='form-control form-control-sm' formControlName="gradeId" (change)="getRecentChats();">
+                    <option disabled selected [ngValue]="null"> الصف </option>
+                    <option *ngFor="let g of listOfGrades" [ngValue]="g.gradeId">{{g.gradeName}}</option>
+                  </select>
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <input class='form-control form-control-sm' formControlName="studentName" type="text"
+                    placeholder="اسم الطالب" (keyup)="getRecentChats();" />
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <input class='form-control form-control-sm' formControlName="studentNumber" type="text"
+                    placeholder="رقم الطالب" (keyup)="getRecentChats();" />
+                </div>
+              </form>
+
+
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let chatItem of ListOfCahtsRecent.chats"
+                  (click)="getChatHistoryId(chatItem.senderIdentityId);getStudentNameHistory(chatItem.senderIdentityId)"
+                  routerLink="/Admin/dashboard/messages">
+                  <i class="fa fa-user-graduate"></i>
+                  {{chatItem.senderName}}
+                  <small class="form-text text-muted">
+                    {{chatItem.date | date }} &nbsp;
+                    {{chatItem.date | date : "shortTime" }}
+                  </small>
+                </li>
+              </ul>
+              <button class="btn" (click)="paginateChat()"> تحميل المزيد </button>
+            </div>
+
+            <div *ngIf="chatType === ChatTabs.NEWCHAT">
+              <form [formGroup]="studentFilter">
+                <div class="mb-2 mx-2 mt-2">
+                  <input class='form-control form-control-sm' formControlName="name" type="text"
+                    placeholder="اسم الطالب" (keyup)="getStudents()" />
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <input class='form-control form-control-sm' formControlName="mobile" type="text"
+                    placeholder="رقم الطالب" (keyup)="getStudents()" />
+                </div>
+              </form>
+              <ul class="list-group" *ngIf="studentsList.students.length">
+                <li class="list-group-item" *ngFor="let student of studentsList.students"
+                  (click)="getChatHistoryId(student.studentId); getStudentName(student.studentId)"
+                  routerLink="/Admin/dashboard/messages">
+                  <i class="fa fa-user-graduate"></i>
+                  {{student.name}}
+                </li>
+              </ul>
+              <button class="btn" (click)="paginateStudent()"> تحميل المزيد </button>
+            </div>
+
+            <div *ngIf="chatType ===ChatTabs.GROUPMESSAGE ">
+              <form [formGroup]="studentGroupFilter">
+                <div class="mb-2 mx-2 mt-2" *RoleAction="Roles.SUPER_ADMIN">
+                  <select class='form-control form-control-sm' formControlName="sectionId"
+                    (change)="getStudentsCount();">
+                    <option disabled selected [ngValue]="null"> المجموعة </option>
+                    <option *ngFor="let s of listOfSections" [ngValue]="s.sectionId">{{s.sectionName}}</option>
+                  </select>
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <select class='form-control form-control-sm' formControlName="stageId"
+                    (change)="getGradesGroup();getStudentsCount();">
+                    <option selected [ngValue]="null"> المرحلة </option>
+                    <option *ngFor="let s of listOfStages" [ngValue]="s.stageId">{{s.stageName}}</option>
+                  </select>
+                </div>
+                <div class="mb-2 mx-2 mt-2">
+                  <select (change)="getStudentsCount();" class='form-control form-control-sm' formControlName="gradeId">
+                    <option selected [ngValue]="null"> الصف </option>
+                    <option *ngFor="let g of listOfGrades" [ngValue]="g.gradeId">{{g.gradeName}}</option>
+                  </select>
+                </div>
+
+                <div class="mb-2 mx-2 mt-2">
+                  <label class="form-label"> <small> الحالة</small></label>
+                  <input (change)="getStudentsCount()" type="checkbox" class='form-check' formControlName="isActive" />
+                </div>
+                <div *ngIf="studentCounts" class="mb-2 mx-2 mt-2">
+                  <label class="form-label"> <small> عدد الطلاب : {{studentCounts}}</small></label>
+
+                </div>
+              </form>
+
+
+            </div>
+            <!--  -->
+          </div>
+          <!--  -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <div class="col-md-8">
+
+    <div class="chat-window" *ngIf="chatHistory">
+      <div class="card ">
+        <div class="card-header">
+          <i class="fa fa-comments"></i>
+          مراسلة الطالب :
+
+          {{currentRecentChatHistory.senderName || studentSelectedToStartChat.name}}
+          <!-- {{studentSelectedToStartChat}} -->
+
+        </div>
+        <div class="card-body" #chatWindow>
+          <div *ngFor="let chatBlock of chatHistory " [class]="chatBlock.isAdmin ? 'admin-message' : 'student-message '"
+            data-aos=" fade-in">
+            <div *ngIf="!chatBlock.isAdmin">
+              <i class="fa fa-user-graduate"></i>
+
+              <span class="" *ngIf="chatBlock.isFile">
+                <a href="{{SITE_URL}}{{chatBlock.attachment}}" target="_blank">
+                  <img src="{{SITE_URL}}{{chatBlock.attachment}}" width="120px" height="120px" />
+                </a>
+                <br />
+                {{chatBlock.message}}
+              </span>
+
+              <span class="message-content">
+                {{chatBlock.message}}
+              </span>
+
+
+
+              <small class="form-text text-muted">
+                <span><i class="fa fa-calendar"></i> {{chatBlock.date | date }} </span>
+                &nbsp;
+                <span><i class="fa fa-clock"></i>{{chatBlock.date | date : "shortTime" }}</span>
+              </small>
+            </div>
+            <!--  Admin Chat Block  -->
+            <div *ngIf="chatBlock.isAdmin">
+              <i class="fa fa-user-cog"></i>
+              <span class="" *ngIf="chatBlock.isFile">
+                <a href="{{SITE_URL}}{{chatBlock.attachment}}" target="_blank">
+                  <img src="{{SITE_URL}}{{chatBlock.attachment}}" width="120px" height="120px" />
+                </a>
+              </span>
+
+              <span class="message-content" *ngIf="!chatBlock.isFile">
+                {{chatBlock.message}}
+              </span>
+
+
+
+              <small class="form-text text-muted">
+                <span><i class="fa fa-calendar"></i> {{chatBlock.date | date }} </span>
+                &nbsp;
+                <span><i class="fa fa-clock"></i>{{chatBlock.date | date : "shortTime" }}</span>
+              </small>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          <form class="" (submit)="$event.preventDefault() ; adminReplayToStudent() ">
+            <div class="input-group ">
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-light" placement="left" type="button" (click)="asyncMessage()"
+                  ngbTooltip="تحديث الرسائل"> <i class="fa fa-sync-alt"></i> </button>
+                <label class="input-group-text" for="replay" id="basic-addon1"> <i class="fa fa-edit"></i> </label>
+              </div>
+
+              <!-- <span class="preview-image">
+                <img src="https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.jpg" width="100px"
+                  height="100px" style="border-radius: 10px;" />
+              </span> -->
+
+              <input type="text" id="replay" [disabled]="Attachment.length" class="form-control"
+                placeholder="اكتب رساله ..." aria-label="Username" aria-describedby="basic-addon1"
+                (keyup)="Message = $any($event.target).value" autocomplete="off" [value]="Message"
+                [disabled]="chatRequestStatus" />
+
+
+
+              <div class="input-group-prepend upload-file ">
+                <input type="file" (change)="upLoadAttachmentFile($any($event.target).files)" />
+                <button type="button" class="btn btn-primary"> رفع ملف </button>
+              </div>
+
+
+              <div class="input-group-prepend">
+                <button class="btn btn-primary" [disabled]="!Message"> <i class="fab fa-telegram-plane"></i> إرسال
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="chat-window" *ngIf="chatType===ChatTabs.GROUPMESSAGE">
+      <div class="card ">
+        <div class="card-header">
+          <i class="fa fa-comments"></i>
+          رسالة جماعية
+
+
+
+        </div>
+        <div class="card-body" #chatWindow>
+
+        </div>
+        <div class="card-footer text-muted">
+          <form class="" (submit)="$event.preventDefault() ; sendGroupMessage() ">
+            <div class="input-group ">
+              <div class="input-group-append">
+
+                <label class="input-group-text" for="replay" id="basic-addon1"> <i class="fa fa-edit"></i> </label>
+              </div>
+
+
+              <input type="text" id="replay" [disabled]="Attachment.length" class="form-control"
+                placeholder="اكتب رساله ..." aria-label="Username" aria-describedby="basic-addon1"
+                (keyup)="Message = $any($event.target).value" autocomplete="off" [value]="Message"
+                [disabled]="chatRequestStatus" />
+
+
+
+              <div class="input-group-prepend upload-file ">
+                <input type="file" (change)="upLoadAttachmentFile($any($event.target).files)" />
+                <button type="button" class="btn btn-primary"> رفع ملف </button>
+              </div>
+
+
+              <div class="input-group-prepend">
+                <button class="btn btn-primary" [disabled]="!Message ||!studentCounts"> <i
+                    class="fab fa-telegram-plane"></i> إرسال
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="!chatHistory && chatType!==ChatTabs.GROUPMESSAGE">
+
+      <div class="select-chat-message">
+
+        <div>
+          <img src="../../../assets/images/logo/undraw_emails_6uqr.svg" />
+
+          <h5> اختر إحدى المحادثات لعرض محتواها </h5>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- </div> -->

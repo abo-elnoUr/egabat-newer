@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> تعديل صف دراسي </h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="editGradeForm">
+
+    <div class="form-group">
+      <label for="exampleFormControlSelect1"> اختر الدولة </label>
+      <select formControlName="countryId" (click)="getgradesByCountryId($any($event.target).value)" class="form-control"
+        id="exampleFormControlSelect1" placeholder="ssssssss">
+        <option selected disabled> اختر دولة </option>
+        <option *ngFor="let country of countries" [value]="country.id"> {{country.name}} </option>
+      </select>
+    </div>
+    <div class="form-group ">
+      <label for="inputState"> المرحلة </label>
+      <select id="inputState" class="form-control" formControlName="stageId">
+        <option disabled> المرحلة </option>
+        <option *ngFor="let stage of listOfStages" [value]="stage.stageId"
+          [selected]="stage.stageId == currentGrade.stageId">
+          {{stage.stageName}}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="newStageName"> اسم الصف </label>
+      <div class="input-group">
+        <input id="newStageName" formControlName="gradeName" class="form-control" placeholder="اكتب اسم الصف">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="newStageName"> رقم الصف </label>
+      <div class="input-group">
+        <input id="newStageName" formControlName="index" class="form-control" placeholder="اكتب رقم الصف" type="number">
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-success" (click)="createGrade()" [disabled]="editGradeForm.invalid">
+    <i class="fa fa-save"></i>
+    حفظ</button>
+  <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')"> <i
+      class="fa fa-times-circle"></i> إلغاء</button>
+</div>
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

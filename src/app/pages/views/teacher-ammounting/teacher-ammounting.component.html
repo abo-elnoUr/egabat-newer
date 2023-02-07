@@ -1,0 +1,126 @@
+<div class=" mt-4">
+  <div class=" card">
+    <div class="card-header">
+      <h4 class="mb-0"> <i class="fa fa-file-alt"></i> تقارير المعلمين </h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="filterForm" (ngSubmit)="submit()" class="mb-5">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">المعلم</label>
+              <select class="form-control" id="select-teacher" formControlName="teacherId"
+                (change)="submit()">
+                <option selected disabled [ngValue]="null">اختر المعلم</option>
+                <option *ngFor="let t of listOfTeachers.teachers" [value]="t.teacherId"> {{t.name}} </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleFormControlSelect2">المجموعة</label>
+              <select class="form-control" id="exampleFormControlSelect2" formControlName="sectionId"
+                (change)="submit()">
+                <option selected [ngValue]="null">كل المجموعات</option>
+                <option *ngFor="let s of listOfSections" [value]="s.sectionId"> {{s.sectionName}} </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleFormControlSelect3">المرحلة</label>
+              <select class="form-control" id="exampleFormControlSelect3" formControlName="stageId"
+                (change)="submit(); getGrades()">
+                <option selected [ngValue]="null">كل المراحل</option>
+                <option *ngFor="let s of listOfStages" [value]="s.stageId"> {{s.stageName}} </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleFormControlSelect4">الصف</label>
+              <select class="form-control" id="exampleFormControlSelect4" formControlName="gradeId"
+                (change)="submit(); getSubjects()">
+                <option selected [ngValue]="null">كل الصفوف</option>
+                <option *ngFor="let g of gradesList" [value]="g.gradeId"> {{g.gradeName}} </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group mb-0">
+              <label for="exampleFormControlSelect5">المادة</label>
+              <select class="form-control" id="exampleFormControlSelec5" formControlName="subjectId"
+                (change)="submit()">
+                <option selected [ngValue]="null">كل المواد</option>
+                <option *ngFor="let s of listOfSubjects.subjects" [value]="s.subjectId"> {{s.subjectName}} </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group mb-0">
+              <label for="exampleFormControlSelect6">من تاريخ</label>
+              <input type="date" class="form-control" id="exampleFormControlSelect6" formControlName="dateFrom" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-0">
+              <label for="exampleFormControlSelect7">إلى تاريخ</label>
+              <input type="date" class="form-control" id="exampleFormControlSelect7" formControlName="dateTo" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class='d-flex align-items-end' style="height: 100%;">
+              <button class="btn btn-primary btn-sm p-2"> <i class="fa fa-search"></i> نتائج البحث </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr class="hr">
+      <div *ngIf="!isFiltered">
+        <p class="alert alert-info text-center"> يرجى اختيار معلم من <label for="select-teacher" class='btn btn-link'> قائمة المعلمين</label>لعرض معلومات عن طلباته </p>
+      </div>
+      <div class="row mt-5" *ngIf="isFiltered">
+        <div class="col-md-3">
+          <div class="card card-request shadow bg-white ">
+            <div class="card-body">
+              <i class="fa fa-clipboard-list text-secondary"></i>
+              <span class="number">{{teacherRequestsReport.request}}</span>
+              <span class='title'> الطلبات </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-request shadow bg-white ">
+            <div class="card-body">
+              <i class="fa fa-clock text-primary"></i>
+              <span class="number">{{teacherRequestsReport.repliedInTimeRequest}}</span>
+              <span class='title'> طلبات تم الاجابة عليها خلال ساعة </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-request shadow bg-white ">
+            <div class="card-body">
+              <i class="fa fa-check-circle text-success"></i>
+              <span class="number">{{teacherRequestsReport.repliedRequest}}</span>
+              <span class='title'> الطلبات الي تمت الإجابة عليها </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-request shadow bg-white ">
+            <div class="card-body">
+              <i class="fa fa-times-circle text-danger"></i>
+              <span class="number">{{teacherRequestsReport.notRepliedRequest}}</span>
+              <span class='title'> الطلبات التي لم يتم الإجابة عليها </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

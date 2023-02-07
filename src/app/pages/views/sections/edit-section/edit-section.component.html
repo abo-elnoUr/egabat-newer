@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> تعديل مجموعة </h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="editSectionForm" (ngSubmit)="edit()" >
+
+    <div class="form-group">
+      <label for="newStageName"> الدولة</label>
+      <div class="input-group">
+        <select id="newStageName" class="form-control" formControlName="countryId" >
+          <option value="">اختر الدولة</option>
+          <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+        </select>
+
+      </div>
+      <small class="text-danger" *ngIf="editSectionForm.touched && editSectionForm.invalid" >
+       الدولة مطلوبة
+      </small>
+    </div>
+
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">اسم المجموعة</label>
+      <input type="text" class="form-control"  formControlName="sectionName"  >
+      <small class="text-danger" *ngIf="editSectionForm.touched && editSectionForm.invalid" >
+        اسم المجموعة يجب ان يحتوى على 3 حروف على الأقل
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="newStageIndex"> ترتيب المجموعة </label>
+      <div class="input-group">
+        <input id="newStageIndex" type="number" class="form-control" formControlName="index"
+          autocomplete="off">
+      </div></div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-success" (click)="edit() "  [disabled]="editSectionForm.invalid || !editSectionForm.dirty">
+    <i class="fa fa-save"></i>
+    حفظ</button>
+    <!-- <div class="spinner-border text-success" role="status" *ngIf="requestStatus">
+
+    </div> -->
+  <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')"> <i
+      class="fa fa-times-circle"></i> إلغاء</button>
+</div>
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

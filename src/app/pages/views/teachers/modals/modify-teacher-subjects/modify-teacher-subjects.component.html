@@ -1,0 +1,202 @@
+<div class="modal-header ">
+  <h4 class="modal-title text-center " id="modal-basic-title"> تعديل مواد دراسية </h4>
+
+</div>
+<div class="modal-body" style="overflow: auto">
+  <div class="row" *ngIf="currentTeacherSubjects">
+
+    <div class="col-md-12">
+      <h5> مواد المعلم الحالية: </h5>
+
+
+      <h6 class="text-muted text-center " *ngIf="!currentTeacherSubjects.subjects.length"> لا يوجد مواد , يمكنك
+        إضافة مواد في الجدول أدناه </h6>
+      <table class="table table-striped table-sm " *ngIf="currentTeacherSubjects.subjects.length">
+        <thead>
+          <tr row>
+            <th scope="col">#</th>
+            <th scope="col">المجموعة</th>
+            <th scope="col">المرحلة</th>
+            <th scope="col">الصف</th>
+            <th scope="col">المادة</th>
+            <th colspan="3">الصلاحية
+
+            </th>
+            <th scope="col">حذف</th>
+
+          </tr>
+          <tr>
+            <th colspan="5"></th>
+            <th>الوحدات</th>
+            <th>الدروس</th>
+            <th>الأسئلة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subject of currentTeacherSubjects.subjects; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td> {{subject.sectionName}} </td>
+            <td> {{subject.stageName}} </td>
+            <td> {{subject.gradeName}} </td>
+            <td> {{subject.subjectName}} </td>
+            <td>
+              <div *ngFor="let permession of getCurrentPermessionsForView(subject,'الوحدات')">
+                <span>{{permession.displayName}}:</span>
+                <input (change)="updatPermessions(subject.subjectId,permession.permession,$any($event.target).checked)"
+                  type="checkbox" [checked]="permession.isSelected" />
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let permession of getCurrentPermessionsForView(subject,'الدروس')">
+                <span>{{permession.displayName}}:</span>
+                <input (change)="updatPermessions(subject.subjectId,permession.permession,$any($event.target).checked)"
+                  type="checkbox" [checked]="permession.isSelected" />
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let permession of getCurrentPermessionsForView(subject,'الأسئلة')">
+                <span>{{permession.displayName}}:</span>
+                <input (change)="updatPermessions(subject.subjectId,permession.permession,$any($event.target).checked)"
+                  type="checkbox" [checked]="permession.isSelected" />
+              </div>
+            </td>
+            <td> <button class="btn btn-sm btn-outline-danger" (click)="deleteSubjectFromTeacher(subject.subjectId)"> <i
+                  class="fa fa-trash"></i> </button> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-12">
+      <hr />
+    </div>
+
+
+    <div class="col-md-12">
+      <h5> اضافة مواد المعلم </h5>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01" (change)="filterByCountry($any($event.target).value)">
+          <option selected disabled> الدولة </option>
+          <option *ngFor="let country of countries" [value]="country.id"> {{country.name}} </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01" (change)="sectionId = $any($event.target).value">
+          <option selected disabled> المجموعة </option>
+          <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}} </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <select class="form-select" [disabled]="!sectionId" (change)="getGradesByStageId($any($event.target).value)">
+          <option selected disabled> المرحلة </option>
+          <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}} </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01" (change)="getSubjectsByGradeId($any($event.target).value)"
+          [disabled]="!listOfGrade?.length">
+          <option selected disabled *ngIf="!listOfGrade?.length"> الصف </option>
+          <option selected disabled *ngIf="listOfGrade?.length"> الصف </option>
+          <option *ngFor="let grade of listOfGrade" [value]="grade.gradeId"> {{grade.gradeName}} </option>
+
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01" (change)="subjectId = $any($event.target).value"
+          [disabled]="!listOfSubjects.length">
+          <option selected disabled *ngIf="!listOfSubjects?.length"> المادة </option>
+          <option selected disabled *ngIf="listOfSubjects?.length"> المادة </option>
+          <option *ngFor="let subject of listOfSubjects" [value]="subject.subjectId"> {{subject.subjectName}}
+          </option>
+
+        </select>
+      </div>
+    </div>
+    <div class="row" *ngIf="subjectId">
+      <div class="col-md-4" *ngFor="let iterate of permessions">
+        <h5>{{iterate.displayName}}</h5>
+
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let per of iterate.permessions">
+            <div class="row">
+              <div class="col-md-8"> {{per.displayName}}</div>
+
+              <div class="col-md-4">
+                <input type="checkbox" class="form-check-input mr-4"
+                  (change)="per.isSelected=$any($event.target).checked" />
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="col-md-3">
+      <div class="input-group mb-3">
+        <button class="btn btn-sm btn-primary" [disabled]="!subjectId" (click)="addSubjectToListOfTeahcer()"> <i
+            class="fa fa-plus"></i> </button>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <!-- <h6 class="text-muted text-center " *ngIf="!newTeacherSubjectsView.length" > اختر من القوائم لإضافة مادة للمعلم </h6> -->
+      <table class="table table-striped table-sm " *ngIf="newTeacherSubjectsView.length" style="max-width: 100%; ">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">المجموعة</th>
+            <th scope="col">المرحلة</th>
+            <th scope="col">الصف</th>
+            <th scope="col">المادة</th>
+            <th scope="col">الصلاحية</th>
+            <th scope="col">حذف</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subject of newTeacherSubjectsView; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td> {{subject.sectionName}} </td>
+            <td> {{subject.stageName}} </td>
+            <td> {{subject.gradeName}} </td>
+            <td> {{subject.subjectName}} </td>
+            <td> {{getPermessionsForViewNew(subject)}}</td>
+            <td> <button class="btn btn-sm btn-outline-danger"
+                (click)="newTeacherSubjectsId.subjects.splice(i,1) ; newTeacherSubjectsView.splice(i,1)">
+                <i class="fa fa-trash"></i> </button> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-success" (click)="editTeacherSubject()"
+    [disabled]="!newTeacherSubjectsView.length &&!isUpdatedPermessions"> <i class="fa fa-save"></i>
+    حفظ
+  </button>
+  <button type="button" class="btn btn-outline-danger" (click)="modal.close('')">
+    <i class="fa fa-times-circle"></i> إلغاء
+  </button>
+</div>
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mt-5 mx-auto">
+            <form [formGroup]="editUserProfileForm" (ngSubmit)="submit()">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class='mb-0'> تعديل بيانات مشرف </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">اسم المشرف</label>
+                                    <input type="email" class="form-control" formControlName="adminName">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">البريد الإلكتروني</label>
+                                    <input type="email" class="form-control" formControlName="email">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">المجموعة</label>
+
+                                    <!-- <select *ngIf="!SUPPER_ADMIN">
+                                        <option selected disabled> اختر المجموعة </option>
+                                    </select> -->
+
+                                    <select class="form-control" formControlName="sectionId"  id="exampleFormControlSelect1">
+                                        <option selected disabled> اختر المجموعة </option>
+                                        <option *ngFor="let section of listOfSections" [value]="section.sectionId" > {{section.sectionName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" [disabled]="status">حفظ البيانات</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

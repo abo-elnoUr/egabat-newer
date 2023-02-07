@@ -1,0 +1,185 @@
+<div class="d-flex justify-content-end form-group">
+  <button class="btn btn-primary mb-3" (click)="openAddModal(AddModal)"> <i class="fa fa-plus"></i>
+    اضافة مُعلم
+  </button>
+</div>
+<div>
+  <form [formGroup]="filterTeacherForm">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> المرحلة</label>
+          <select class="form-select" formControlName="stageId"
+            (change)="this.getTeachers(); getGradeByStageId($any($event.target).value)">
+            <option selected [ngValue]="null"> كل المراحل </option>
+            <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> الصف</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="gradeId"
+            (change)="getTeachers(); getSubjectByGradeId($any($event.target).value)">
+            <option selected [ngValue]="null"> كل الصفوف </option>
+            <option *ngFor="let grade of gradesList" [value]="grade.gradeId"> {{grade.gradeName}} </option>
+
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> المادة</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="subjectId" (change)="this.getTeachers()">
+            <option selected [ngValue]="null"> كل المواد </option>
+            <option *ngFor="let subject of listOfSubjects.subjects" [value]="subject.subjectId">
+              {{subject.subjectName}}
+            </option>
+
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> حالة التفعيل</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="isActive" (change)="this.getTeachers()">
+            <option selected [ngValue]="null"> الكل </option>
+            <option [ngValue]="true"> مفعل </option>
+            <option [ngValue]="false"> غير مفعل </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01">اسم المعلم</label>
+          <input class="form-control" id="inputGroupSelect01" formControlName="name" (keyup)="this.getTeachers()" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01">رقم الهاتف</label>
+          <input class="form-control" id="inputGroupSelect01" formControlName="mobile" (keyup)="this.getTeachers()" />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <table class="table mt-4 table-sm table-hover " *ngIf="!isLoading">
+    <thead>
+      <tr>
+        <th> اسم المعلم </th>
+        <th> رقم الهاتف </th>
+        <th> البريد الإلكتروني </th>
+        <!-- <th> تفعيل \ ايقاف </th> -->
+        <!-- <th> ID </th> -->
+        <!-- <th> عدد المواد </th> -->
+        <th colspan=" 5"> إدارة المعلمين </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let teacher of teachersData.teachers; index as i">
+        <td> {{teacher.name}} </td>
+        <td> {{teacher.mobile}} </td>
+        <td> {{teacher.email}} </td>
+        <!-- <td>
+                    <div class='switch-button'>
+                        <input id="{{teacher.teacherId}}" name='lang' type='checkbox' [checked]="teacher.status" />
+                        <label for="{{teacher.teacherId}}"></label>
+                    </div>
+                </td> -->
+        <!-- <td> {{teacher.teacherId}} </td> -->
+        <!-- <td> {{teacher.subjects.length}} </td> -->
+        <td>
+          <div class='switch-button' ngbTooltip="إيقاف \ تفعيل">
+            <input id="{{teacher.teacherId}}" name='lang'
+              (change)="toggleActiveTeacher(teacher.teacherId, teacher.name)" type='checkbox'
+              [checked]="teacher.status ? true : false " />
+            <label for="{{teacher.teacherId}}"></label>
+          </div>
+        </td>
+        <td> <button class="btn btn-sm btn-outline-primary" ngbTooltip=" المعلومات الشخصية"
+            (click)="openEditProfileModal(Edit_Profile, teacher.teacherId)"> <i class="fa fa-user-edit"></i>
+          </button> </td>
+        <td> <button class="btn btn-sm btn-outline-info" ngbTooltip=" المواد الدراسية"
+            (click)="openEditSubjectsModal(Edit_Subjects, teacher.teacherId)"> <i class="fa fa-edit"></i>
+          </button> </td>
+        <td> <button class="btn btn-sm btn-outline-secondary" ngbTooltip="كلمة المرور"
+            (click)="openChangePasswordModal(Reset_Password, teacher.teacherId)"> <i class="fa fa-lock"></i> </button>
+        </td>
+
+
+        <!-- <td> <button class="btn btn-sm btn-outline-danger" ngbTooltip="حذف" (click)="deleteTeacher(teacher.teacherId)"  >  <i class="fa fa-lock"></i> </button> </td> -->
+        <td> <button class="btn btn-sm btn-outline-danger" ngbTooltip="حذف"
+            (click)="rmeoveTeacher(teacher.teacherId, teacher.name)">
+            <i class="fa fa-trash"></i> </button></td>
+        <!-- </td>/ -->
+
+      </tr>
+
+    </tbody>
+  </table>
+  <ng-template #loading_skeleton *ngIf="isLoading">
+    <ngx-skeleton-loader count="4" appearance="line" [theme]="{
+          'border-radius': '5px',
+          height: '40px',
+          'background-color': '#efefef',
+          width: '130px',
+          border: '1px solid white'
+        }"></ngx-skeleton-loader>
+
+    <div class="item">
+      <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+              'border-radius': '5px',
+              height: '30px',
+              'background-color': '#efefef',
+              border: '1px solid white'
+            }"></ngx-skeleton-loader>
+    </div>
+  </ng-template>
+
+  <ngb-pagination [collectionSize]="teachersData.rowCount" [(page)]="pagination.pageNo" [pageSize]="pagination.pageSize"
+    [maxSize]="3" [boundaryLinks]="true" (pageChange)="getTeachers()"></ngb-pagination>
+
+</div>
+
+
+
+
+
+<ng-template #AddModal let-modal>
+  <app-create-teacher-modal [modal]="modal"></app-create-teacher-modal>
+</ng-template>
+
+<ng-template #Edit_Profile let-modal>
+  <app-edit-teacher-profile [modal]="modal" [teacherId]="editingTeacherId"></app-edit-teacher-profile>
+</ng-template>
+
+<ng-template #Edit_Subjects let-modal>
+  <app-modify-teacher-subjects [modal]="modal" [teacherId]="editingTeacherId"></app-modify-teacher-subjects>
+</ng-template>
+<ng-template #Reset_Password let-modal>
+  <app-reset-password [modal]="modal" [teacherId]="editingTeacherId"> </app-reset-password>
+</ng-template>
+
+
+
+<!--  Sweet Alerts  -->
+
+<swal #ConfirmDelete title="انتبه" text=" هل أنت متأكد من حذف المعلم : '{{deleteTeacherName}}'" icon="warning"
+  [showConfirmButton]="true" [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" class="swal-modal"
+  (confirm)="deleteTeacher()" (cancel)="cancelDeleteTeacher()">
+</swal>
+
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>
+
+
+<swal #SuccessActive text="تم التفعيل بنجاح " [toast]="true" icon="success" [showConfirmButton]="false">
+</swal>
+
+<!-- InActive Toast -->
+<swal #SuccessInActive text="تم إيقاف التفعيل بنجاح " [toast]="true" icon="success" [showConfirmButton]="false">
+</swal>

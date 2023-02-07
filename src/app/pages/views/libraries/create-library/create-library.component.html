@@ -1,0 +1,89 @@
+<div class="card border-0">
+  <div class="card-header">
+    <h5>اضافة مكتبة</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="createLibraryForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-md-12 mx-auto">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-4">
+                <label class="mb-2" for=""> اسم المكتبه </label>
+                <input class='form-control' type="text" formControlName="name" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class='mb-4'>
+                <label class="mb-2">الدوله</label>
+                <select class='form-select' formControlName="countryId">
+                  <option selected disabled [ngValue]="null"> اختر الدوله </option>
+                  <option *ngFor="let c of listOfCounrties" [ngValue]="c.id"> {{c.name}} </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class='mb-4'>
+                <label class="mb-2">المرحله</label>
+                <select class='form-select' formControlName="stageId">
+                  <option selected disabled [ngValue]="null"> اختر المرحله </option>
+                  <option *ngFor="let s of listOfStages" [ngValue]="s.stageId"> {{s.stageName}} </option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class='mb-4'>
+                <label class="mb-2"> الصف الدراسي</label>
+                <select class='form-select' formControlName="gradeId">
+                  <option selected disabled [ngValue]="null"> اختر الصف الدراسي </option>
+                  <option *ngFor="let g of listOfGrades" [ngValue]="g.gradeId"> {{g.gradeName}} </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class='mb-4'>
+                <label class="mb-2"> الفصل الدراسي</label>
+                <select class='form-select' formControlName="semesterId">
+                  <option selected disabled [ngValue]="null"> اختر الفصل الدراسي </option>
+                  <option *ngFor="let s of listOfSemsters" [ngValue]="s.semesterId"> {{s.semesterName}} </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-4">
+                <label class="mb-2" for=""> اسم الملف </label>
+                <input class='form-control' type="text" (change)="setTitle($event)" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="mb-2" for="">صورة ملف المكتبة </label>
+              <input type="file" class="form-control" id="fileImage" (change)="uploadImage($event)">
+            </div>
+            <div class="col-md-4">
+              <label class="mb-2" for="">ملف المكتبة </label>
+              <input type="file" class="form-control" id=" libFile" (change)="uploadPdf($event)">
+            </div>
+          </div>
+          <div class="mt-3">
+            <!-- *ngIf="createLibraryForm.valid && !isSubmiting && createLibraryForm.dirty" -->
+            <button class="btn btn-primary" type="submit"> <i class="fa fa-save"></i> حفظ
+              البيانات</button>
+            <!-- <button class="btn btn-primary" type="button" disabled
+              *ngIf="createLibraryForm.invalid || isSubmiting || !createLibraryForm.dirty">
+              <i class="fa fa-save"></i> حفظ البيانات
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                *ngIf="isSubmiting"></span>
+            </button> -->
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

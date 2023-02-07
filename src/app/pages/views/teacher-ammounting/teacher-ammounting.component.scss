@@ -1,0 +1,16 @@
+.card-request{
+  text-align: center;
+  i{
+    display: block;
+    font-size: 40px;
+  }
+  span {
+    display: block;
+    &.number{
+      font-size: 24px ;
+    }
+    &.title{
+      font-size: 16px ;
+    }
+  }
+}

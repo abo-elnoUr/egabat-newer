@@ -1,0 +1,58 @@
+<div class="modal-header ">
+    <h4 class="modal-title  " id="modal-basic-title"> تعديل بيانات شخصية </h4>
+</div>
+<div class="modal-body" *ngIf="teacherProfileData">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-user"></i> </span>
+                <input type="text" class="form-control" placeholder="اسم المعلم" aria-label="Username"
+                    aria-describedby="basic-addon1" [value]="teacherProfileData.name"
+                    (keyup)="upDateTeacherData.name = $any($event.target).value">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-mobile"></i> </span>
+                <input type="text" class="form-control" placeholder="رقم الهاتف" aria-label="Username"
+                    aria-describedby="basic-addon1" [value]="teacherProfileData.mobile"
+                    (keyup)="upDateTeacherData.mobile = $any($event.target).value">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-at"></i> </span>
+                <input type="text" class="form-control" placeholder="البريد الإلكتروني" aria-label="Username"
+                    aria-describedby="basic-addon1" [value]="teacherProfileData.email"
+                    (keyup)="upDateTeacherData.email = $any($event.target).value">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="editTeacherProfile()"> <i class="fa fa-save"></i>
+        حفظ
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')">
+        <i class="fa fa-times-circle"></i> إلغاء
+    </button>
+</div>
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+    [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>
+
+
+<!-- Success Modal Swal -->
+<swal #NoChangeOnDataSwal title="لا يوجد تغيير في البيانات" icon="warning" [showConfirmButton]="true"
+    [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>
+
+
+<!-- Success Modal Swal -->
+<swal #AllFiledsRequired title="رجاءاً املأ جميع الحقول" icon="warning" [showConfirmButton]="true"
+    [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

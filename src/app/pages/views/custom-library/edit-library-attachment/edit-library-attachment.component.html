@@ -1,0 +1,64 @@
+<div class="w-75 mx-auto">
+  <h2>تعديل المكتبه وملحقاتها</h2>
+  <div [formGroup]="editAttachmentForm">
+    <div class="mb-3">
+      <label class="form-label">اسم</label>
+      <input type="text" class="form-control" formControlName="name" placeholder="اسم ">
+    </div>
+    <div class="mb-3">
+      <label class="form-label"> الصوره</label>
+      <div class="input-group">
+        <input type="file" class="form-control" accept="image/png, image/jpeg,image/jpg"
+          (change)="editLibraraySubCategoryImage($any($event.target).files[0])" placeholder=" الصوره">
+        <span *ngIf="currentImage" class="m-0">
+          <img class="rounded" [src]="imgUrl + currentImage" width="35">
+        </span>
+      </div>
+    </div>
+    <div formArrayName="createSubCategoryAttachmentDtos">
+      <div class="row">
+        <div class="col-md-12" *ngFor="let file of Files['controls']; let i = index">
+          <div [formGroupName]="i">
+            <div class="">
+              <div class="row align-items-center">
+                <div class="col-md-3 mb-3">
+                  <label> اسم الملف </label>
+                  <input type="text" class="form-control" placeholder="اسم الملف" formControlName="title">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label> صوره الملف </label>
+                  <div class="input-group">
+                    <input type="file" class="form-control" placeholder="صوره الملف"
+                      accept="image/png, image/jpeg,image/jpg" (change)="uploadImage($event, i)">
+                    <span *ngIf="file.get('fileImage')?.value" class="m-0">
+                      <img class="rounded" [src]="imgUrl + file.get('fileImage')?.value" width="35">
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label> الملف </label>
+                  <input type="file" class="form-control" placeholder=" الملف" accept="application/pdf"
+                    (change)="uploadPdf($event, i)">
+                  <a *ngIf="file.get('file')?.value" [href]="imgUrl + file.get('file')?.value" target="_blank">عرض
+                    الملف</a>
+                </div>
+                <div class="col-md-1 pt-2">
+                  <i class="fa fa-trash text-danger cursor-pointer" (click)="removeLibraryFile(i)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="text-start">
+      <button type="button" (click)="addNewLibraryAttachment()" class='btn btn-dark btn-sm mb-3'> اضافة ملف <i
+          class="fa fa-plus"></i></button>
+    </div>
+  </div>
+  <div>
+    <button type="button" (click)="editAttachment()" class='btn btn-primary mb-3'>حفظ <i class="fa fa-plus"></i>
+    </button>
+  </div>
+</div>

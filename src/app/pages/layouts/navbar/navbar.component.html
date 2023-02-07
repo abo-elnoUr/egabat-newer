@@ -1,0 +1,103 @@
+<nav class="app-top-bar" id="app-top-bar">
+  <div class="toggle-btn">
+    <button (click)="toggleAsidebarInMoblie()">
+      <i class="fa fa-align-justify"></i>
+    </button>
+  </div>
+  <div class="admin-control">
+    <div class="admin-data">
+      <!-- <img src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70" width="50px" height="50px" /> -->
+      <!-- <div>
+                <button class="btn btn-sm btn-light" (click)="logout()" > تسجيل الخروج  <i class="fa fa-sign-out-alt" style="transform: rotate(180deg);"  ></i> </button>
+            </div> -->
+      <div ngbDropdown class="">
+        <button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>
+          <i class="fa fa-cogs"></i> الإعدادت
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="text-align: right">
+          <!-- <button ngbDropdownItem> <i class="fa fa-key"></i> الصلاحيات</button> -->
+          <button ngbDropdownItem (click)="logout()">
+            <i class="fa fa-sign-out-alt"></i> تسجيل الخروج
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-icons">
+      <ul>
+        <li>
+          <i class="fa fa-bell" id="bell-notification" (click)="openNotifications = !openNotifications; openMessages = false" ></i>
+          <span (click)="openNotifications = !openNotifications; openMessages = false"
+            *ngIf="notificationsNotSeenCount > 0" >
+            {{ notificationsNotSeenCount }}
+          </span>
+          <div class="notifications-container {{ openNotifications ? 'show' : '' }} " >
+            <div class="notifications-header">
+              <h4>الاشعارات</h4>
+            </div>
+            <div class="notifications-body" #notificationsBody>
+              <div class="notification-block"
+                *ngFor="let x of notificationsList; index as i"
+                (click)="setNotificationsSeen(i, x.studentIdentityId, x.id)" >
+                <h5 style="margin: 0">
+                  <strong>{{ x.title }}</strong> : {{ x.studentName }}
+                </h5>
+                <p style="margin: 0.35rem 0">
+                  {{ x.discription }}
+                </p>
+                <small class="text-muted" style="font-size: 11px">
+                  {{ x.date.slice(0, 10) }}
+                </small>
+                <small class="text-danger" style="font-size: 11px" *ngIf="!x.seen" >
+                  جديد
+                </small>
+              </div>
+              <div class="text-center m-2" role="status" *ngIf="requestStatus">
+                <!-- <span class="sr-only">Loading...</span> -->
+                <div class="spinner-border text-primary"></div>
+              </div>
+            </div>
+            <div class="notifications-footer">
+              <!-- <h6> <button (click)="paginationNotis()" [disabled]="requestStatus" class="btn btn-link"> تحميل المزيد
+                </button> </h6> -->
+            </div>
+          </div>
+        </li>
+        <!-- <li> <i class="fa fa-comments" (click)="openMessages = !openMessages ; openNotifications = false "></i> <span
+            (click)="openMessages = !openMessages ; ; openNotifications = false">5</span>
+          <div class="notifications-container {{openMessages ? 'show' : ''}} ">
+            <div class="notifications-header">
+              <h4>الرسائل</h4>
+            </div>
+            <div class="notifications-body">
+              <div class="notification-block" *ngFor="let x of notifications">
+                <h5> طلب تقديم </h5>
+                <p>
+                  لقد تقد الطالب : اسم الطالب المتقدم
+                  ,,,
+                  بطلب : عرض نص كامل يوضح تفاصيل الطلب
+                </p>
+              </div>
+            </div>
+            <div class="notifications-footer">
+              <h6> <a> عرض الكل </a> </h6>
+            </div>
+          </div>
+
+
+        </li> -->
+        <audio controls hidden id="notification-audio">
+          <!-- <source src="horse.ogg" type="audio/ogg"> -->
+          <source
+            src="../../../../assets/sounds/Notification-v1.mp3"
+            type="audio/mpeg"
+          />
+          <source
+            src="../../../../assets/sounds/Notification-v1.ogg"
+            type="audio/ogg"
+          />
+          Your browser does not support the audio tag.
+        </audio>
+      </ul>
+    </div>
+  </div>
+</nav>

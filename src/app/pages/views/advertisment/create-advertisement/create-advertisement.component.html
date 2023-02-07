@@ -1,0 +1,55 @@
+<div class="mt-4">
+  <div class="d-flex justify-content-end mb-4">
+    <button class='btn btn-primary' (click)="addAdvertisement()"> <i class="fa fa-plus"></i> اضافة إعلان </button>
+  </div>
+  <form [formGroup]="advertisementForm" (ngSubmit)="submit()">
+    <div class='row' formArrayName="advertisement">
+      <div class='col-md-3 mb-4' *ngFor="let v of AdvertisementArray.controls; index as i">
+        <div class='card shadow border-0 advertisement-card' [formGroupName]="i">
+          <div class="card-header d-flex justify-content-between align-items-center ">
+            <h5><i class="fa fa-hashtag"></i> اعلان رقم
+              {{AdvertisementArray.controls[i].get("index")?.value}} </h5>
+            <i *ngIf="AdvertisementArray.controls.length > 1" class="fa fa-times-circle text-danger cursor-pointer"
+              (click)="removeAdvertisement(i)"></i>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class='col-md-4 mb-3'>
+                <label> ترتيب الصورة </label>
+                <input class='form-control' type="number" formControlName="index" />
+              </div>
+              <div class='col-md-4 mb-3'>
+                <label> رقم المساحة الإعلانيه </label>
+                <input class='form-control' type="slideNumber" formControlName="slideNumber" />
+              </div>
+              <div class='col-md-12 mb-3'>
+                <label> الرابط</label>
+                <input class='form-control' type="slideNumber" formControlName="url" />
+              </div>
+              <div class='col-md-12'>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="customFile"
+                    (change)='uploadAdvertisementImage($event, i)'>
+                  <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <label *ngIf="AdvertisementArray.controls[i].get('advertisement')?.value"
+                  class='bg-light p-2 rounded-pill mt-2'>
+                  {{AdvertisementArray.controls[i].get('advertisement')?.value.name}} <i (click)="removeFile(i)"
+                    class="fa fa-trash cursor-pointer text-danger mr-2"></i> </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit"
+      *ngIf="advertisementForm.valid && !isSubmiting && advertisementForm.dirty"> <i class="fa fa-save"></i> حفظ
+      البيانات</button>
+    <button class="btn btn-primary" type="button" disabled
+      *ngIf="advertisementForm.invalid || isSubmiting || !advertisementForm.dirty">
+      <i class="fa fa-save"></i> حفظ البيانات
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isSubmiting"></span>
+    </button>
+  </form>
+
+</div>

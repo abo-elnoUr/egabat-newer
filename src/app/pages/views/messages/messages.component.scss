@@ -1,0 +1,252 @@
+$height: 100vh;
+
+.content-container {
+  margin-top: 0;
+}
+
+.chat-recent-block {
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    height: calc(100vh - 60px);
+  }
+  .card-body {
+    .messages-tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #fff;
+      z-index: 99;
+      position: sticky;
+      top: 0;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      > .tab {
+        width: 45%;
+        height: 40px;
+
+        label {
+          width: 100%;
+          color: #09f;
+          height: 100%;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          display: block;
+          transition: all 0.2s ease-in-out;
+          border-bottom: 2px solid transparent;
+          &:hover,
+          &.active-tab {
+            cursor: pointer;
+            border-bottom: 2px solid #09f;
+          }
+        }
+      }
+    }
+    // .tabs-content {
+      
+    // }
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #eee;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #fc85ae;
+    }
+
+    /* Handle on hover */
+    // &::-webkit-scrollbar-thumb:hover {
+    //     background: #555;
+    // }
+
+    padding: 0;
+    border: 0;
+
+    overflow: auto;
+    .list-group {
+      margin: 0;
+      padding: 0;
+      border: none;
+      .list-group-item {
+        border-left: 0;
+        border-right: 0;
+        transition: all 0.2s linear;
+        small {
+          transition: all 0.2s linear;
+        }
+        &:hover {
+          background-color: #0078d4;
+          cursor: pointer;
+          color: #fff;
+          small {
+            color: #fff !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.chat-window {
+  .card {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    height: calc(100vh - 60px);
+
+    .card-footer {
+      .preview-image {
+        position: absolute;
+        bottom: 100%;
+        right: 75px;
+        img {
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      .upload-file {
+        position: relative;
+        cursor: pointer;
+        input {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 2;
+          opacity: 0;
+          cursor: pointer;
+        }
+        button {
+          position: relative;
+          z-index: 1;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .card-body {
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #eee;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #303a52;
+    }
+
+    /* Handle on hover */
+    // &::-webkit-scrollbar-thumb:hover {
+    //     background: #555;
+    // }
+  }
+
+  .student-message,
+  .admin-message {
+
+    &:not(:last-child) {
+      margin-bottom: 50px;
+    }
+    &:last-child {
+      margin-bottom: 20px;
+    }
+    display: flex;
+    > div {
+      position: relative;
+      width: 100%;
+      display: flex
+    }
+    span.message-content {
+      font-size: 14px;
+      padding: 5px 15px;
+    }
+    i.fa-user-cog,
+    i.fa-user-graduate {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      /* padding: 20px; */
+      text-align: center;
+      line-height: 30px;
+    }
+  }
+
+  .student-message {
+    text-align: left;
+
+    direction: ltr;
+    span.message-content {
+      background-color: #fff;
+      color: #0078d4;
+      border-radius: 10px 15px 10px 10px;
+      text-align: right;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    i.fa-user-graduate {
+      margin-right: 5px;
+    }
+    small {
+      top: 110%;
+      text-align: left;
+      position: absolute;
+      left: 40px;
+      i {
+        margin-right: 3px;
+      }
+    }
+  }
+
+  .admin-message {
+    span.message-content {
+      background-color: #0078d4;
+      color: #fff;
+      border-radius: 10px 5px 10px 10px;
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+    }
+    i.fa-user-cog {
+      margin-left: 5px;
+    }
+    small {
+      top: 110%;
+      direction: ltr;
+      text-align: right;
+      position: absolute;
+      right: 40px;
+      span {
+        i {
+          margin-right: 3px;
+        }
+      }
+    }
+  }
+}
+
+.select-chat-message {
+  text-align: center;
+  height: calc(100vh - 60px);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  img {
+    width: 300px;
+    display: block;
+  }
+  h5 {
+    margin-top: 20px;
+    color: #888;
+  }
+}

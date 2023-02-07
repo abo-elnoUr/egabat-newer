@@ -1,0 +1,170 @@
+<div>
+  <form [formGroup]="filterStudentsForm">
+    <div class="row">
+      <div class="col-md-3" *RoleAction="[RolesEnum.SUPER_ADMIN]">
+        <div class="input-group mb-3">
+          <label class="input-group-text"> المجموعة</label>
+          <select class="form-select" formControlName="sectionId" (change)="getAllStudents()">
+            <option selected [ngValue]="null"> كل المجموعات </option>
+            <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text"> المرحلة</label>
+          <select class="form-select" formControlName="stageId"
+            (change)="getAllStudents(); getGradesByStageId($any($event.target).value)">
+            <option selected [ngValue]="null"> كل المراحل </option>
+            <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text"> الصف</label>
+          <select class="form-select" formControlName="gradeId" (change)="getAllStudents()">
+            <option selected [ngValue]="null"> كل الصفوف </option>
+            <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"> {{grade.gradeName}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text"> حالة التفعيل</label>
+          <select class="form-select" formControlName="isActive" (change)="getAllStudents()">
+            <option selected [ngValue]="null"> الكل </option>
+            <option [ngValue]="true"> مفعل </option>
+            <option [ngValue]="false"> غير مفعل </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text"> بحث</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="اسم الطالب"
+            (keyup)="getAllStudents()">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <div class="input-group-append">
+            <label class="input-group-text">رقم الهاتف</label>
+          </div>
+          <input class="form-control" formControlName="mobile" (keyup)="getAllStudents()" />
+        </div>
+      </div>
+    </div>
+  </form>
+  <div>
+
+  </div>
+
+  <table class="table mt-4 table-sm table-hover " data-aos="fade-up" data-aos-duration="3000">
+    <thead>
+      <tr>
+        <th> المجموعة </th>
+        <th> اسم الطالب </th>
+        <th> رقم الهاتف </th>
+        <th> البريد الإلكتروني </th>
+        <th> المرحلة </th>
+        <th> الصف </th>
+        <!-- <th> ID </th> -->
+        <!-- <th> عدد المواد </th> -->
+        <th> حساب مميز </th>
+        <th> تفعيل </th>
+        <th colspan="3"> تعديل </th>
+
+        <!-- <th> حذف </th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of listOfStudents.students; index as i">
+        <td> {{student.sectionName}} </td>
+        <td> {{student.name}} </td>
+        <td> {{student.mobile}} </td>
+        <td> {{student.email}} </td>
+        <td> {{student.stageName}} </td>
+        <td> {{student.gradeName}} </td>
+        <td>
+          <div class='switch-button'>
+            <input id="premiumSubscription_{{student.studentId}}" name='lang'
+              (change)="toggleStudenPremium(student.studentId)" type='checkbox'
+              [checked]="student.premiumSubscription ? true : false " />
+            <label for="premiumSubscription_{{student.studentId}}"></label>
+          </div>
+        </td>
+        <td>
+          <div class='switch-button'>
+            <input id="{{student.studentId}}" name='lang' (change)="toggleStudentActive(student.studentId)"
+              type='checkbox' [checked]="student.isActive ? true : false " />
+            <label for="{{student.studentId}}"></label>
+          </div>
+          <!-- {{student.isActive.trim() === "True" ?'مفعل':'غير مفعل'}} -->
+        </td>
+        <td>
+          <button placement="top" ngbTooltip="عدد الاسئلة" class="btn btn-outline-info btn-sm"
+            (click)="open(Edit_Extra_Requests, student.studentId, student.sectionId)"> <i class="fa fa-question"></i>
+          </button>
+        </td>
+
+        <td>
+          <a placement="top" ngbTooltip="تعديل البيانات الدراسة" class="btn btn-outline-info btn-sm"
+            routerLink="edit-student/{{student.studentId}}"> <i class="fa fa-edit"></i> </a>
+        </td>
+
+        <!-- <td> <button class="btn btn-sm btn-outline-primary" ngbTooltip="تعديل المعلومات الشخصية" (click)="openEditProfileModal(Edit_Profile, teacher.teacherId)" > <i class="fa fa-user-edit"></i> </button> </td>
+                <td> <button class="btn btn-sm btn-outline-info"ngbTooltip="تعديل المواد الدراسية" (click)="openEditSubjectsModal(Edit_Subjects, teacher.teacherId)" > <i class="fa fa-edit"></i> </button> </td>
+                 -->
+
+      </tr>
+
+    </tbody>
+  </table>
+  <ngb-pagination [collectionSize]="listOfStudents.rowCount" [(page)]="pagination.pageNo" [maxSize]="5"
+    [pageSize]="pagination.pageSize" (pageChange)="getAllStudents()" [boundaryLinks]="true"></ngb-pagination>
+</div>
+
+<ng-template #loading_skeleton>
+  <!-- <ngx-skeleton-loader count="4" appearance="Line" [theme]="{
+        'border-radius': '5px',
+        height: '40px',
+        'background-color': '#efefef',
+        width: '130px',
+        border: '1px solid white'
+      }"></ngx-skeleton-loader> -->
+
+  <div class="item">
+    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+            'border-radius': '5px',
+            height: '30px',
+            'background-color': '#efefef',
+            border: '1px solid white'
+          }"></ngx-skeleton-loader>
+  </div>
+</ng-template>
+
+<!-- Create Stage Modal -->
+<ng-template #Edit_Extra_Requests let-modal>
+  <app-edit-extra-requests [modal]="modal" [sectionId]='sectionId' [StudentId]="StudentId"></app-edit-extra-requests>
+</ng-template>
+
+
+
+<!-- Create Stage Modal -->
+<!-- <ng-template #Edit_Student_data let-modal>
+  <app-edit-data [modal]="modal" [StudentId]="StudentId"></app-edit-data>
+</ng-template>
+ -->
+
+
+
+<!-- Active Toast -->
+<swal #SuccessActive text="تم التفعيل بنجاح " [toast]="true" icon="success" [showConfirmButton]="false">
+</swal>
+<!-- InActive Toast -->
+<swal #SuccessInActive text="تم إيقاف التفعيل بنجاح " [toast]="true" icon="success" [showConfirmButton]="false">
+</swal>

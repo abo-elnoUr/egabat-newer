@@ -1,0 +1,56 @@
+<div class="form">
+    <div class="image-section">
+        <img src="../../../assets/images/logo/Logo.png" id="icon" alt="User Icon" />
+    </div>
+    <div class="form-section">
+        <h3 class="login-title"> تسجيل الدخول </h3>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div>
+                <label>اسم المستخدم</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" formControlName="username">
+                </div>
+            </div>
+            <div>
+                <label>كلمة المرور</label>
+                <div class="input-group mb-3 password-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="icofont-ui-password"></i></span>
+                    <input type="{{isShowPassword ? 'text' : 'password'}}" class="form-control"
+                        formControlName="password">
+                    <i class="fa fa-eye" *ngIf="isShowPassword" (click)="isShowPassword = false"></i>
+                    <i class="fa fa-eye-slash" *ngIf="!isShowPassword" (click)="isShowPassword = true"></i>
+                </div>
+            </div>
+            <button class='btn btn-primary mt-4 px-4' *ngIf="loginForm.valid && !isSubmiting"> دخول </button>
+            <button class="btn btn-primary mt-4 px-4" type="button" disabled *ngIf="isSubmiting || loginForm.invalid">
+                <span class="spinner-border spinner-border-sm" *ngIf="isSubmiting" role="status"
+                    aria-hidden="true"></span>
+                دخول
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- <div class="form-container">
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <h2 class="active"> تسجيل الدخول </h2>
+            <div class="fadeIn first img ">
+                <img src="../../../assets/images/logo/Logo.png" id="icon" alt="User Icon" />
+            </div>
+            <form (submit)="$event.preventDefault() ; login() ">
+                <input type="email" required id="login" class="fadeIn second" name="login" placeholder="اسم المستخدم"
+                    (keyup)="userData.username = $event.target.value ">
+                <input type="password" required minlength="6" id="password" class="fadeIn third" name="login"
+                    placeholder="كلمة المرور" (keyup)="userData.password = $event.target.value ">
+                <button type="submit" class="fadeIn fourth" value="تسجيل الدخول"> تسجيل الدخول </button>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+<!-- Success Toast -->
+<!-- <swal #ErrorToastLogin text="تم تسجيل الدخول بنجاح" [timer]="3000" [toast]="true" icon="success"
+    [position]="'top-start'" [showConfirmButton]="false">
+</swal> -->

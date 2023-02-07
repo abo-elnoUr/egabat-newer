@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div class="card mt-5">
+      <div class="card-header">
+        <h4 class='m-0'> تعديل روابط التواصل الاجتماعي </h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="socialLinksForm" (ngSubmit)="submit()">
+          <div class="row">
+            <div class="col-md-6">
+              <label> فيسبوك </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-facebook"></i></span>
+                <input type="text" class="form-control" formControlName="facebook">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label> تويتر </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-twitter"></i></span>
+                <input type="text" class="form-control" formControlName="twitter">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label> لينكد إن </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-linkedin"></i></span>
+                <input type="text" class="form-control" formControlName="linkedin">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label> انستجرام </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-instagram"></i></span>
+                <input type="text" class="form-control" formControlName="instagram">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label> يوتيوب </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-youtube"></i></span>
+                <input type="text" class="form-control" formControlName="youtube">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label> واتساب </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-whatsapp"></i></span>
+                <input type="text" class="form-control" formControlName="whatsApp">
+              </div>
+            </div>
+            <div class="col-md-12 mt-4">
+              <button class="btn btn-primary" type="submit" *ngIf="socialLinksForm.valid && !isSubmiting"> <i
+                  class="fa fa-save"></i> حفظ البيانات</button>
+              <button class="btn btn-primary" type="button" disabled *ngIf="socialLinksForm.invalid || isSubmiting">
+                <i class="fa fa-save"></i> حفظ البيانات
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  *ngIf="isSubmiting"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

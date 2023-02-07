@@ -1,0 +1,76 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4>تعديل طالب</h4>
+        </div>
+        <div class="card-body">
+
+            <div class="text-center">
+                <div class="spinner-border " style="width: 3rem; height: 3rem;" role="status" *ngIf="isLoading">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <!-- <dl class="row" *ngIf="!isLoading">
+                <dt class="col-sm-4"> البريد الإلكتروني </dt>
+                <dd class="col-sm-8"> {{editstudentForm.get("email").value}} </dd>
+            </dl> -->
+            <form [formGroup]="editstudentForm" *ngIf="!isLoading" (ngSubmit)="submit()">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text"> المجموعة </label>
+                            <select class="form-select" formControlName="sectionId">
+                                <option selected [ngValue]="null">اختر المجموعة</option>
+                                <option *ngFor="let section of listOfSection" [value]="section.sectionId">
+                                    {{section.sectionName}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text"> المرحلة </label>
+                            <select class="form-select" formControlName="stageId"
+                                (change)="getGrades($any($event.target).value)">
+                                <option selected [ngValue]="null">اختر المرحلة</option>
+                                <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text"> الصف </label>
+                            <select class="form-select" formControlName="gradeId">
+                                <option selected [ngValue]="null">اختر الصف</option>
+                                <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"> {{grade.gradeName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text"> اسم الطالب </label>
+                            <input class="form-control" formControlName="name" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text"> رقم الهاتف </label>
+                            <input class="form-control" formControlName="mobile" />
+                        </div>
+                    </div>
+                </div>
+                <button class='mt-4 btn btn-primary btn-sm' *ngIf="!requestStatus && editstudentForm.valid"> <i
+                        class="fa fa-save"></i> حفظ البيانات </button>
+                <button class="mt-4 btn btn-primary btn-sm" type="button" disabled
+                    *ngIf="editstudentForm.invalid || requestStatus">
+                    <i class="fa fa-save"></i>
+                    حفظ البيانات
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="requestStatus"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

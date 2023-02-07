@@ -1,0 +1,161 @@
+<div class="modal-header ">
+    <h4 class="modal-title  " id="modal-basic-title"> اضافة معلم </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-user"></i> </span>
+                <input type="text" class="form-control" placeholder="اسم المعلم" aria-label="Username"
+                    aria-describedby="basic-addon1" (keyup)="TeacherData.name = $any($event.target).value">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-mobile"></i> </span>
+                <input type="text" class="form-control" placeholder="رقم الهاتف" aria-label="Username"
+                    aria-describedby="basic-addon1" (keyup)="TeacherData.mobile = $any($event.target).value">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-at"></i> </span>
+                <input type="text" class="form-control" placeholder="البريد الإلكتروني" aria-label="Username"
+                    aria-describedby="basic-addon1" (keyup)="TeacherData.email = $any($event.target).value">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-user-lock"></i> </span>
+                <input type="password" class="form-control" placeholder="كلمة المرور" aria-label="Username"
+                    aria-describedby="basic-addon1" (keyup)="TeacherData.password = $any($event.target).value">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <h5> اضافة مواد المعلم </h5>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-select" (change)="filterByCountry($any($event.target).value)">
+                    <option selected disabled> الدولة </option>
+                    <option *ngFor="let country of countries" [value]="country.id"> {{country.name}} </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-select" (change)="sectionId = $any($event.target).value">
+                    <option selected disabled> المجموعة </option>
+                    <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-select" [disabled]="!sectionId"
+                    (change)="getGradesByStageId($any($event.target).value)">
+                    <option selected disabled> المرحلة </option>
+                    <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}} </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-select" id="inputGroupSelect01"
+                    (change)="getSubjectsByGradeId($any($event.target).value)" [disabled]="!listOfGrade.length">
+                    <option selected disabled *ngIf="!listOfGrade?.length"> الصف </option>
+                    <option selected disabled *ngIf="listOfGrade?.length"> الصف </option>
+                    <option *ngFor="let grade of listOfGrade" [value]="grade.gradeId"> {{grade.gradeName}} </option>
+
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-select" id="inputGroupSelect01" (change)="subjectId = $any($event.target).value"
+                    [disabled]="!listOfSubjects.length">
+                    <option selected disabled *ngIf="!listOfSubjects?.length"> المادة </option>
+                    <option selected disabled *ngIf="listOfSubjects?.length"> المادة </option>
+                    <option *ngFor="let subject of listOfSubjects" [value]="subject.subjectId"> {{subject.subjectName}}
+                    </option>
+
+                </select>
+            </div>
+        </div>
+        <div class="row" *ngIf="subjectId">
+            <div class="col-md-4" *ngFor="let iterate of permessions">
+                <h5>{{iterate.displayName}}</h5>
+
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let per of iterate.permessions">
+                        <div class="row">
+                            <div class="col-md-8"> {{per.displayName}}</div>
+
+                            <div class="col-md-4">
+                                <input type="checkbox" class="form-check-input mr-4"
+                                    (change)="per.isSelected=$any($event.target).checked" />
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <button class="btn btn-sm btn-primary" [disabled]="!subjectId" (click)="addSubjectToListOfTeahcer()"> <i
+                        class="fa fa-plus"></i> </button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h6> مواد المعلم : </h6>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">المجموعة</th>
+                        <th scope="col">المرحلة</th>
+                        <th scope="col">الصف</th>
+                        <th scope="col">المادة</th>
+                        <th scope="col">الصلاحيات</th>
+                        <th scope="col">حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subject of teacherSubjectsView; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td> {{subject.sectionName}} </td>
+                        <td> {{subject.stageName}} </td>
+                        <td> {{subject.subjectName}} </td>
+                        <td> {{subject.gradeName}} </td>
+                        <td> {{getPermessionsForView(subject)}} </td>
+                        <td> <button class="btn btn-sm btn-outline-danger"
+                                (click)="teacherSubjectsView.splice(i,1);TeacherData.subjects.splice(i,1)"> <i
+                                    class="fa fa-trash"></i> </button> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="createNewTeacher()"> <i class="fa fa-save"></i>
+        حفظ
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')">
+        <i class="fa fa-times-circle"></i> إلغاء
+    </button>
+</div>
+
+
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+    [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>

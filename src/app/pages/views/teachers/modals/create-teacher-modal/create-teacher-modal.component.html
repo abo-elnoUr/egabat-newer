@@ -13,23 +13,23 @@
         </div>
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-mobile"></i> </span>
+                <span class="input-group-text" id="basic-addon2"> <i class="fa fa-mobile"></i> </span>
                 <input type="text" class="form-control" placeholder="رقم الهاتف" aria-label="Username"
-                    aria-describedby="basic-addon1" (keyup)="TeacherData.mobile = $any($event.target).value">
+                    aria-describedby="basic-addon2" (keyup)="TeacherData.mobile = $any($event.target).value">
             </div>
         </div>
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-at"></i> </span>
+                <span class="input-group-text" id="basic-addon3"> <i class="fa fa-at"></i> </span>
                 <input type="text" class="form-control" placeholder="البريد الإلكتروني" aria-label="Username"
-                    aria-describedby="basic-addon1" (keyup)="TeacherData.email = $any($event.target).value">
+                    aria-describedby="basic-addon3" (keyup)="TeacherData.email = $any($event.target).value">
             </div>
         </div>
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"> <i class="fa fa-user-lock"></i> </span>
+                <span class="input-group-text" id="basic-addon4"> <i class="fa fa-user-lock"></i> </span>
                 <input type="password" class="form-control" placeholder="كلمة المرور" aria-label="Username"
-                    aria-describedby="basic-addon1" (keyup)="TeacherData.password = $any($event.target).value">
+                    aria-describedby="basic-addon4" (keyup)="TeacherData.password = $any($event.target).value">
             </div>
         </div>
 
@@ -65,7 +65,7 @@
         <div class="col-md-3">
             <div class="input-group mb-3">
                 <select class="form-select" id="inputGroupSelect01"
-                    (change)="getSubjectsByGradeId($any($event.target).value)" [disabled]="!listOfGrade.length">
+                    (change)="getSubjectsByGradeId($any($event.target).value)" [disabled]="!listOfGrade?.length">
                     <option selected disabled *ngIf="!listOfGrade?.length"> الصف </option>
                     <option selected disabled *ngIf="listOfGrade?.length"> الصف </option>
                     <option *ngFor="let grade of listOfGrade" [value]="grade.gradeId"> {{grade.gradeName}} </option>
@@ -75,8 +75,8 @@
         </div>
         <div class="col-md-3">
             <div class="input-group mb-3">
-                <select class="form-select" id="inputGroupSelect01" (change)="subjectId = $any($event.target).value"
-                    [disabled]="!listOfSubjects.length">
+                <select class="form-select" id="inputGroupSelect02" (change)="subjectId = $any($event.target).value"
+                    [disabled]="!listOfSubjects?.length">
                     <option selected disabled *ngIf="!listOfSubjects?.length"> المادة </option>
                     <option selected disabled *ngIf="listOfSubjects?.length"> المادة </option>
                     <option *ngFor="let subject of listOfSubjects" [value]="subject.subjectId"> {{subject.subjectName}}

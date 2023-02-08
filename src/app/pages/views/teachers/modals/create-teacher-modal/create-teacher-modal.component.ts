@@ -147,7 +147,6 @@ export class CreateTeacherModalComponent implements OnInit {
 
     this.HttpMethods.getSubjectByGradeId({ gradeId, sectionId: this.sectionId }).subscribe(res => {
       this.listOfSubjects = res.subjects
-      console.log("SSUUBB")
       if (!this.permessions.length)
         this.getPermissions();
     })

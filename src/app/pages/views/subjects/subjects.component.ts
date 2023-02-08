@@ -128,13 +128,14 @@ export class SubjectsComponent implements OnInit {
   }
   filtrationSubjects() {
     let filter = { ...this.filterSubjectsForm.value, ...this.pagination };
-    console.log('Filter', filter);
+    // console.log('Filter', filter);
     let stageId = this.filterSubjectsForm.get('stageId')?.value;
-    console.log('Stage ID', stageId);
+    // console.log('Stage ID', stageId);
     this.isLoading = true;
     this.HttpMethods.filtrationSubjects(filter).subscribe((response) => {
       this.isLoading = false;
-      console.log('Responsessssssssssubjects', response);
+      // console.log('Responsessssssssssubjects', response);
+      console.log(response);
       this.subjectsData = response;
     });
     if (stageId) this.getGradesByStageId(stageId);

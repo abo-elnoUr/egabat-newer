@@ -1,79 +1,80 @@
-<ng-container *ngIf="!isLoading ; then view_table ; else loading_skeleton "></ng-container>
 
-<ng-template #view_table>
-  <div class="d-flex justify-content-end form-group">
-    <button *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" class="btn btn-primary mb-3"
-      (click)="openAddModal(AddModal)"> <i class="fa fa-plus"></i>
-      اضافة مادة
-    </button>
-  </div>
-  <div>
-    <form [formGroup]="filterSubjectsForm">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01"> الدولة</label>
-            <select formControlName="countryId" class="form-select" id="inputGroupSelect01"
-              (change)="filterStagesAndGradesByCountry($any($event.target).value)">
-              <option selected [ngValue]="null"> اختر دولة</option>
-              <option *ngFor="let country of countries" [value]="country.id"> {{country.name}}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01"> المجموعات</label>
-            <select class="form-select" id="inputGroupSelect01" formControlName="sectionId"
-              (change)="filtrationSubjects()">
-              <option selected [ngValue]="null"> كل المجموعات </option>
-              <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
-            <select class="form-select" id="inputGroupSelect01" formControlName="stageId"
-              (change)="filtrationSubjects()">
-              <option selected [ngValue]="null"> الكل </option>
-              <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01"> الصف</label>
-            <select class="form-select" id="inputGroupSelect01" formControlName="gradeId"
-              (change)="filtrationSubjects()">
-              <option selected [ngValue]="null"> كل الصفوف </option>
-              <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"> {{grade.gradeName}} </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01"> حالة التفعيل</label>
-            <select class="form-select" id="inputGroupSelect01" formControlName="isActive"
-              (change)="filtrationSubjects()">
-              <option selected [ngValue]="null"> الكل </option>
-              <option [ngValue]="true"> مفعل </option>
-              <option [ngValue]="false"> غير مفعل </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">اسم المادة</label>
-            <input class="form-control" id="inputGroupSelect01" formControlName="name" (keyup)="filtrationSubjects()" />
-          </div>
+<div class="d-flex justify-content-end form-group">
+  <button *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" class="btn btn-primary mb-3"
+    (click)="openAddModal(AddModal)"> <i class="fa fa-plus"></i>
+    اضافة مادة
+  </button>
+</div>
+<div>
+  <form [formGroup]="filterSubjectsForm">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> الدولة</label>
+          <select formControlName="countryId" class="form-select" id="inputGroupSelect01"
+            (change)="filterStagesAndGradesByCountry($any($event.target).value)">
+            <option selected [ngValue]="null"> اختر دولة</option>
+            <option *ngFor="let country of countries" [value]="country.id"> {{country.name}}
+            </option>
+          </select>
         </div>
       </div>
-    </form>
-  </div>
+
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> المجموعات</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="sectionId"
+          (change)="filtrationSubjects()">
+          <option selected [ngValue]="null"> كل المجموعات </option>
+          <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
+          </option>
+        </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="stageId"
+            (change)="filtrationSubjects()">
+            <option selected [ngValue]="null"> الكل </option>
+            <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> الصف</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="gradeId"
+            (change)="filtrationSubjects()">
+            <option selected [ngValue]="null"> كل الصفوف </option>
+            <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"> {{grade.gradeName}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"> حالة التفعيل</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="isActive"
+            (change)="filtrationSubjects()">
+            <option selected [ngValue]="null"> الكل </option>
+            <option [ngValue]="true"> مفعل </option>
+            <option [ngValue]="false"> غير مفعل </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01">اسم المادة</label>
+          <input class="form-control" id="inputGroupSelect01" formControlName="name" (keyup.Enter)="filtrationSubjects()" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-container *ngIf="!isLoading ; then view_table ; else loading_skeleton "></ng-container>
+<ng-template #view_table>
 
   <!-- <div class="row" >
     <div class="col-md-4" *ngFor="let subject of subjectsData.subjects; index as i">

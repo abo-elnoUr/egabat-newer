@@ -19,8 +19,8 @@
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01"> الصف</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="gradeId"
+          <label class="input-group-text" for="inputGroupSelect02"> الصف</label>
+          <select class="form-select" id="inputGroupSelect02" formControlName="gradeId"
             (change)="getTeachers(); getSubjectByGradeId($any($event.target).value)">
             <option selected [ngValue]="null"> كل الصفوف </option>
             <option *ngFor="let grade of gradesList" [value]="grade.gradeId"> {{grade.gradeName}} </option>
@@ -30,8 +30,8 @@
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01"> المادة</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="subjectId" (change)="this.getTeachers()">
+          <label class="input-group-text" for="inputGroupSelect03"> المادة</label>
+          <select class="form-select" id="inputGroupSelect03" formControlName="subjectId" (change)="this.getTeachers()">
             <option selected [ngValue]="null"> كل المواد </option>
             <option *ngFor="let subject of listOfSubjects.subjects" [value]="subject.subjectId">
               {{subject.subjectName}}
@@ -42,8 +42,8 @@
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01"> حالة التفعيل</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="isActive" (change)="this.getTeachers()">
+          <label class="input-group-text" for="inputGroupSelect04"> حالة التفعيل</label>
+          <select class="form-select" id="inputGroupSelect04" formControlName="isActive" (change)="this.getTeachers()">
             <option selected [ngValue]="null"> الكل </option>
             <option [ngValue]="true"> مفعل </option>
             <option [ngValue]="false"> غير مفعل </option>
@@ -52,14 +52,14 @@
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01">اسم المعلم</label>
-          <input class="form-control" id="inputGroupSelect01" formControlName="name" (keyup)="this.getTeachers()" />
+          <label class="input-group-text" for="inputGroupSelect05">اسم المعلم</label>
+          <input class="form-control" id="inputGroupSelect05" formControlName="name" (keyup)="this.getTeachers()" />
         </div>
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01">رقم الهاتف</label>
-          <input class="form-control" id="inputGroupSelect01" formControlName="mobile" (keyup)="this.getTeachers()" />
+          <label class="input-group-text" for="inputGroupSelect06">رقم الهاتف</label>
+          <input class="form-control" id="inputGroupSelect06" formControlName="mobile" (keyup)="this.getTeachers()" />
         </div>
       </div>
     </div>

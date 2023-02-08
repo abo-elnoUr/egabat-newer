@@ -14,11 +14,11 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class='col-md-4 mb-3'>
+              <div class='col-md-12 mb-3'>
                 <label> ترتيب الصورة </label>
                 <input class='form-control' type="number" formControlName="index" />
               </div>
-              <div class='col-md-4 mb-3'>
+              <div class='col-md-12 mb-3'>
                 <label> رقم المساحة الإعلانيه </label>
                 <input class='form-control' type="slideNumber" formControlName="slideNumber" />
               </div>
@@ -27,15 +27,16 @@
                 <input class='form-control' type="slideNumber" formControlName="url" />
               </div>
               <div class='col-md-12'>
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile"
-                    (change)='uploadAdvertisementImage($event, i)'>
-                  <label class="custom-file-label" for="customFile">Choose file</label>
+                <div class="mb-3">
+                  <input type="file" class="form-control" id="customFile"
+                    (change)='advertisementForm.controls.advertisement.controls[i].controls.advertisement.setValue($any($event).target.files[0])'>
+                    <!-- (change)='uploadAdvertisementImage($event, i)'> -->
+                  <!-- <label class="form-label" for="customFile">Choose file</label> -->
                 </div>
-                <label *ngIf="AdvertisementArray.controls[i].get('advertisement')?.value"
+                <!-- <label *ngIf="AdvertisementArray.controls[i].get('advertisement')?.value"
                   class='bg-light p-2 rounded-pill mt-2'>
                   {{AdvertisementArray.controls[i].get('advertisement')?.value.name}} <i (click)="removeFile(i)"
-                    class="fa fa-trash cursor-pointer text-danger mr-2"></i> </label>
+                    class="fa fa-trash cursor-pointer text-danger mr-2"></i> </label> -->
               </div>
             </div>
           </div>
@@ -43,8 +44,8 @@
       </div>
     </div>
     <button class="btn btn-primary" type="submit"
-      *ngIf="advertisementForm.valid && !isSubmiting && advertisementForm.dirty"> <i class="fa fa-save"></i> حفظ
-      البيانات</button>
+      *ngIf="advertisementForm.valid && !isSubmiting && advertisementForm.dirty">
+      <i class="fa fa-save"></i> حفظ البيانات</button>
     <button class="btn btn-primary" type="button" disabled
       *ngIf="advertisementForm.invalid || isSubmiting || !advertisementForm.dirty">
       <i class="fa fa-save"></i> حفظ البيانات

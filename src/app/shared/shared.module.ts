@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoleActionDirective } from '../helpers/directives/role-action.directive';
 import { TeacherPermessionDirective } from '../helpers/directives/teacher-permession';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -15,7 +16,8 @@ import { TeacherPermessionDirective } from '../helpers/directives/teacher-permes
   ],
   exports: [
     RoleActionDirective,
-    TeacherPermessionDirective
+    TeacherPermessionDirective,
+    NgSelectModule
   ]
 })
 export class SharedModule { }

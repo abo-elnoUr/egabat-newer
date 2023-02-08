@@ -84,7 +84,6 @@ import { AboutUsComponent } from '../views/about-us/about-us.component';
     RouterModule,
     ReactiveFormsModule,
     SharedModule,
-
   ]
 })
 export class MasterPageModule { }

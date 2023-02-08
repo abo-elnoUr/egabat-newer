@@ -30,7 +30,7 @@ export class LessonsComponent implements OnInit {
   ) {
     this.unitId = this._activeRoute.snapshot.params['unitId'];
     this.subjectId = this._activeRoute.snapshot.params['subjectId'];
-    console.log('Subject', this.subjectId);
+    //console.log('Subject', this.subjectId);
   }
   getUnitsUrl() {
     //return/Admin/dashboard/subjects/{{subjectId}}}}/units

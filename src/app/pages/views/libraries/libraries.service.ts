@@ -4,6 +4,7 @@ import { environment as env } from 'src/environments/environment';
 
 const environment = env;;
 import { ILibrary } from 'src/app/helpers/_interfaces/library';
+import { MainCategoryResponse } from 'src/app/helpers/_interfaces/custom-library';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +33,7 @@ export class LibrariesService {
   }
 
   getLibrarys(data: any) {
-    return this._http.post<any[]>(`${environment.API_ROOT}/api/MainCategory/GetMainCategoriesByGrade`, data)
+    return this._http.post<MainCategoryResponse[]>(`${environment.API_ROOT}/api/MainCategory/GetMainCategoriesByGrade`, data)
   }
 
 }

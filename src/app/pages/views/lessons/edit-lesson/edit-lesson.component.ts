@@ -153,8 +153,8 @@ export class EditLessonComponent implements OnInit {
   };
 
   previewFile(index: number, control: string) {
-    console.log('index', index);
-    console.log('control', control);
+    // console.log('index', index);
+    // console.log('control', control);
     let fileItem = this.Files.controls[index] as FormGroup;
     let file = fileItem.get(control)?.value;
     window.open(window.URL.createObjectURL(file));
@@ -175,7 +175,7 @@ export class EditLessonComponent implements OnInit {
 
   deleteLessonAttchment(attachId: string, i: number) {
     this._lessonSerivce.deleteLessonAttachment(attachId).subscribe(response => {
-      console.log("Delete Attach", response);
+      // console.log("Delete Attach", response);
       this.removeLessonFile(i)
     })
   }
@@ -211,13 +211,13 @@ export class EditLessonComponent implements OnInit {
   getLessonData() {
     this._lessonSerivce.getLessonById(this.lessonId).subscribe(response => {
       this.mapLessonDataToForm(response);
-      console.log("Lesson Data", response)
+      // console.log("Lesson Data", response)
     })
   }
 
   mapperDataToFormData() {
     let fd = new FormData();
-    console.log(JSON.stringify(this.updateLessonForm.get("Videos")?.value))
+    // console.log(JSON.stringify(this.updateLessonForm.get("Videos")?.value))
     fd.append("UnitId", this.updateLessonForm.get("UnitId")?.value);
     fd.append("LessonId", this.updateLessonForm.get("LessonId")?.value);
     fd.append("LessonName", this.updateLessonForm.get("LessonName")?.value);
@@ -247,7 +247,7 @@ export class EditLessonComponent implements OnInit {
     let data = this.mapperDataToFormData();
     this.isSubmiting = true;
     this._lessonSerivce.updateLesson(data).subscribe(response => {
-      console.log("Response", response);
+      // console.log("Response", response);
       this.isSubmiting = false;
       this._router.navigate([`/Admin/dashboard/subjects/${this.subjectId}/units/${this.unitId}/lessons`])
     })

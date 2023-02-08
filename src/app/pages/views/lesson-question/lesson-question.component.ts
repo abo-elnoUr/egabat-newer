@@ -64,7 +64,7 @@ export class LessonQuestionComponent implements OnInit {
   removeNewQuestion(questionIndex: number, answerIndex: number) {
     let questionAnswers = this.listOfQuestions[questionIndex].answers;
     questionAnswers.splice(answerIndex, 1);
-    console.log("DDDD");
+    //console.log("DDDD");
 
     // Start Work From Here (:
   }
@@ -77,7 +77,7 @@ export class LessonQuestionComponent implements OnInit {
         })
       })
       this.listOfQuestions = response;
-      console.log(response);
+      //console.log(response);
 
     })
   }
@@ -87,7 +87,7 @@ export class LessonQuestionComponent implements OnInit {
   }
 
   deleteAnswer(answerId: string) {
-    console.log(answerId);
+    //console.log(answerId);
     this._lessonQuestionService.deleteAnswer(answerId).subscribe(response => {
       this.getQuestions();
     })

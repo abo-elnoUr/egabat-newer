@@ -31,7 +31,7 @@ export class CreateQuestionComponent implements OnInit {
   }
 
   delete() {
-    console.log("asd");
+    //console.log("asd");
     this.onDelete.emit();
   }
 
@@ -93,7 +93,7 @@ export class CreateQuestionComponent implements OnInit {
 
   submit() {
     this._lessonQuestionService.addQuestion(this.mapDataToFormData()).subscribe(response => {
-      console.log(response);
+      //console.log(response);
       // this.delete();
       window.history.back();
     })

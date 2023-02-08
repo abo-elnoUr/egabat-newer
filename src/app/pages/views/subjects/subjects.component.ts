@@ -3,10 +3,14 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { IGrade } from 'src/app/helpers/_interfaces/grade';
 import { IStage } from 'src/app/helpers/_interfaces/stage';
-import { IEditSubject, ISubject, ISubjectFilterResponse } from 'src/app/helpers/_interfaces/subject';
+import {
+  IEditSubject,
+  ISubject,
+  ISubjectFilterResponse,
+} from 'src/app/helpers/_interfaces/subject';
 import { SubjectService } from './Api/api-http.service';
 
-import { environment } from "../../../../environments/environment";
+import { environment } from '../../../../environments/environment';
 import { ISection } from 'src/app/helpers/_interfaces/section';
 import { SectionService } from '../sections/api/section.service';
 import Swal from 'sweetalert2';
@@ -17,14 +21,10 @@ import { RolesEnum } from 'src/app/helpers/enums/roles-enum';
 import { ICountryModel } from '../../../models/country.model';
 import { CountryService } from '../../../shared/country.service';
 
-
-
-
-
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
-  styleUrls: ['./subjects.component.scss']
+  styleUrls: ['./subjects.component.scss'],
 })
 export class SubjectsComponent implements OnInit {
   RolesEnum = RolesEnum;
@@ -40,11 +40,10 @@ export class SubjectsComponent implements OnInit {
     return ESectionsID;
   }
 
-
   subjectsData: ISubjectFilterResponse = {
     rowCount: 0,
-    subjects: []
-  }
+    subjects: [],
+  };
 
   listOfSubjects: Array<ISubject>;
   listOfGrades: Array<IGrade>;
@@ -55,54 +54,52 @@ export class SubjectsComponent implements OnInit {
   listOfGradesByStageId: Array<IGrade> = [];
 
   stageId: string;
-  sectionId: string = ""
-  gradeId: string = ""
+  sectionId: string = '';
+  gradeId: string = '';
   closeResult = '';
 
-  deleteSubjectId = ""
+  deleteSubjectId = '';
   listOfSections: Array<ISection> = [];
 
   newSubject = {
-    "sectionId": "",
-    "stageId": "",
-    "gradeId": "",
-    "subjectName": "",
-    index: 0
-  }
-
+    sectionId: '',
+    stageId: '',
+    gradeId: '',
+    subjectName: '',
+    index: 0,
+  };
 
   editSubjectSnapShotData: ISubject = {
     country: '',
-    tempSubjectId: "",
-    subjectId: "",
-    subjectName: "",
-    stageId: "",
-    stageName: "",
-    gradeId: "",
-    gradeName: "",
-    sectionName: "",
-    sectionId: "",
+    tempSubjectId: '',
+    subjectId: '',
+    subjectName: '',
+    stageId: '',
+    stageName: '',
+    gradeId: '',
+    gradeName: '',
+    sectionName: '',
+    sectionId: '',
     isActive: false,
     subjectImage: '',
     index: 0,
-    permessions: []
-  }
+    permessions: [],
+  };
 
   upDateSubject: IEditSubject = {
-    subjectId: "",
-    gradeId: "",
-    stageId: "",
-    subjectName: "",
-    sectionId: "",
+    subjectId: '',
+    gradeId: '',
+    stageId: '',
+    subjectName: '',
+    sectionId: '',
     isActive: false,
     subjectImage: '',
-    index: 0
-
-  }
+    index: 0,
+  };
   pagination = {
-    "pageSize": 20,
-    "pageNo": 1,
-  }
+    pageSize: 20,
+    pageNo: 1,
+  };
   filterSubjectsForm: FormGroup;
 
   constructor(
@@ -114,50 +111,50 @@ export class SubjectsComponent implements OnInit {
     private countryService: CountryService
   ) {
     this.filterSubjectsForm = this._formBuilder.group({
-
-      "name": [""],
-      "gradeId": [null],
-      "sectionId": [null],
-      "stageId": [null],
-      "isActive": null,
-      "countryId": [null]
-    })
+      name: [''],
+      gradeId: [null],
+      sectionId: [null],
+      stageId: [null],
+      isActive: null,
+      countryId: [null],
+    });
   }
 
   isLoading: boolean = false;
   getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
+    this.countryService
+      .getAllCountries()
+      .subscribe((res) => (this.countries = res));
   }
   filtrationSubjects() {
     let filter = { ...this.filterSubjectsForm.value, ...this.pagination };
     console.log('Filter', filter);
-    let stageId = this.filterSubjectsForm.get("stageId")?.value;
-    console.log("Stage ID", stageId);
+    let stageId = this.filterSubjectsForm.get('stageId')?.value;
+    console.log('Stage ID', stageId);
     this.isLoading = true;
-    this.HttpMethods.filtrationSubjects(filter).subscribe(response => {
+    this.HttpMethods.filtrationSubjects(filter).subscribe((response) => {
       this.isLoading = false;
-      console.log("Responsessssssssssubjects", response)
+      console.log('Responsessssssssssubjects', response);
       this.subjectsData = response;
-    })
-    if (stageId) this.getGradesByStageId(stageId)
+    });
+    if (stageId) this.getGradesByStageId(stageId);
   }
 
   ngOnInit(): void {
-    document.title = `${environment.webSiteName} | المواد`
+    document.title = `${environment.webSiteName} | المواد`;
     this.getAllCountries();
     // this.getAllSubjects();
     // this.getAllStages();
     // this.getAllSections();
     this.filtrationSubjects();
-
   }
 
   // Get All Subjects
   getAllSubjects() {
-    this.HttpMethods.getListOfSubjects().subscribe(res => {
+    this.HttpMethods.getListOfSubjects().subscribe((res) => {
       let result: any = res;
-      this.listOfSubjects = result
-    })
+      this.listOfSubjects = result;
+    });
   }
 
   filterStagesAndGradesByCountry(countryId: string, fromtable = true) {
@@ -165,44 +162,38 @@ export class SubjectsComponent implements OnInit {
       this.listOfStages = [] = this.listOfSections = [];
       return;
     }
-    this.HttpMethods.getAllStages(countryId).subscribe(res => {
+    this.HttpMethods.getAllStages(countryId).subscribe((res) => {
       let result: any = res;
-      this.listOfStages = result
+      this.listOfStages = result;
     });
-    this._sectionService.getAllSections(countryId).subscribe(res => this.listOfSections = res);
-    if (fromtable)
-      this.filtrationSubjects();
+    this._sectionService
+      .getAllSections(countryId)
+      .subscribe((res) => (this.listOfSections = res));
+    if (fromtable) this.filtrationSubjects();
   }
 
   // Get Stages
   getAllStages() {
-    this.HttpMethods.getAllStages().subscribe(res => {
+    this.HttpMethods.getAllStages().subscribe((res) => {
       let result: any = res;
-      this.listOfStages = result
-    })
+      this.listOfStages = result;
+    });
   }
-
-
-
-
 
   // Get Grades By Stage Id
   getGradesByStageId(stageId: string) {
-    this.HttpMethods.getGradesByStageId(stageId).subscribe(res => {
+    this.HttpMethods.getGradesByStageId(stageId).subscribe((res) => {
       let result: any = res;
       this.listOfGradesByStageId = result;
       this.listOfGrades = result;
-    })
+    });
   }
-
-
-
 
   // Get Subject By Id
   getSubjectById(subjectId: string) {
-    this.HttpMethods.getSubjectById(subjectId).subscribe(res => {
+    this.HttpMethods.getSubjectById(subjectId).subscribe((res) => {
       let result: any = res;
-      console.log("Subject Data", res)
+      console.log('Subject Data', res);
       this.editSubjectSnapShotData = {
         country: result.country,
         tempSubjectId: result.tempSubjectId,
@@ -217,8 +208,7 @@ export class SubjectsComponent implements OnInit {
         isActive: result.isActive,
         subjectImage: res.subjectImage,
         index: result.index,
-        permessions: []
-
+        permessions: [],
       };
 
       this.filterStagesAndGradesByCountry(result.country, false);
@@ -230,9 +220,9 @@ export class SubjectsComponent implements OnInit {
         sectionId: result.sectionId,
         isActive: result.isActive,
         subjectImage: res.subjectImage,
-        index: result.index
-      }
-    })
+        index: result.index,
+      };
+    });
   }
   /**
    *
@@ -245,35 +235,28 @@ export class SubjectsComponent implements OnInit {
 
   // Get Subjects By Grade Id
   getSubjectsByGradeId(gradeId: string) {
-    this.gradeId = gradeId
+    this.gradeId = gradeId;
     const filter = {
       gradeId: gradeId,
-      sectionId: this.sectionId
-    }
+      sectionId: this.sectionId,
+    };
 
-
-
-    this.HttpMethods.getSubjectsByGradeId(filter).subscribe(res => {
+    this.HttpMethods.getSubjectsByGradeId(filter).subscribe((res) => {
       let result: any = res;
 
-      console.log(result)
+      console.log(result);
 
-      this.listOfSubjects = result
-
-    })
+      this.listOfSubjects = result;
+    });
   }
 
-
-
-
   selectSection(sectionId: string) {
-    this.newSubject.sectionId = sectionId
+    this.newSubject.sectionId = sectionId;
   }
 
   subjectImage: File;
   uploadFile(files: any) {
-    this.subjectImage = files[0]
-
+    this.subjectImage = files[0];
   }
 
   previewFile() {
@@ -284,89 +267,83 @@ export class SubjectsComponent implements OnInit {
 
   collectDataCreateSubject() {
     let fd = new FormData();
-    fd.append("SectionId", this.newSubject.sectionId);
-    fd.append("GradeId", this.newSubject.gradeId);
-    fd.append("SubjectName", this.newSubject.subjectName);
-    fd.append("SubjectImage", this.subjectImage);
-    fd.append("index", `${this.newSubject.index}`);
+    fd.append('SectionId', this.newSubject.sectionId);
+    fd.append('GradeId', this.newSubject.gradeId);
+    fd.append('SubjectName', this.newSubject.subjectName);
+    fd.append('SubjectImage', this.subjectImage);
+    fd.append('index', `${this.newSubject.index}`);
     return fd;
   }
   // Create Subject
   createSubject() {
-    this.HttpMethods.createSubject(this.collectDataCreateSubject()).subscribe(res => {
-      this.upDateSubjectsTable()
-    })
+    this.HttpMethods.createSubject(this.collectDataCreateSubject()).subscribe(
+      (res) => {
+        this.upDateSubjectsTable();
+      }
+    );
   }
-
-
-
 
   // Edit Subject
   editSubject() {
     let fd = new FormData();
-    fd.append("SectionId", this.upDateSubject.sectionId);
-    fd.append("GradeId", this.upDateSubject.gradeId);
-    fd.append("SubjectName", this.upDateSubject.subjectName);
-    fd.append("SubjectId", this.upDateSubject.subjectId);
-    fd.append("SubjectImage", this.subjectImage);
-    fd.append("Index", `${this.upDateSubject.index}`);
+    fd.append('SectionId', this.upDateSubject.sectionId);
+    fd.append('GradeId', this.upDateSubject.gradeId);
+    fd.append('SubjectName', this.upDateSubject.subjectName);
+    fd.append('SubjectId', this.upDateSubject.subjectId);
+    fd.append('SubjectImage', this.subjectImage);
+    fd.append('Index', `${this.upDateSubject.index}`);
 
-    this.HttpMethods.editSubject(fd).subscribe(res => {
-      this.upDateSubjectsTable()
-    })
+    this.HttpMethods.editSubject(fd).subscribe((res) => {
+      this.upDateSubjectsTable();
+    });
   }
-
-
 
   // Delete Subject
   deleteSubject() {
-    this.HttpMethods.deleteSubject(this.deleteSubjectId).subscribe(res => {
-      this.upDateSubjectsTable()
-    })
+    this.HttpMethods.deleteSubject(this.deleteSubjectId).subscribe((res) => {
+      this.upDateSubjectsTable();
+    });
   }
 
   upDateSubjectsTable() {
-    this.modalService.dismissAll()
-    this.successSwal.fire()
+    this.modalService.dismissAll();
+    this.successSwal.fire();
     this.filtrationSubjects();
   }
 
-
-
   getAllSections() {
-    this._sectionService.getAllSections().subscribe(
-      res => {
-        this.listOfSections = res
-      }
-    )
-  }
-
-
-  openAddModal(content: any) {
-
-
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-
-
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-
+    this._sectionService.getAllSections().subscribe((res) => {
+      this.listOfSections = res;
     });
   }
 
+  openAddModal(content: any) {
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
 
   open(content: any, subjectId: string) {
     // this.getAllGrades()
-    this.getSubjectById(subjectId)
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.getSubjectById(subjectId);
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
-
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -384,8 +361,7 @@ export class SubjectsComponent implements OnInit {
         `عملية ناجحة`,
         ` تم ${response.statusFlag ? '' : 'الغاء'} التفعيل بنجاح `,
         `success`
-      )
-    })
+      );
+    });
   }
-
 }

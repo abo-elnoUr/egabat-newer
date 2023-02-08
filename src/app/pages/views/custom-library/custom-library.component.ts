@@ -10,6 +10,9 @@ import { ISemester } from 'src/app/helpers/_interfaces/semesters';
 import { CustomLibraryService } from './service/custom-library.service';
 import { SweetAlertService } from 'src/app/helpers/services/sweet-alert.service';
 import { MainCategoryPublicResponse } from 'src/app/helpers/_interfaces/custom-library';
+import { CountryService } from 'src/app/shared/country.service';
+import { ICountryModel } from 'src/app/models/country.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-custom-library',
@@ -27,8 +30,9 @@ export class CustomLibraryComponent implements OnInit {
   listOfStages: IStage[] = []
   listOfGrades: IGrade[] = []
   listOfSemester: ISemester[] = []
+  listOfCountries: ICountryModel[] = []
   mainCategoryId: string = ''
-  imgUrl = 'https://localhost:7034/'
+  imgUrl = `${environment.API_ROOT}/`
   currentImage: string = ''
   general: boolean = true
 
@@ -44,7 +48,8 @@ export class CustomLibraryComponent implements OnInit {
     private _GradesService: GradesService,
     private _SemesterService: SemesterService,
     private _CustomLibraryService: CustomLibraryService,
-    private _SweetAlertService: SweetAlertService
+    private _SweetAlertService: SweetAlertService,
+    private _countryService: CountryService
   ) { }
 
   ngOnInit(): void {
@@ -53,18 +58,28 @@ export class CustomLibraryComponent implements OnInit {
     this.createEditLibraryForm()
 
     // call functions
-    this.getStages()
+    // this.getStages()
     this.getLibrarys()
     this.getSemesters()
-
+    this.getCountries();
   }
 
+  getCountries() {
+    this._countryService.getAllCountries().subscribe({
+      next: (res) => {
+        //console.log(res);
+        this.listOfCountries = res
+        this.getStages()
+      }
+    })
+  }
   createAddLibraryForm() {
     this.libraryForm = this._FormBuilder.group({
       name: [''],
       stageId: [null],
       gradeId: [null],
       semsterId: [null],
+      countryId: [null],
       image: ['']
     })
   }
@@ -76,6 +91,7 @@ export class CustomLibraryComponent implements OnInit {
       stageId: [null],
       gradeId: [null],
       semsterId: [null],
+      countryId: [null],
       image: ['']
     })
   }
@@ -104,6 +120,8 @@ export class CustomLibraryComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
+    this.createEditLibraryForm();
+    //console.log('close')
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -118,7 +136,7 @@ export class CustomLibraryComponent implements OnInit {
   }
 
   getStages() {
-    this._StageHttpService.getAllStages('').subscribe({
+    this._StageHttpService.getAllStages(this.libraryForm.get('countryId').value??'').subscribe({
       next: (response) => {
         this.listOfStages = response
       }
@@ -128,7 +146,7 @@ export class CustomLibraryComponent implements OnInit {
   getGrades(stageId: string) {
     this._GradesService.getGradesByStageId(stageId).subscribe({
       next: (response) => {
-        this.listOfGrades = response
+        this.listOfGrades = response;
       }
     })
   }
@@ -164,13 +182,14 @@ export class CustomLibraryComponent implements OnInit {
       library.append('stageId', '')
       library.append('gradeId', '')
       library.append('semsterId', '')
+      library.append('countryId', '');
     }
     else {
       library.append('stageId', this.libraryForm.get('stageId')?.value)
       library.append('gradeId', this.libraryForm.get('gradeId')?.value)
       library.append('semsterId', this.libraryForm.get('semsterId')?.value)
+      library.append('countryId', this.libraryForm.get('countryId')?.value);
     }
-
     return library
   }
 
@@ -197,18 +216,21 @@ export class CustomLibraryComponent implements OnInit {
   getLibraryById(libraryId: string) {
     this._CustomLibraryService.getLibraryById(libraryId).subscribe({
       next: (response) => {
-        this.editLibraryForm.patchValue(response)
+        //(response);
+        // this.editLibraryForm.patchValue(response)
         this.editLibraryForm.patchValue({
           name: response.mainCategory_Name,
           stageId: response.stageId,
           gradeId: response.gradeId,
           semsterId: response.semsterId,
+          countryId: response.countryId
         })
         if (response.general == false) {
           this.getGrades(response.stageId || '')
         }
         this.general = response.general
         this.currentImage = response.mainCategory_Image
+        //console.log(this.editLibraryForm.value);
       }
     })
   }
@@ -239,7 +261,9 @@ export class CustomLibraryComponent implements OnInit {
       library.append('stageId', this.editLibraryForm.get('stageId')?.value)
       library.append('gradeId', this.editLibraryForm.get('gradeId')?.value)
       library.append('semsterId', this.editLibraryForm.get('semsterId')?.value)
+      library.append('countryId', this.editLibraryForm.get('countryId')?.value);
     }
+    //console.log(this.editLibraryForm.value);
     return library
   }
 

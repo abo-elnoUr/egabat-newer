@@ -68,27 +68,63 @@
         </label>
       </div>
       <div *ngIf="general">
+        <div class='mb-4'>
+          <label class="mb-2">الدوله</label>
+           <ng-select
+            [items]="listOfCountries"
+            bindLabel="name"
+            bindValue="id"
+            formControlName="countryId"
+            placeholder="اختر الدولة"
+          ></ng-select>
+          <!-- <select class='form-select' formControlName="countryId">
+            <option selected disabled [ngValue]="null"> اختر الدوله </option>
+            <option *ngFor="let c of listOfCountries" [ngValue]="c.id"> {{c.name}} </option>
+          </select> -->
+        </div>
         <div class="mb-3">
           <label class="form-label">المرحله</label>
-          <select class="form-select" (change)="getGradesOfStage()" formControlName="stageId">
+          <ng-select
+            [items]="listOfStages"
+            bindLabel="stageName"
+            bindValue="stageId"
+            formControlName="stageId"
+            (change)="getGradesOfStage()"
+            placeholder="اختر مرحلة"
+          ></ng-select>
+          <!-- <select class="form-select" (change)="getGradesOfStage()" formControlName="stageId">
             <option disabled [value]="null">اختر مرحله</option>
             <option [value]="stage.stageId" *ngFor="let stage of listOfStages">{{ stage.stageName }}</option>
-          </select>
+          </select> -->
         </div>
         <div class="mb-3">
           <label class="form-label">الصف الدراسي</label>
-          <select class="form-select" formControlName="gradeId">
+           <ng-select
+            [items]="listOfGrades"
+            bindLabel="gradeName"
+            bindValue="gradeId"
+            formControlName="gradeId"
+            placeholder="اختر الصف الدراسي"
+          ></ng-select>
+          <!-- <select class="form-select" formControlName="gradeId">
             <option disabled [value]="null">اختر الصف</option>
             <option [value]="grade.gradeId" *ngFor="let grade of listOfGrades">{{ grade.gradeName }}</option>
-          </select>
+          </select> -->
         </div>
         <div class="mb-3">
           <label class="form-label">الفصل الدراسي</label>
-          <select class="form-select" formControlName="semsterId">
+           <ng-select
+            [items]="listOfSemester"
+            bindLabel="semesterName"
+            bindValue="semesterId"
+            formControlName="semsterId"
+            placeholder="اختر الفصل الدراسي"
+          ></ng-select>
+          <!-- <select class="form-select" formControlName="semsterId">
             <option disabled [ngValue]="null">اختر الصف</option>
             <option [value]="semester.semesterId" *ngFor="let semester of listOfSemester">{{ semester.semesterName }}
             </option>
-          </select>
+          </select> -->
         </div>
       </div>
 
@@ -123,27 +159,62 @@
         </label>
       </div>
       <div *ngIf="!general">
+        <div class='mb-4'>
+          <label class="mb-2">الدوله</label>
+           <ng-select
+            [items]="listOfCountries"
+            bindLabel="name"
+            bindValue="id"
+            formControlName="countryId"
+            placeholder="اختر الدولة"
+          ></ng-select>
+          <!-- <select class='form-select' formControlName="countryId">
+            <option selected disabled [ngValue]="null"> اختر الدوله </option>
+            <option *ngFor="let c of listOfCountries" [ngValue]="c.id"> {{c.name}} </option>
+          </select> -->
+        </div>
         <div class="mb-3">
           <label class="form-label">المرحله</label>
-          <select class="form-select" (change)="getGradesOfStageOnEdit()" formControlName="stageId">
+          <ng-select
+            [items]="listOfStages"
+            bindLabel="stageName"
+            bindValue="stageId"
+            formControlName="stageId"
+            placeholder="اختر مرحلة"
+          ></ng-select>
+          <!-- <select class="form-select" (change)="getGradesOfStageOnEdit()" formControlName="stageId">
             <option [value]="null">اختر مرحله</option>
             <option [value]="stage.stageId" *ngFor="let stage of listOfStages">{{ stage.stageName }}</option>
-          </select>
+          </select> -->
         </div>
         <div class="mb-3">
           <label class="form-label">الصف الدراسي</label>
-          <select class="form-select" formControlName="gradeId">
+           <ng-select
+            [items]="listOfGrades"
+            bindLabel="gradeName"
+            bindValue="gradeId"
+            formControlName="gradeId"
+            placeholder="اختر الصف الدراسي"
+          ></ng-select>
+          <!-- <select class="form-select" formControlName="gradeId">
             <option [value]="null">اختر الصف</option>
             <option [value]="grade.gradeId" *ngFor="let grade of listOfGrades">{{ grade.gradeName }}</option>
-          </select>
+          </select> -->
         </div>
         <div class="mb-3">
           <label class="form-label">الفصل الدراسي</label>
-          <select class="form-select" formControlName="semsterId">
+           <ng-select
+            [items]="listOfSemester"
+            bindLabel="semesterName"
+            bindValue="semesterId"
+            formControlName="semsterId"
+            placeholder="اختر الفصل الدراسي"
+          ></ng-select>
+          <!-- <select class="form-select" formControlName="semsterId">
             <option [value]="null">اختر الصف</option>
             <option [value]="semester.semesterId" *ngFor="let semester of listOfSemester">{{ semester.semesterName }}
             </option>
-          </select>
+          </select> -->
         </div>
       </div>
 

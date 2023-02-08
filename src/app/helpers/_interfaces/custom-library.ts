@@ -30,6 +30,17 @@ export interface MainCategoryPublicResponse {
 }
 
 
+// export interface MainCategoryResponse {
+//   mainCategory_Id: string;
+//   mainCategory_Name: string;
+//   mainCategory_Image: string;
+//   stageId: string | null;
+//   gradeId: string | null;
+//   countryId?: string | null;
+//   semsterId: string | null;
+//   general: boolean;
+//   isActive: boolean;
+// }
 export interface MainCategoryResponse {
   mainCategory_Id: string;
   mainCategory_Name: string;
@@ -37,10 +48,20 @@ export interface MainCategoryResponse {
   stageId: string | null;
   gradeId: string | null;
   semsterId: string | null;
+  countryId: string | null;
+  countryName: string;
+  stageName: string;
+  gradeName: string;
   general: boolean;
   isActive: boolean;
+  attachmentResponses: MainAttachmentResponse[];
 }
 
+export interface MainAttachmentResponse {
+  file_Title: string;
+  file_Image: string;
+  file_Pdf: string;
+}
 // ********* library category *********
 
 

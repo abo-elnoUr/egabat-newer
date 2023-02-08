@@ -11,7 +11,7 @@ export class TeacherPermessionDirective {
   set TeacherPermession(subjectPermession: string | string[]) {
 
     const type = "Teacher";
-    console.log('directive param', subjectPermession);
+    //console.log('directive param', subjectPermession);
     let teacher = this._apiAuthService.currentUserValue;
 
     if (teacher.userType !== type)

@@ -157,7 +157,7 @@ export class AddLessonComponent implements OnInit {
     //     fd.append("myFile", this.Files.controls[0]?.get("Image")?.value)
     // if(this.Files?.controls[0]?.get('Pdf')?.value)
     //     fd.append("myFile2", this.Files.controls[0]?.get("Pdf")?.value)
-    console.log(fd);
+    //console.log(fd);
     return fd;
   }
 
@@ -168,11 +168,11 @@ export class AddLessonComponent implements OnInit {
     console.log('data', data);
     this.isSubmiting = true;
     this._lessonSerivce.createLesson(data).subscribe(response => {
-      console.log("Response", response);
+      //console.log("Response", response);
       this.isSubmiting = false;
       this._router.navigate([`/Admin/dashboard/subjects/${this.subjectId}/units/${this.unitId}/lessons`])
     })
 
-    console.log(this.createLessonForm.value)
+    //console.log(this.createLessonForm.value)
   }
 }

@@ -85,7 +85,7 @@ export class EditGradeComponent implements OnInit {
       index: this.editGradeForm.controls['index'].value,
     }
 
-    console.log(gradeData)
+    //console.log(gradeData)
 
     if (this.editGradeForm.valid) {
 

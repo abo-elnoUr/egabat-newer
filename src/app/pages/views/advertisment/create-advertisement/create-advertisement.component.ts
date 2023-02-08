@@ -20,7 +20,7 @@ export class CreateAdvertisementComponent implements OnInit {
     })
 
 
-    console.log(this.advertisementForm)
+    //console.log(this.advertisementForm)
   }
 
   Advertisment(): FormGroup {
@@ -70,7 +70,7 @@ export class CreateAdvertisementComponent implements OnInit {
     this.isSubmiting = true;
     this._advertisementService.addAds(this.mapDataToFormData()).subscribe(response => {
       this.isSubmiting = false;
-      console.log(response);
+      //console.log(response);
       if (response) {
         this._route.navigate(["/Admin/dashboard/advertisement"])
       }

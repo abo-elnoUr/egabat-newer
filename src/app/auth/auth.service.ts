@@ -45,7 +45,7 @@ export class AuthService {
   // المواد
   // الطلاب
   login(userData: any) {
-    console.log(userData, 'hello from service')
+    //console.log(userData, 'hello from service')
     return this.http.post<IUser>(`${env.API_ROOT}/api/Admin/Login`, userData).pipe(map(user => {
       // console.log(user.roles)
       if (user.token != null) {

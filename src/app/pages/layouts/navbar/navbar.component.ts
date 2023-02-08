@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         this.content = message;
 
-        console.log(message)
+        //console.log(message)
 
         this.notificationsList.unshift(message)
 
@@ -87,14 +87,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   setNotificationsSeen(index: number, studentId: string, id: string) {
     this.notificationsList[index].seen = true;
     this.signalrService.setNotifictionSeen(id).subscribe(res => {
-      console.log("RES", res)
+      //console.log("RES", res)
       this.notificationsNotSeenCount--
       this.route.navigate([`/Admin/dashboard/messages/${studentId}`])
     })
 
     //
 
-    console.log(this.notificationsList)
+    //console.log(this.notificationsList)
     // this.getLengthOfNotSeenNotfs()
   }
 

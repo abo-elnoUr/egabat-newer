@@ -2,14 +2,14 @@
   <h3 style="color: #40514e;"> الصفحة الرئيسية </h3>
   <div class="row mt-4" *RoleAction="[RolesEnum.SUPER_ADMIN]">
     <div class="col-md-3">
-      <a href="Admin/dashboard/reports">
-      <div class="card dashboard-card">
-        <div class="card-body">
-          <i class="icofont-files-stack"></i>
-          <p class='count'> {{reportData.request}} </p>
-          <p class='title'> إجمالي الطلبات </p>
+      <a routerLink="/Admin/dashboard/reports">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="icofont-files-stack"></i>
+            <p class='count'> {{reportData.request}} </p>
+            <p class='title'> إجمالي الطلبات </p>
+          </div>
         </div>
-      </div>
       </a>
     </div>
 
@@ -46,52 +46,52 @@
 
   <div class="row mt-4" *RoleAction="[RolesEnum.SUPER_ADMIN]">
     <div class="col-md-3">
-      <a href="Admin/dashboard/section">
-      <div class="card dashboard-card">
-        <div class="card-body">
-          <i class="icofont-certificate"></i>
+      <a routerLink="/Admin/dashboard/section">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="icofont-certificate"></i>
 
-          <p class='count'> {{reportData.section}} </p>
-          <p class='title'> المجموعات </p>
+            <p class='count'> {{reportData.section}} </p>
+            <p class='title'> المجموعات </p>
+          </div>
+
         </div>
-
-      </div>
       </a>
     </div>
 
     <div class="col-md-3">
-      <a href="Admin/dashboard/stages">
-      <div class="card dashboard-card">
-        <div class="card-body">
-          <i class="icofont-instrument"></i>
-          <p class='count'> {{reportData.stage}} </p>
-          <p class='title'> المراحل </p>
+      <a routerLink="/Admin/dashboard/stages">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="icofont-instrument"></i>
+            <p class='count'> {{reportData.stage}} </p>
+            <p class='title'> المراحل </p>
+          </div>
         </div>
-      </div>
-    </a>
+      </a>
     </div>
 
     <div class="col-md-3">
 
-<a href="Admin/dashboard/grades">
-     <div class="card dashboard-card">
-        <div class="card-body">
-          <i class="icofont-education"></i>
-          <p class='count'> {{reportData.grade}} </p>
-          <p class='title'> الصفوف </p>
+      <a routerLink="/Admin/dashboard/grades">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="icofont-education"></i>
+            <p class='count'> {{reportData.grade}} </p>
+            <p class='title'> الصفوف </p>
+          </div>
         </div>
-      </div>
-    </a>
+      </a>
     </div>
 
     <div class="col-md-3">
       <div class="card dashboard-card">
         <div class="card-body">
-          <a href="Admin/dashboard/subjects">
-          <i class="icofont-book-alt"></i>
-          <p class='count'> {{reportData.subject}} </p>
-          <p class='title'> المواد </p>
-        </a>
+          <a routerLink="/Admin/dashboard/subjects">
+            <i class="icofont-book-alt"></i>
+            <p class='count'> {{reportData.subject}} </p>
+            <p class='title'> المواد </p>
+          </a>
         </div>
       </div>
     </div>
@@ -99,28 +99,28 @@
 
 
     <div class="col-md-3">
-      <a href="Admin/dashboard/students">
-      <div class="card dashboard-card">
-        <div class="card-body">
-          <i class="icofont-group-students"></i>
-          <p class='count'> {{reportData.student}} </p>
-          <p class='title'> الطلاب </p>
+      <a routerLink="/Admin/dashboard/students">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="icofont-group-students"></i>
+            <p class='count'> {{reportData.student}} </p>
+            <p class='title'> الطلاب </p>
+          </div>
         </div>
-      </div>
-    </a>
+      </a>
     </div>
 
     <div class="col-md-3">
-      <a href="Admin/dashboard/teachers">
-      <div class="card dashboard-card">
-        <div class="card-body">
-          <i class="icofont-teacher"></i>
-          <p class='count'> {{reportData.teacher}} </p>
-          <p class='title'> المعلمين </p>
-        </div>
+      <a routerLink="/Admin/dashboard/teachers">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="icofont-teacher"></i>
+            <p class='count'> {{reportData.teacher}} </p>
+            <p class='title'> المعلمين </p>
+          </div>
 
-      </div>
-    </a>
+        </div>
+      </a>
     </div>
   </div>
 </div>

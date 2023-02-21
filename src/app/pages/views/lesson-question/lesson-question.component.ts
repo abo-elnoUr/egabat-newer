@@ -8,6 +8,7 @@ import { StateService } from 'src/app/helpers/services/state.service';
 import { ILessonQuestion } from 'src/app/helpers/_interfaces/lesson-question';
 import { LessonQuestionService } from './lesson-question.service';
 import { RolesEnum } from 'src/app/helpers/enums/roles-enum';
+import { SweetAlertService } from 'src/app/helpers/services/sweet-alert.service';
 @Component({
   selector: 'app-lesson-question',
   templateUrl: './lesson-question.component.html',
@@ -29,9 +30,8 @@ export class LessonQuestionComponent implements OnInit {
   constructor(
     private _lessonQuestionService: LessonQuestionService,
     private _activateRoute: ActivatedRoute,
-    private _stateService: StateService
-
-
+    private _stateService: StateService,
+    private _SweetAlertService: SweetAlertService
   ) {
 
     _stateService.currentLesson.subscribe(z => this.lessonName = z);
@@ -77,13 +77,26 @@ export class LessonQuestionComponent implements OnInit {
         })
       })
       this.listOfQuestions = response;
-      //console.log(response);
+      console.log(response);
 
     })
   }
 
+  warnDelete(questionId: string) {
+    this._SweetAlertService.warningDeleting().then(res => {
+      if (res.isConfirmed) {
+        this.deleteQuestion(questionId)
+      }
+    })
+  }
+
   deleteQuestion(questionId: string) {
-    console.log(questionId);
+    this._lessonQuestionService.deleteQuestion(questionId).subscribe({
+      next: (res) => {
+        this._SweetAlertService.deleteSuccess()
+        this.getQuestions()
+      }
+    })
   }
 
   deleteAnswer(answerId: string) {

@@ -20,6 +20,7 @@ import { StateService } from 'src/app/helpers/services/state.service';
 import { RolesEnum } from 'src/app/helpers/enums/roles-enum';
 import { ICountryModel } from '../../../models/country.model';
 import { CountryService } from '../../../shared/country.service';
+import { SweetAlertService } from 'src/app/helpers/services/sweet-alert.service';
 
 @Component({
   selector: 'app-subjects',
@@ -108,7 +109,8 @@ export class SubjectsComponent implements OnInit {
     private _sectionService: SectionService,
     private _formBuilder: FormBuilder,
     private _stateService: StateService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private _SweetAlertService: SweetAlertService
   ) {
     this.filterSubjectsForm = this._formBuilder.group({
       name: [''],
@@ -277,10 +279,14 @@ export class SubjectsComponent implements OnInit {
   }
   // Create Subject
   createSubject() {
-    this.HttpMethods.createSubject(this.collectDataCreateSubject()).subscribe(
-      (res) => {
+    this.HttpMethods.createSubject(this.collectDataCreateSubject()).subscribe({
+      next: (res) => {
         this.upDateSubjectsTable();
+      },
+      error: (err) => {
+        this._SweetAlertService.errorMessage(err)
       }
+    }
     );
   }
 

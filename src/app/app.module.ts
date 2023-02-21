@@ -46,6 +46,7 @@ import { LibraryCategoryComponent } from './pages/views/custom-library/library-c
 import { LibrarySubCategoryComponent } from './pages/views/custom-library/library-sub-category/library-sub-category.component';
 import { LibraryAttachmentComponent } from './pages/views/custom-library/library-attachment/library-attachment.component';
 import { EditLibraryAttachmentComponent } from './pages/views/custom-library/edit-library-attachment/edit-library-attachment.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 registerLocaleData(en);
@@ -95,7 +96,8 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    QRCodeModule
+    QRCodeModule,
+    NgbDropdownModule
 
   ],
   providers: [AuthService,

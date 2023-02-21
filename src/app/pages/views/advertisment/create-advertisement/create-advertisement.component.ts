@@ -12,11 +12,11 @@ export class CreateAdvertisementComponent implements OnInit {
 
   advertisementForm: FormGroup<{
     advertisement: FormArray<FormGroup<{
-        advertisement: FormControl<string>;
-        index: FormControl<number>;
-        slideNumber: FormControl<number>;
-        url: FormControl<string>;
-      }>>
+      advertisement: FormControl<string>;
+      index: FormControl<number>;
+      slideNumber: FormControl<number>;
+      url: FormControl<string>;
+    }>>
   }>;
 
   constructor(
@@ -101,11 +101,19 @@ export class CreateAdvertisementComponent implements OnInit {
     this.isSubmiting = true;
     this._advertisementService
       .addAds(this.mapDataToFormData())
-      .subscribe((response) => {
-        this.isSubmiting = false;
-        //console.log(response);
-        if (response) {
-          this._route.navigate(['/Admin/dashboard/advertisement']);
+      .subscribe({
+        next:
+          (response) => {
+            this.isSubmiting = false;
+            //console.log(response);
+            if (response) {
+              this._route.navigate(['/Admin/dashboard/advertisement']);
+            }
+          },
+        error: (err) => {
+          this.isSubmiting = false;
+          console.log(err);
+
         }
       });
   }

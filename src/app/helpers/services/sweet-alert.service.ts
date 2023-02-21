@@ -59,6 +59,16 @@ export class SweetAlertService {
     })
   }
 
+  errorMessage(msg: string) {
+    Swal.fire({
+      title: "راجع البيانات حدث خطأ ما!",
+      text: msg,
+      icon: "error",
+      timer: 1500,
+      position: "center"
+    })
+  }
+
   warningDeleting() {
     return Swal.fire({
       title: "انتبه",

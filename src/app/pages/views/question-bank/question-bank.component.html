@@ -7,6 +7,7 @@
   </nav>
 
   <h4>{{subjectName}} </h4>
+
   <ng-container *ngIf="!isLoading ; then view_table ; else loading_skeleton "></ng-container>
 
   <ng-template #view_table>
@@ -16,6 +17,17 @@
       </button>
 
     </div>
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">اسم السؤال</label>
+            <input class="form-control" id="inputGroupSelect01" placeholder="ابحث باسم السؤال" formControlName="name"
+              (change)="filtrationSubjects()" />
+          </div>
+        </div>
+      </div>
+    </form>
     <div class="col-md-4">
       <div class="form-group">
       </div>

@@ -1,4 +1,3 @@
-
 <div class="d-flex justify-content-end form-group">
   <button *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" class="btn btn-primary mb-3"
     (click)="openAddModal(AddModal)"> <i class="fa fa-plus"></i>
@@ -24,18 +23,17 @@
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01"> المجموعات</label>
           <select class="form-select" id="inputGroupSelect01" formControlName="sectionId"
-          (change)="filtrationSubjects()">
-          <option selected [ngValue]="null"> كل المجموعات </option>
-          <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
-          </option>
-        </select>
+            (change)="filtrationSubjects()">
+            <option selected [ngValue]="null"> كل المجموعات </option>
+            <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
+            </option>
+          </select>
         </div>
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="stageId"
-            (change)="filtrationSubjects()">
+          <select class="form-select" id="inputGroupSelect01" formControlName="stageId" (change)="filtrationSubjects()">
             <option selected [ngValue]="null"> الكل </option>
             <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
             </option>
@@ -45,8 +43,7 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01"> الصف</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="gradeId"
-            (change)="filtrationSubjects()">
+          <select class="form-select" id="inputGroupSelect01" formControlName="gradeId" (change)="filtrationSubjects()">
             <option selected [ngValue]="null"> كل الصفوف </option>
             <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"> {{grade.gradeName}} </option>
           </select>
@@ -66,7 +63,8 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01">اسم المادة</label>
-          <input class="form-control" id="inputGroupSelect01" formControlName="name" (keyup.Enter)="filtrationSubjects()" />
+          <input class="form-control" id="inputGroupSelect01" formControlName="name"
+            (keyup.Enter)="filtrationSubjects()" />
         </div>
       </div>
     </div>
@@ -127,8 +125,7 @@
               routerLink="{{subject.subjectId}}/units" *ngIf="subject.sectionId === SectionID.PUBLIC"> <i
                 class="icofont-paper"></i> </a> -->
             <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
-              routerLink="{{subject.subjectId}}/units" > <i
-                class="icofont-paper"></i> </a>
+              routerLink="{{subject.subjectId}}/units"> <i class="icofont-paper"></i> </a>
           </div>
           <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
               class="icofont-paper"></i> </button> -->
@@ -139,8 +136,7 @@
               routerLink="{{subject.subjectId}}/questions-bank" *ngIf="subject.sectionId === SectionID.PUBLIC"> <i
                 class="icofont-paper"></i> </a> -->
             <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
-              routerLink="{{subject.subjectId}}/questions-bank" > <i
-                class="icofont-paper"></i> </a>
+              routerLink="{{subject.subjectId}}/questions-bank"> <i class="icofont-paper"></i> </a>
           </div>
           <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
               class="icofont-paper"></i> </button> -->
@@ -213,7 +209,7 @@
 
 
       <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
+        <label class="input-group-text" for="inputGroupSelect01">المجموعه</label>
         <select class="form-select" id="inputGroupSelect01"
           (change)="newSubject.stageId = $any($event.target).value ; selectSection($any($event.target).value) ">
           <option selected disabled> اختر المجموعة </option>

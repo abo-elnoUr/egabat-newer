@@ -5,34 +5,34 @@
         <small class="text-muted"> <i class="fa fa-info-circle ml-1"></i>
           يمكنك ادخال نوع واحد من البيانات , النص او الملف </small>
       </div> -->
-      <div class="form-group">
-        <label for="exampleInputEmail1">نص الإجابة</label>
+      <div class="form-group mb-2">
+        <label class="mb-2" for="exampleInputEmail1">نص الإجابة</label>
         <input type="text" class="form-control" id="exampleInputEmail1" formControlName="Answer" autocomplete="false"
           autocapitalize="true">
       </div>
       <div>
-        <label for="exampleInputPassword1">ملف الإجابة</label>
+        <label class="mb-2" for="exampleInputPassword1">ملف الإجابة</label>
         <div class="custom-file mb-3">
-          <input type="file" class="custom-file-input" id="validatedCustomFile" [disabled]="isDisableFile" (change)="uploadFile($event)"
-            [disabled]="isDisableFile">
-          <label class="custom-file-label" for="validatedCustomFile">اختر ملف</label>
+          <input type="file" class="form-control" id="validatedCustomFile" [disabled]="isDisableFile"
+            (change)="uploadFile($event)" [disabled]="isDisableFile">
         </div>
         <div *ngIf="file">
-          <label class="bg-light p-2 mt-2 rounded-pill"> {{file.name}} <i
+          <label class="mb-2" class="bg-light p-2 mt-2 rounded-pill"> {{file.name}} <i
               class="fa fa-trash-alt text-danger cursor-pointer" (click)="removeFile()"></i> </label>
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">ترتيب الإجابة</label>
+        <label class="mb-2" for="exampleInputPassword1">ترتيب الإجابة</label>
         <input type="number" class="form-control" id="exampleInputPassword1" formControlName="Index">
       </div>
-      <div class="form-group form-check">
+      <div class="d-flex">
         <input type="checkbox" class="form-check-input" [id]="checkBoxId" formControlName="IsRight">
-        <label class="form-check-label" [for]="checkBoxId">هذه الإجابة صحيحة</label>
+        <label class="mb-2 me-1" [for]="checkBoxId">هذه الإجابة صحيحة</label>
       </div>
     </div>
     <div class="card-footer">
-      <button class="btn btn-primary btn-sm ml-4" [disabled]="answerForm.invalid" ><i class="fa fa-save"> حفظ الإجابة</i></button>
+      <button class="btn btn-primary btn-sm ml-4 ms-2" [disabled]="answerForm.invalid"><i class="fa fa-save"> حفظ
+          الإجابة</i></button>
       <button class="btn btn-outline-danger btn-sm" (click)="delete()"><i class="fa fa-trash-alt"> حذف</i></button>
     </div>
   </div>

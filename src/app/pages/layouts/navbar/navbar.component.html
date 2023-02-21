@@ -22,22 +22,27 @@
         </div>
       </div>
     </div>
+
     <div class="navbar-icons">
-      <ul>
-        <li>
-          <i class="fa fa-bell" id="bell-notification" (click)="openNotifications = !openNotifications; openMessages = false" ></i>
-          <span (click)="openNotifications = !openNotifications; openMessages = false"
-            *ngIf="notificationsNotSeenCount > 0" >
+      <div ngbDropdown class="d-inline-block">
+        <div class="noti-bell">
+          <span type="button" class="fs-3 text-light" id=" notification-bell" ngbDropdownToggle>
+            <i class="fa fa-bell" id="bell-notification"></i>
+          </span>
+          <span class="notification-count">
             {{ notificationsNotSeenCount }}
           </span>
-          <div class="notifications-container {{ openNotifications ? 'show' : '' }} " >
-            <div class="notifications-header">
-              <h4>الاشعارات</h4>
+        </div>
+        <div ngbDropdownMenu class="notifications-wrapper" aria-labelledby="notification-bell">
+
+          <div class="notifications-container {{ openNotifications ? 'show' : '' }} ">
+            <div class="notifications-header d-flex justify-content-center ">
+              <h4 mb-0>الاشعارات</h4>
             </div>
+            <hr style="margin: 5px 0;">
             <div class="notifications-body" #notificationsBody>
-              <div class="notification-block"
-                *ngFor="let x of notificationsList; index as i"
-                (click)="setNotificationsSeen(i, x.studentIdentityId, x.id)" >
+              <div class="notification-block" *ngFor="let x of notificationsList; index as i"
+                (click)="setNotificationsSeen(i, x.studentIdentityId, x.id)">
                 <h5 style="margin: 0">
                   <strong>{{ x.title }}</strong> : {{ x.studentName }}
                 </h5>
@@ -47,7 +52,7 @@
                 <small class="text-muted" style="font-size: 11px">
                   {{ x.date.slice(0, 10) }}
                 </small>
-                <small class="text-danger" style="font-size: 11px" *ngIf="!x.seen" >
+                <small class="text-danger" style="font-size: 11px" *ngIf="!x.seen">
                   جديد
                 </small>
               </div>
@@ -57,11 +62,52 @@
               </div>
             </div>
             <div class="notifications-footer">
-              <!-- <h6> <button (click)="paginationNotis()" [disabled]="requestStatus" class="btn btn-link"> تحميل المزيد
-                </button> </h6> -->
             </div>
           </div>
-        </li>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-icons">
+      <ul>
+
+        <!-- <li>
+          <i class="fa fa-bell" id="bell-notification"
+            (click)="openNotifications = !openNotifications; openMessages = false"></i>
+          <span (click)="openNotifications = !openNotifications; openMessages = false"
+            *ngIf="notificationsNotSeenCount > 0">
+            {{ notificationsNotSeenCount }}
+          </span>
+          <div class="notifications-container {{ openNotifications ? 'show' : '' }} ">
+            <div class="notifications-header">
+              <h4>الاشعارات</h4>
+            </div>
+            <div class="notifications-body" #notificationsBody>
+              <div class="notification-block" *ngFor="let x of notificationsList; index as i"
+                (click)="setNotificationsSeen(i, x.studentIdentityId, x.id)">
+                <h5 style="margin: 0">
+                  <strong>{{ x.title }}</strong> : {{ x.studentName }}
+                </h5>
+                <p style="margin: 0.35rem 0">
+                  {{ x.discription }}
+                </p>
+                <small class="text-muted" style="font-size: 11px">
+                  {{ x.date.slice(0, 10) }}
+                </small>
+                <small class="text-danger" style="font-size: 11px" *ngIf="!x.seen">
+                  جديد
+                </small>
+              </div>
+              <div class="text-center m-2" role="status" *ngIf="requestStatus">
+                <div class="spinner-border text-primary"></div>
+              </div>
+            </div>
+            <div class="notifications-footer">
+            </div>
+          </div>
+        </li> -->
+
+
         <!-- <li> <i class="fa fa-comments" (click)="openMessages = !openMessages ; openNotifications = false "></i> <span
             (click)="openMessages = !openMessages ; ; openNotifications = false">5</span>
           <div class="notifications-container {{openMessages ? 'show' : ''}} ">
@@ -87,14 +133,8 @@
         </li> -->
         <audio controls hidden id="notification-audio">
           <!-- <source src="horse.ogg" type="audio/ogg"> -->
-          <source
-            src="../../../../assets/sounds/Notification-v1.mp3"
-            type="audio/mpeg"
-          />
-          <source
-            src="../../../../assets/sounds/Notification-v1.ogg"
-            type="audio/ogg"
-          />
+          <source src="../../../../assets/sounds/Notification-v1.mp3" type="audio/mpeg" />
+          <source src="../../../../assets/sounds/Notification-v1.ogg" type="audio/ogg" />
           Your browser does not support the audio tag.
         </audio>
       </ul>

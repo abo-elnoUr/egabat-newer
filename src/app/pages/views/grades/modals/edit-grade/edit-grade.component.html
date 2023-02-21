@@ -4,16 +4,16 @@
 <div class="modal-body">
   <form [formGroup]="editGradeForm">
 
-    <div class="form-group">
-      <label for="exampleFormControlSelect1"> اختر الدولة </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="exampleFormControlSelect1"> اختر الدولة </label>
       <select formControlName="countryId" (click)="getgradesByCountryId($any($event.target).value)" class="form-control"
         id="exampleFormControlSelect1" placeholder="ssssssss">
         <option selected disabled> اختر دولة </option>
         <option *ngFor="let country of countries" [value]="country.id"> {{country.name}} </option>
       </select>
     </div>
-    <div class="form-group ">
-      <label for="inputState"> المرحلة </label>
+    <div class="form-group mb-2 ">
+      <label class="mb-2" for="inputState"> المرحلة </label>
       <select id="inputState" class="form-control" formControlName="stageId">
         <option disabled> المرحلة </option>
         <option *ngFor="let stage of listOfStages" [value]="stage.stageId"
@@ -22,16 +22,17 @@
         </option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="newStageName"> اسم الصف </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> اسم الصف </label>
       <div class="input-group">
         <input id="newStageName" formControlName="gradeName" class="form-control" placeholder="اكتب اسم الصف">
       </div>
     </div>
-    <div class="form-group">
-      <label for="newStageName"> رقم الصف </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> رقم الصف </label>
       <div class="input-group">
-        <input id="newStageName" formControlName="index" class="form-control" placeholder="اكتب رقم الصف" type="number">
+        <input id="newStageName" formControlName="index" type="number" class="form-control" placeholder="اكتب رقم الصف"
+          type="number">
       </div>
     </div>
   </form>

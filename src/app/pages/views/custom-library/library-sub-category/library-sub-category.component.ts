@@ -31,6 +31,7 @@ export class LibrarySubCategoryComponent implements OnInit {
     this._ActivatedRoute.params.subscribe(params => {
       this.libraryCategoryId = params['libraryCategoryId']
     })
+
   }
 
   ngOnInit(): void {

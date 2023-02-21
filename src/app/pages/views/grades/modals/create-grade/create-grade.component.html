@@ -3,8 +3,8 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="createGradeForm" (ngSubmit)="createGrade()">
-    <div class="form-group">
-      <label for="exampleFormControlSelect1"> اختر الدولة </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="exampleFormControlSelect1"> اختر الدولة </label>
       <select (click)="getgradesByCountryId($any($event.target).value)" class="form-control"
         id="exampleFormControlSelect1">
         <option selected disabled> اختر دولة </option>
@@ -12,9 +12,9 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label for="exampleFormControlSelect1"> اختر المرحلة </label>
-      <select class="form-control" id="exampleFormControlSelect1" formControlName="stageId" placeholder="ssssssss">
+    <div class="form-group mb-2">
+      <label class="mb-2" for="exampleFormControlSelect1"> اختر المرحلة </label>
+      <select class="form-control" id="exampleFormControlSelect1" formControlName="stageId" placeholder="اختر المرحله">
         <option selected disabled> اختر مرحلة </option>
         <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}} </option>
       </select>
@@ -23,8 +23,8 @@
         المرحلة
         مطلوبة </small>
     </div>
-    <div class="form-group">
-      <label for="newStageName"> اسم الصف </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> اسم الصف </label>
       <div class="input-group">
         <input id="newStageName" class="form-control" placeholder="اكتب اسم المرحلة" formControlName="gradeName">
       </div>
@@ -32,10 +32,11 @@
       <small id="" class="form-text  text-danger "
         *ngIf="GradeName?.touched && GradeName?.invalid && GradeName?.dirty "> اسم الصف مطلوب </small>
     </div>
-    <div class="form-group">
-      <label for="newStageName"> رقم الصف </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> رقم الصف </label>
       <div class="input-group">
-        <input id="newStageName" class="form-control" placeholder="اكتب رقم المرحلة" formControlName="index">
+        <input id="newStageName" type="number" class="form-control" placeholder="اكتب رقم المرحلة"
+          formControlName="index">
       </div>
       <small id="" class="form-text  text-success " *ngIf=" StageIndex?.valid  ">رقم الصف صحيح </small>
       <small id="" class="form-text  text-danger "

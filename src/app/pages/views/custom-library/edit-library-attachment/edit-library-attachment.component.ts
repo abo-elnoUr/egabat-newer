@@ -148,7 +148,7 @@ export class EditLibraryAttachmentComponent implements OnInit {
     this._CustomLibraryService.editSubCategory(this.editAttachmentFormData()).subscribe({
       next: (response) => {
         this._SweetAlertService.updateSuccess()
-        // this._Router.navigate(['/Admin/dashboard/library-sub-category/', this.subCategoryId])
+        this._Router.navigate(['/Admin/dashboard/library-sub-category/', this.categoryId])
       }
     })
 

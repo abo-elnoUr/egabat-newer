@@ -97,7 +97,6 @@ export class QuestionBankComponent implements OnInit {
     this.isLoading = true;
     this.service.getQuestions(filter).subscribe((response) => {
       this.isLoading = false;
-      // console.log('Responsessssssssssubjects', response);
       this.questions = response;
     });
     if (stageId) this.getGradesByStageId(stageId);

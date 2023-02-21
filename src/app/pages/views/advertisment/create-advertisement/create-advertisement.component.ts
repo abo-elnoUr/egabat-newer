@@ -38,7 +38,7 @@ export class CreateAdvertisementComponent implements OnInit {
 
   Advertisment(): FormGroup {
     return this._formBuilder.group({
-      advertisement: [null, Validators.required],
+      advertisement: ['hello', Validators.required],
       index: [null, Validators.required],
       slideNumber: [null, Validators.required],
       url: [''],
@@ -50,6 +50,7 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   addAdvertisement = () => this.AdvertisementArray.push(this.Advertisment());
+
 
   removeAdvertisement = (index: number) =>
     this.AdvertisementArray.removeAt(index);

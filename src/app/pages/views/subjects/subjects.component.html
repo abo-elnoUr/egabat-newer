@@ -123,21 +123,27 @@
         <td> {{ subject.subjectName }} </td>
         <td>
           <div>
-            <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
+            <!-- <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
               routerLink="{{subject.subjectId}}/units" *ngIf="subject.sectionId === SectionID.PUBLIC"> <i
+                class="icofont-paper"></i> </a> -->
+            <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
+              routerLink="{{subject.subjectId}}/units" > <i
                 class="icofont-paper"></i> </a>
           </div>
-          <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
-              class="icofont-paper"></i> </button>
+          <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
+              class="icofont-paper"></i> </button> -->
         </td>
         <td>
           <div>
-            <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
+            <!-- <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
               routerLink="{{subject.subjectId}}/questions-bank" *ngIf="subject.sectionId === SectionID.PUBLIC"> <i
+                class="icofont-paper"></i> </a> -->
+            <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
+              routerLink="{{subject.subjectId}}/questions-bank" > <i
                 class="icofont-paper"></i> </a>
           </div>
-          <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
-              class="icofont-paper"></i> </button>
+          <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
+              class="icofont-paper"></i> </button> -->
         </td>
         <td *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]">
           <div class='switch-button'>

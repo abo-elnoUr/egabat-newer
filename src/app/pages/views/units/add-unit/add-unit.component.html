@@ -9,7 +9,7 @@
           <div class="row">
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> الفصل الدراسي</label>
+                <label class="mb-2"> الفصل الدراسي</label>
                 <select class='form-control' formControlName="semesterId">
                   <option selected disabled [ngValue]="null"> اختر الفصل الدراسي</option>
                   <option *ngFor="let semester of listOfSemesters" [ngValue]="semester.semesterId">{{semester.semesterName}}</option>
@@ -19,13 +19,13 @@
 
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> اسم الوحدة</label>
+                <label class="mb-2"> اسم الوحدة</label>
                 <input type="text" class='form-control' formControlName="unitName" />
               </div>
             </div>
             <div class="col-md-2">
               <div class='mb-4'>
-                <label> الترتيب</label>
+                <label class="mb-2"> الترتيب</label>
                 <input type="number" class='form-control' formControlName="index" />
               </div>
             </div>

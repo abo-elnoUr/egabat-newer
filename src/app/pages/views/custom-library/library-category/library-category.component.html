@@ -48,7 +48,7 @@
 		<h4 class="modal-title" id="modal-basic-title">اضافه قسم</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
-	<div class="modal-body">
+	<form class="modal-body" (ngSubmit)="modal.close('Save click');addLibraryCategory()">
     <div [formGroup]="libraryCategoryForm">
       <div class="mb-3">
         <label class="form-label">اسم القسم</label>
@@ -59,10 +59,10 @@
         <input type="file" class="form-control" (change)="getLibrarayCategoryImage($any($event.target).files[0])"  placeholder=" الصوره">
       </div>
     </div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click');addLibraryCategory()">حفظ</button>
-	</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" type="submit" (click)="modal.close('Save click');addLibraryCategory()">حفظ</button>
+    </div>
+  </form>
 </ng-template>
 
 <ng-template #edtLibaryCategory let-modal>

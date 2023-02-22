@@ -9,7 +9,7 @@
           <div class="row">
             <!-- <div class="col-md-5">
               <div class='mb-4'>
-                <label> المجموعة</label>
+                <label class="mb-2"> المجموعة</label>
                 <select class='form-control' formControlName="sectionId">
                   <option selected disabled [ngValue]="null"> اختر المجموعة </option>
                   <option *ngFor="let section of listOfSections" [ngValue]="section.sectionId">{{section.sectionName}}</option>
@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> المرحلة</label>
+                <label class="mb-2"> المرحلة</label>
                 <select class='form-control' formControlName="stageId" (change)="changeStageAndGetGrades()">
                   <option selected disabled [ngValue]="null"> اختر المرحلة </option>
                   <option *ngFor="let stage of listOfStages" [ngValue]="stage.stageId">{{stage.stageName}}</option>
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> الصف</label>
+                <label class="mb-2"> الصف</label>
                 <select class='form-control' formControlName="gradeId" (change)="changeGradeAndGetSubjects()">
                   <option selected disabled [ngValue]="null"> اختر الصف </option>
                   <option *ngFor="let grade of listOfGrades" [ngValue]="grade.gradeId">{{grade.gradeName}}</option>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> المادة</label>
+                <label class="mb-2"> المادة</label>
                 <select class='form-control' formControlName="subjectId">
                   <option selected disabled [ngValue]="null"> اختر المادة </option>
                   <option *ngFor="let subject of listOfSubjects" [ngValue]="subject.subjectId">{{subject.subjectName}}</option>
@@ -45,7 +45,7 @@
             </div> -->
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> الفصل الدراسي</label>
+                <label class="mb-2"> الفصل الدراسي</label>
                 <select class='form-control' formControlName="semesterId">
                   <option selected disabled [ngValue]="null"> اختر الفصل الدراسي</option>
                   <option *ngFor="let semester of listOfSemesters" [ngValue]="semester.semesterId">{{semester.semesterName}}</option>
@@ -55,13 +55,13 @@
 
             <div class="col-md-5">
               <div class='mb-4'>
-                <label> اسم الوحدة</label>
+                <label class="mb-2"> اسم الوحدة</label>
                 <input type="text" class='form-control' formControlName="unitName" />
               </div>
             </div>
             <div class="col-md-2">
               <div class='mb-4'>
-                <label> الترتيب</label>
+                <label class="mb-2"> الترتيب</label>
                 <input type="number" class='form-control' formControlName="index" />
               </div>
             </div>

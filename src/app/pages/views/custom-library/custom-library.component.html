@@ -54,7 +54,7 @@
     <h4 class="modal-title" id="modal-basic-title">اضافه مكتبه</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <form class="modal-body" (ngSubmit)="addLibrary();modal.close('Save click')">
     <div [formGroup]="libraryForm">
       <div class="mb-3">
         <label class="form-label">اسم المكتبه</label>
@@ -63,7 +63,7 @@
       <div class=" mb-3">
         <input class="form-check-input" type="checkbox" [checked]="!general" (change)="general = !general"
           id="flexCheckChecked1">
-        <label class="form-check-label" for="flexCheckChecked1">
+        <label class="form-check-label me-1" for="flexCheckChecked1">
           مكتبه عامه
         </label>
       </div>
@@ -133,10 +133,10 @@
         <input type="file" class="form-control" (change)="getLibraryImage($any($event.target).files[0])">
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="addLibrary();modal.close('Save click')">حفظ</button>
-  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" type="submit" (click)="addLibrary();modal.close('Save click')">حفظ</button>
+    </div>
+  </form>
 </ng-template>
 
 

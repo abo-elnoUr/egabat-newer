@@ -4,8 +4,8 @@
 <div class="modal-body">
   <form [formGroup]="editSectionForm" (ngSubmit)="edit()" >
 
-    <div class="form-group">
-      <label for="newStageName"> الدولة</label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> الدولة</label>
       <div class="input-group">
         <select id="newStageName" class="form-control" formControlName="countryId" >
           <option value="">اختر الدولة</option>
@@ -19,15 +19,15 @@
     </div>
 
 
-    <div class="form-group">
-      <label for="exampleInputEmail1">اسم المجموعة</label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="exampleInputEmail1">اسم المجموعة</label>
       <input type="text" class="form-control"  formControlName="sectionName"  >
       <small class="text-danger" *ngIf="editSectionForm.touched && editSectionForm.invalid" >
         اسم المجموعة يجب ان يحتوى على 3 حروف على الأقل
       </small>
     </div>
     <div class="form-group">
-      <label for="newStageIndex"> ترتيب المجموعة </label>
+      <label class="mb-2" for="newStageIndex"> ترتيب المجموعة </label>
       <div class="input-group">
         <input id="newStageIndex" type="number" class="form-control" formControlName="index"
           autocomplete="off">

@@ -3,8 +3,8 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="addSectionForm" (ngSubmit)="add()">
-    <div class="form-group">
-      <label for="newStageName"> الدولة</label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> الدولة</label>
       <div class="input-group">
         <select id="newStageName" class="form-control" formControlName="countryId" >
           <option value="">اختر الدولة</option>
@@ -16,8 +16,8 @@
        الدولة مطلوبة
       </small>
 </div>
-    <div class="form-group">
-      <label for="newStageName"> اسم المجموعة </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> اسم المجموعة </label>
       <div class="input-group">
         <input id="newStageName" class="form-control" formControlName="sectionName" placeholder="اكتب اسم المجموعة"
           autocomplete="off">
@@ -27,7 +27,7 @@
       </small>
     </div>
     <div class="form-group">
-      <label for="newStageIndex"> ترتيب المجموعة </label>
+      <label class="mb-2" for="newStageIndex"> ترتيب المجموعة </label>
       <div class="input-group">
         <input id="newStageIndex" type="number" class="form-control" formControlName="index"
           autocomplete="off">

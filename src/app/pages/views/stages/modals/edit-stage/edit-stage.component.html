@@ -4,8 +4,8 @@
 <div class="modal-body">
   <form [formGroup]="editStageForm">
 
-    <div class="form-group">
-      <label for="newStageName"> الدولة</label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> الدولة</label>
       <div class="input-group">
         <select id="newStageName" class="form-control" formControlName="countryId">
           <option value="">اختر الدولة</option>
@@ -17,8 +17,8 @@
         الدولة مطلوبة
       </small>
     </div>
-    <div class="form-group">
-      <label for="newStageName"> اسم المرحلة </label>
+    <div class="form-group mb-2">
+      <label class="mb-2" for="newStageName"> اسم المرحلة </label>
       <div class="input-group">
         <input id="newStageName" class="form-control" placeholder="اكتب اسم المرحلة" formControlName="stageName">
       </div>
@@ -29,7 +29,7 @@
         *ngIf="StageName?.touched && StageName?.invalid && StageName?.dirty ">اسم المرحلة مطلوب </small>
     </div>
     <div class="form-group">
-      <label for="newStageName"> رقم المرحلة </label>
+      <label class="mb-2" for="newStageName"> رقم المرحلة </label>
       <div class="input-group">
         <input id="newStageName" class="form-control" placeholder="اكتب رقم المرحلة" type="number"
           formControlName="index">

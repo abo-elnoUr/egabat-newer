@@ -196,7 +196,7 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title"> اضافة مادة </h4>
   </div>
-  <div class="modal-body">
+  <form class="modal-body" (ngSubmit)="createSubject()" >
     <div>
       <div class="input-group mb-3">
         <label class="input-group-text" for="inputGroupSelect01">الدولة</label>
@@ -265,14 +265,15 @@
       <a> <i class="fa fa-eye m-2" *ngIf="subjectImage" (click)="previewFile()"></i></a>
 
     </div>
-  </div>
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" (click)="createSubject()" [disabled]="!newSubject"> <i
+    <button type="button" class="btn btn-outline-success" type="submit" (click)="createSubject()" [disabled]="!newSubject"> <i
         class="fa fa-save"></i>
       حفظ</button>
     <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
       إلغاء</button>
   </div>
+</form>
 </ng-template>
 
 

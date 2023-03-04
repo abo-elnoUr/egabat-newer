@@ -8,8 +8,8 @@ export const environment = {
   // API_ROOT: "https://localhost:44337",
   // API_ROOT: "http://algosys-002-site3.ctempurl.com", //testingNew
   // API_ROOT: "https://localhost:7034",
-  API_ROOT: "https://api.egabat-kw.com",
-  // API_ROOT: "https://localhost:57264",
+  // API_ROOT: "https://api.egabat-kw.com",
+  API_ROOT: "https://localhost:9256",
   webSiteName: "إجابات",
 };
 

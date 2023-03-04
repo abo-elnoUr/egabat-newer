@@ -43,6 +43,13 @@ import { LibraryCategoryComponent } from '../views/custom-library/library-catego
 import { LibrarySubCategoryComponent } from '../views/custom-library/library-sub-category/library-sub-category.component';
 import { LibraryAttachmentComponent } from '../views/custom-library/library-attachment/library-attachment.component';
 import { EditLibraryAttachmentComponent } from '../views/custom-library/edit-library-attachment/edit-library-attachment.component';
+import { AddLessonQuestionsComponent } from '../views/subjects/add-lesson-questions/add-lesson-questions.component';
+import { LessonQuestionsComponent } from '../views/subjects/lesson-questions/lesson-questions.component';
+import { CompetitionsComponent } from '../views/competitions/competitions.component';
+import { AddCompetitionQuestionsComponent } from '../views/competitions/add-competition-questions/add-competition-questions.component';
+import { EditCompetitionComponent } from '../views/competitions/edit-competition/edit-competition.component';
+import { CompetitionQuestionsComponent } from '../views/competitions/competition-questions/competition-questions.component';
+import { AddCompetitionComponent } from '../views/competitions/add-competition/add-competition.component';
 
 
 const routes: Routes = [
@@ -90,7 +97,7 @@ const routes: Routes = [
 
         path: 'subjects',
 
-        data: { page: ["Teacher","Subjects"] },
+        data: { page: ["Teacher", "Subjects"] },
         canActivate: [RolesGuard],
         children: [
           {
@@ -98,13 +105,13 @@ const routes: Routes = [
             component: SubjectsComponent,
           },
           {
-            path:":subjectId/questions-bank",
+            path: ":subjectId/questions-bank",
             children:
-            [
-              {path:"",component:QuestionBankComponent},
-              {path:"create",component:AddQuestionBankComponent},
-              {path:"create/:id",component: AddQuestionBankComponent}
-            ]
+              [
+                { path: "", component: QuestionBankComponent },
+                { path: "create", component: AddQuestionBankComponent },
+                { path: "create/:id", component: AddQuestionBankComponent }
+              ]
           },
           {
             path: ":subjectId/units",
@@ -129,6 +136,14 @@ const routes: Routes = [
               }
             ]
           },
+          {
+            path: ":id/addLessonQuestions",
+            component: AddLessonQuestionsComponent
+          },
+          {
+            path: "lessonQuestions/:id",
+            component: LessonQuestionsComponent
+          }
         ]
       },
       { path: 'teachers', component: TeachersComponent, data: { page: RolesEnum.TEACHERS }, canActivate: [RolesGuard] },
@@ -148,7 +163,6 @@ const routes: Routes = [
         ]
 
       },
-
       {
         path: "semesters",
         data: { page: RolesEnum.SUPER_ADMIN },
@@ -158,8 +172,17 @@ const routes: Routes = [
           { path: "edit-semester/:semesterId", component: EditSemesterComponent },
         ]
       },
-
-
+      {
+        path: "competitions",
+        data: { page: RolesEnum.SUPER_ADMIN },
+        children: [
+          { path: "", component: CompetitionsComponent },
+          { path: "add-competition", component:  AddCompetitionComponent},
+          { path: "edit-competition/:id", component: EditCompetitionComponent },
+          { path: "competition-questions", component: CompetitionQuestionsComponent },
+          { path: "add-competition-questions", component: AddCompetitionQuestionsComponent },
+        ]
+      },
       { path: 'messages', component: MessagesComponent, data: { page: RolesEnum.TECH_SUPPORT }, canActivate: [RolesGuard] },
       { path: 'aboutus', component: AboutUsComponent, data: { page: RolesEnum.SUPER_ADMIN }, canActivate: [RolesGuard] },
       { path: 'messages/:studentId', component: MessagesComponent, data: { page: RolesEnum.TECH_SUPPORT }, canActivate: [RolesGuard] },

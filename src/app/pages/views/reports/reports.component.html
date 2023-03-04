@@ -125,8 +125,8 @@
         <td>
           <ng-container *ngIf="request.replied ; then Replied ; else notReplied "></ng-container>
         </td>
-        <ng-template #Replied> <span class="badge badge-success"> تم الرد </span> </ng-template>
-        <ng-template #notReplied><span class="badge badge-danger"> لم يتم الرد </span></ng-template>
+        <ng-template #Replied> <span class="badge bg-success"> تم الرد </span> </ng-template>
+        <ng-template #notReplied><span class="badge bg-danger"> لم يتم الرد </span></ng-template>
         <td>
           <button class="btn btn-sm btn-outline-info" (click)="openDetailsModal(Details_Modal, request.requestId)"
             ngbTooltip="عرض التفاصل"> <i class="fa fa-eye"></i> </button>

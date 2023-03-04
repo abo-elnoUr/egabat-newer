@@ -1,0 +1,81 @@
+<div class="arrow_back">
+  <a class="back" [routerLink]="['/Admin/dashboard/subjects/lessonQuestions/', subjectId]">
+    <button class="btn btn-primary">العودة</button>
+  </a>
+</div>
+
+<div class="modal-header my-3">
+    <h4 class="modal-title" id="modal-basic-title"> اضافة اسئله للماده </h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="addQuestionForm">
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-2">
+            <label class="mb-2" class="mb-2" >الماده</label>
+            <input type="text" disabled [value]="subjectById?.subjectName" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group mb-2">
+            <label class="mb-2" class="mb-2" >المجموعه</label>
+            <input type="text" disabled [value]="subjectById?.sectionName" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group mb-2">
+            <label class="mb-2" class="mb-2" >المرحله</label>
+            <input type="text" disabled [value]="subjectById?.stageName" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group mb-2">
+            <label class="mb-2" class="mb-2" >الصف الدراسي</label>
+            <input type="text" disabled [value]="subjectById?.gradeName" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-2">
+            <label class="mb-2" class="mb-2" >السؤال</label>
+            <div class="input-group">
+            <input type="text" class="form-control" formControlName="Question_Text" placeholder="نمط السؤال؟"
+                autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-2">
+            <label class="mb-2" class="mb-2" >الصوره</label>
+            <div class="input-group">
+              <input type="file" class="form-control" (change)="questionImage($event)"
+                autocomplete="off">
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container formArrayName="AddSubjectExamAnswerDtos">
+        <ng-container [formGroupName]="i" *ngFor="let group of Answers.controls; let i = index" >
+          <label class="mb-2" class="mb-2" >اجابه {{ i+1 }} </label>
+          <div class="d-flex">
+            <input type="text" class="form-control" formControlName="Answer_text" placeholder="ادخل اجابه">
+            <button class="btn btn-danger me-2"  *ngIf="Answers.controls.length > 1" (click)="removeAnswer(i)">ازاله</button>
+          </div>
+          <input type="checkbox" formControlName="Is_Selected" (change)="chooseCorrectAnswer(i)" class="ms-2 mb-4 mt-2">اجابه صحيحه
+          <hr>
+        </ng-container>
+      </ng-container>
+      <button (click)="addAnswer()" class="btn btn-dark my-2">زود اجابه</button>
+    </form>
+  </div>
+  <div class="modal-footer my-2">
+    <button type="submit" (click)="addQuestion()" [disabled]="addQuestionForm.invalid || mustSelect == false" class="btn btn-outline-success ms-1"> <i
+        class="fa fa-save"></i>
+      حفظ</button>
+  </div>
+
+  <swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+    [confirmButtonColor]="'#28a745'" class="swal-modal">
+  </swal>
+

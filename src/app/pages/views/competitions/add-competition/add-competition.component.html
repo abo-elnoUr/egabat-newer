@@ -1,0 +1,88 @@
+<div class="d-flex justify-content-between form-group my-2">
+  <div class="arrow_back">
+    <a class="back" routerLink="/Admin/dashboard/competitions/competition-questions">
+      <button class="btn btn-primary">العودة</button>
+    </a>
+  </div>
+</div>
+<h2>اضافه مسابقه</h2>
+<div class="mx-auto">
+<form [formGroup]="addCompetitionForm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">اسم المسابقة</label>
+        <input type="text" class="form-control" placeholder="ادخل اسم المسابقة" formControlName="address">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">وقت المسابقه</label>
+        <input type="number" class="form-control" placeholder="ادخل وقت المسابقة" formControlName="timer">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">بدايه المسابقه</label>
+        <input type="datetime-local" class="form-control" formControlName="start_Date">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">نهايه المسابقه</label>
+        <input type="datetime-local" class="form-control" formControlName="end_Date">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">الصوره</label>
+        <input type="file" (change)="uploadCompetitonImage($event)" class="form-control">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">نوع المسابقه</label>
+        <div>
+          <input id="general" type="checkbox" [checked]="showStage" (change)="getCheckValue($event)" class="ms-2">
+        <span for="general">عامه</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!showStage">
+    <div class="row">
+      <div class="col">
+        <div class="form-group mb-2">
+          <label class="my-2">المرحله</label>
+          <ng-select [items]="listOfStages"
+            bindLabel="stageName"
+            bindValue="stageId"
+            placeholder="اختر مرحله"
+            (change)="getGrades($event)"
+            formControlName="stageId">
+          </ng-select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group mb-2">
+          <label class="my-2">الصف</label>
+          <ng-select [items]="listOfGrades"
+            bindLabel="gradeName"
+            bindValue="gradeId"
+            placeholder="اختر صف"
+            formControlName="gradeId">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+<div>
+<button type="button" class="btn btn-outline-dark my-2" (click)="addCompetition()">حفظ</button>
+
+</div>

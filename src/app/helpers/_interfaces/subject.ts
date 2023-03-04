@@ -20,7 +20,34 @@ export interface ISubject {
   subjectImage: string
   index: number,
   permessions: ISubjectPermession[]
+
+  subjectSections?: SubjectSections[],
+  subjectBranches?: SubjectBranchs[],
+  subjectMzhbs?: SubjectMzhbs[]
 }
+
+export interface SubjectSections {
+  sectionId: string,
+  isSelected?: boolean,
+  sectionName?: string
+}
+
+export interface SubjectBranchs {
+  id?: string,
+  branchId?: string,
+  isSelected?: boolean,
+  branchName?: string;
+  name?:string;
+}
+
+export interface SubjectMzhbs {
+  id?: string,
+  mzhbId?: string,
+  isSelected?: boolean,
+  mzhbName?: string
+  name?: string
+}
+
 export interface IPermession {
   moduleName: string
   permession: string[]
@@ -43,4 +70,24 @@ export interface IExtraRequestResponse {
   "studentId": string
   "subjectId": string
   "requestCount": number
+}
+
+export interface QuestionResponseDto{
+  subjectQuestions: SubjectQuestionResponse[],
+  rowCount: number
+}
+
+export interface SubjectQuestionResponse {
+  subject_Id: string;
+  question_Id: string;
+  subject_Name: string;
+  question_Text: string;
+  question_Image: string;
+  subjectExamAnswerResponses: SubjectQuestionAnswerResponse[];
+}
+
+export interface SubjectQuestionAnswerResponse {
+  answer_Id: string;
+  answer: string;
+  is_Selected: boolean;
 }

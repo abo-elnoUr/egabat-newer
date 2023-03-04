@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-between form-group my-2">
+  <div class="arrow_back">
+    <a class="back" routerLink="/Admin/dashboard/competitions">
+      <button class="btn btn-primary">العودة</button>
+    </a>
+  </div>
+</div>
+<h2>تعديل المسابقه</h2>
+<div class="mx-auto">
+<form [formGroup]="editCompetitionForm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">العنوان</label>
+        <input type="text" class="form-control" formControlName="address">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">وقت المسابقه</label>
+        <input type="number" class="form-control" formControlName="timer">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">بدايه المسابقه</label>
+        <!-- [value]="editCompetitionForm.get('startDate').value | date:'yyyy-MM-dd hh:mm:ss'" -->
+        <input type="datetime-local" class="form-control" formControlName="startDate" >
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">نهايه المسابقه</label>
+        <!-- [value]="editCompetitionForm.get('endDate').value | date:'yyyy-MM-dd hh:mm:ss'" -->
+        <input type="datetime-local" class="form-control" formControlName="endDate" >
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">الصوره</label>
+        <div class="d-flex">
+          <input type="file" class="form-control" (change)="selectImage($event)">
+          <img *ngIf="image" class="me-2" [src]="imageUrl + '/' + image" width="35" >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="my-2">نوع المسابقه</label>
+        <div>
+          <input id="general" type="checkbox" [checked]="showStage" (change)="getCheckValue($event)" class="ms-2">
+        <span for="general">عامه</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!showStage">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="my-2">المرحله</label>
+          <select  (change)="selectStage($any($event.target).value)" class="form-select">
+            <option [value]="null" selected>اختر مرحله</option>
+            <option *ngFor="let stage of stages; let i = index" [value]="stage.stageId">{{ stage.stageName }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6"></div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">اسم المرحله</th>
+          <th scope="col">عمليات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let st of viewStages; let i = index">
+          <td scope="col">{{ i+1 }}</td>
+          <td>{{ st.stageName }}</td>
+          <td>
+            <span style="cursor: pointer;" (click)="removeFromStagesTable(i)"> <i class="icofont-ui-delete text-danger fs-4"></i> </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+</div>
+
+<div>
+<button  class="btn btn-outline-dark my-2" (click)="editCompetition()">تعديل</button>
+</div>

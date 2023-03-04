@@ -72,6 +72,12 @@ export class AsideBarComponent implements OnInit {
       role: [RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS, "Teacher"]
     },
     {
+      label: 'المسابقات',
+      route: 'competitions',
+      icon: 'icofont-badge',
+      role: [RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS, "Teacher"]
+    },
+    {
       label: 'المعلمين',
       route: 'teachers',
       icon: 'icofont-teacher',

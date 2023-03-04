@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-between form-group my-2">
+  <div class="arrow_back">
+    <a class="back" routerLink="/Admin/dashboard/competitions/competition-questions">
+      <button class="btn btn-primary">العودة</button>
+    </a>
+  </div>
+</div>
+
+<div class="mx-auto">
+<div class="row">
+  <h3>إضافة سؤال للمسابقة</h3>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="my-2">اسم المسابقه</label>
+      <input type="text" disabled class="form-control" [value]="competitionById?.address">
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="my-2">وقت المسابقه</label>
+      <input type="text" disabled class="form-control" [value]="competitionById?.timer">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="my-2">بدايه المسابقه</label>
+      <input type="text" disabled class="form-control" [value]="competitionById?.startDate | date:'yyyy-MM-dd'">
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="my-2">نهايه المسابقه</label>
+      <input type="text" disabled class="form-control" [value]="competitionById?.endDate | date:'yyyy-MM-dd'">
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="addCompetionQuestionForm">
+    <div class="form-group">
+      <label class="my-2" >السؤال</label>
+      <div class="input-group">
+      <input type="text" class="form-control" formControlName="question" required placeholder="نمط السؤال؟"
+          autocomplete="off">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="my-2" >الصوره</label>
+      <div class="input-group">
+      <input type="file" class="form-control" (change)="uploadQuestionImage($event)" autocomplete="off">
+      </div>
+    </div>
+    <ng-container formArrayName="createCompetitionQuestionAnswerDtos">
+      <ng-container [formGroupName]="i" *ngFor="let group of Answers.controls; let i = index" >
+        <label class="my-2" >اجابه {{ i+1 }} </label>
+        <div class="d-flex">
+          <input type="text" class="form-control" formControlName="answer_Dto" placeholder="ادخل اجابه">
+          <button class="btn btn-danger me-2"  *ngIf="Answers.controls.length > 1" (click)="removeAnswer(i)">ازاله</button>
+        </div>
+        <div>
+          <input [id]="i" type="checkbox" formControlName="is_SelectedDto" (change)="chooseCorrectAnswer(i)" class="ms-2 mb-4 mt-2">
+          <label class="my-2" [for]="i">اجابه صحيحه</label>
+        </div>
+        <hr>
+      </ng-container>
+    </ng-container>
+    <button (click)="addAnswer()" class="btn btn-outline-dark my-2">زود اجابه</button>
+  </form>
+</div>
+<button class="btn btn-outline-primary my-2" (click)="addQuestion()" [disabled]="addCompetionQuestionForm.get('question').invalid || mustSelect == false">حفظ</button>
+

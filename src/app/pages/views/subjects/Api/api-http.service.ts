@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from './handle-error.service';
-import { catchError } from "rxjs/operators"
+import { catchError, shareReplay } from "rxjs/operators"
 import { environment } from 'src/environments/environment';
 
 const env = environment
-import { ISubject, ISubjectFilterResponse } from 'src/app/helpers/_interfaces/subject';
+import { ISubject, ISubjectFilterResponse, SubjectQuestionResponse } from 'src/app/helpers/_interfaces/subject';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -89,9 +90,30 @@ export class SubjectService {
   }
 
 
-
   activation(subjectId: string) {
     return this.http.put(`${env.API_ROOT}/api/Subject/SubjectActivation/${subjectId}`, {})
   }
+
+  // ********************* subject questions *************************
+  addSubjectQuestion(question: any){
+    return this.http.post(`${env.API_ROOT}/api/SubjectExam/AddSubjectExam`, question).pipe(catchError(this.handleError.logError))
+  }
+
+  getSubjectQuestionsBySubjectId(subjectId: string){
+    return this.http.get<SubjectQuestionResponse[]>(`${env.API_ROOT}/api/SubjectExam/GetSubjectExamsForWeb/${subjectId}`);
+  }
+
+  // getSubjectQuestionByQuestionId(questionId: string){
+  //   return this.http.get<SubjectQuestionResponse>(`${env.API_ROOT}/api/SubjectQuestion/GetSubjectQuestionByQuestionId/${questionId}`);
+  // }
+
+  // editSubjectQuestion(question: any){
+  //   return this.http.put(`${env.API_ROOT}/api/SubjectQuestion/EditSubjectQuestion`, question);
+  // }
+
+  deleteQuestion(id: string){
+    return this.http.delete(`${env.API_ROOT}/api/SubjectExam/DeleteSubjectExam/${id}`)
+  }
+
 
 }

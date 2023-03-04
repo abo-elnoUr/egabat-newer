@@ -1,0 +1,122 @@
+<div class="d-flex justify-content-between form-group my-2">
+  <div class="arrow_back">
+    <a class="back" routerLink="/Admin/dashboard/competitions">
+      <button class="btn btn-primary">العودة</button>
+    </a>
+  </div>
+  <button class="btn btn-outline-primary" routerLink="../../competitions/add-competition-questions/{{competitionId}}">اضافه
+    سؤال</button>
+</div>
+
+<div class="mt-3">
+<nav aria-label="breadcrumb"  style="--bs-breadcrumb-divider: '';">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/Admin/dashboard/competition']">المسابقات</a></li>
+    <li class="mx-2">/</li>
+    <li class="breadcrumb-item" aria-current="page">اسئله المسابقات</li>
+    <li class="mx-2">/</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ competitionName }}</li>
+  </ol>
+</nav>
+
+<ng-container *ngIf="!isLoading ; then view_table ; else loading_skeleton "></ng-container>
+
+<ng-template #view_table>
+  <div class="d-flex justify-content-end">
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+    </div>
+  </div>
+  <table class="table mt-4 table-sm table-hover ">
+    <thead>
+      <tr>
+        <th scope="col">الترتيب</th>
+        <!-- <th scope="col">اسم المسابقه</th> -->
+        <th scope="col">السؤال</th>
+        <th scope="col">الإجابة</th>
+        <th scope="col">حذف</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let comp_ques of competitionQuestion; let i = index">
+        <td>{{ i+1 }}</td>
+        <td style="display: none;">{{ comp_ques.competition_Name }}</td>
+        <td>{{ comp_ques.question }}</td>
+        <td>
+          <button class="btn btn-outline-dark"
+            (click)="openAnswersModal(answers, comp_ques.responseCompetitionQuestionAnswerDtos, comp_ques.competition_Question_Id)">الاجابات</button>
+        </td>
+        <td><button class="btn btn-outline-danger btn-sm"
+            (click)="warningDeleting(comp_ques.competition_Question_Id)">
+            <i class="fa fa-trash-alt"></i>
+          </button></td>
+      </tr>
+    </tbody>
+  </table>
+
+</ng-template>
+
+<ng-template #loading_skeleton>
+
+</ng-template>
+
+
+<!-- Success Modal Swal -->
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+  [confirmButtonColor]="'#28a745'" class="swal-modal">
+</swal>
+
+<ng-template #answers let-modal>
+  <div class="d-flex justify-content-between p-2">
+    <h4 class="modal-title" id="modal-basic-title">الاجابات</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <ol class="list-group list-group-numbered pe-0">
+      <li class="list-group-item d-flex justify-content-between align-items-end "
+        *ngFor="let answer of listOfAnswers; let j = index">
+        <div class="ms-2 ms-auto">
+          <div class="fw-bold">{{ answer.answer_Response }}</div>
+        </div>
+        <span *ngIf="answer.is_Selected_Response == true" class="badge bg-success rounded-pill mx-1">اجابه
+          صحيحه</span>
+        <span *ngIf="answer.is_Selected_Response == false" class="badge bg-danger rounded-pill mx-1">اجابه
+          خاطئه</span>
+        <span>|</span>
+        <span class="text-info mx-1" style="cursor: pointer;"
+          (click)="getAnswerById(answer.answer_Id);openEditAnswer(editAnswer, answer.answer_Response, answer.is_Selected_Response);modal.close('Save click')">تعديل</span>
+        <span>|</span>
+        <span class="text-danger mx-1" (click)="warningDeleteAnswer(answer.answer_Id);modal.close('Save click')" style="cursor: pointer;">حذف</span>
+      </li>
+
+    </ol>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">حفظ</button> -->
+  </div>
+</ng-template>
+
+
+<ng-template #editAnswer let-modal>
+  <div class="d-flex justify-content-between p-2">
+    <h4 class="modal-title" id="modal-basic-title">تعديل</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div [formGroup]="editAnswerForm">
+      <div class="form-group mb-2">
+        <label class="mb-2">الاجابه</label>
+        <input type="text" class="form-control" formControlName="answerText">
+      </div>
+      <div class="form-group">
+        <input type="checkbox" class="ms-1" formControlName="isSelected">
+        <label>إجابه صحيحه</label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark"
+      (click)="modal.close('Save click'); editAnswers()">تعديل</button>
+  </div>
+</ng-template>

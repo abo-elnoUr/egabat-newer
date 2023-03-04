@@ -107,6 +107,7 @@
         <th scope="col">المادة</th>
         <th scope="col"> الوحدات </th>
         <th scope="col"> بنك الأسئلة </th>
+        <th scope="col">اسئله الماده</th>
         <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" scope="col">تفعيل </th>
         <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" scope="col">تعديل</th>
         <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" scope="col">حذف</th>
@@ -140,6 +141,10 @@
           </div>
           <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
               class="icofont-paper"></i> </button> -->
+        </td>
+        <td>
+          <a class='btn btn-outline-info btn-sm'
+              routerLink="lessonQuestions/{{subject.subjectId}}"> اسئله الماده </a>
         </td>
         <td *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]">
           <div class='switch-button'>

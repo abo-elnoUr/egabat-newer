@@ -1,0 +1,94 @@
+<div class="d-flex justify-content-between form-group my-2">
+  <div class="arrow_back">
+    <a class="back" routerLink="/Admin/dashboard/home">
+      <button class="btn btn-primary">العودة</button>
+    </a>
+  </div>
+  <button class="btn btn-primary" routerLink="/Admin/dashboard/competitions/add-competition">اضافه مسابقه</button>
+</div>
+
+<div class="mt-3">
+
+  <!-- <div class="mx-auto">
+    <div [formGroup]="filterDateForm">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="my-2">من</label>
+            <input type="date" class="form-control" formControlName="start_Date">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="my-2">الي</label>
+            <input type="date" class="form-control" formControlName="end_Date">
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-dark mx-1 my-3" [disabled]="filterDateForm.invalid" (click)="getAllCompetition()">بحث</button>
+        <button type="reset" class="btn btn-danger mx-1 my-3" (click)="reset()">اعاده تعيين</button>
+      </div>
+    </div>
+  </div> -->
+
+  <ng-container *ngIf="!isLoading ; then view_table ; else loading_skeleton "></ng-container>
+
+  <ng-template #view_table>
+    <div class="d-flex justify-content-end">
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+      </div>
+    </div>
+    <table class="table mt-4 table-sm table-hover ">
+      <thead>
+        <tr>
+          <th scope="col">الترتيب</th>
+          <th scope="col">العنوان</th>
+          <th scope="col">بدايه المسابقه</th>
+          <th scope="col">نهايه المسابقه</th>
+          <th scope="col">الوقت</th>
+          <th scope="col">اسئله المسابقه</th>
+          <th scope="col">تعديل</th>
+          <th scope="col">حذف</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let competition of listOfCompetitions.competitions; let i = index">
+          <td>{{ i+1 }}</td>
+          <td> {{ competition.address }} </td>
+          <td> {{ competition.startDate | date:'yyyy-MM-dd' }} </td>
+          <td> {{ competition.endDate | date:'yyyy-MM-dd' }} </td>
+          <td> {{ competition.timer }} </td>
+          <td>
+            <button class="btn btn-outline-secondary" routerLink="/Admin/dashboard/competitions/competition-questions/{{competition.id}}">اضافه
+              اسئله المسابقه</button>
+          </td>
+          <td>
+            <button class="btn btn-outline-info"
+              routerLink="/Admin/dashboard/edit-competition/{{competition.id}}">تعديل</button>
+          </td>
+          <td>
+            <button class="btn btn-outline-danger btn-sm" (click)="warningDeleting(competition.id)">
+              <i class="fa fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+      <ngb-pagination [collectionSize]="listOfCompetitions.rowCount" [(page)]="pagination.pageNo"
+        [pageSize]="pagination.pageSize"  [boundaryLinks]="true"
+        (pageChange)="getAllCompetition()"></ngb-pagination>
+    </div>
+
+  </ng-template>
+
+  <ng-template #loading_skeleton>
+  </ng-template>
+
+  <!-- Success Modal Swal -->
+  <swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+    [confirmButtonColor]="'#28a745'" class="swal-modal">
+  </swal>

@@ -47,6 +47,13 @@ import { LibrarySubCategoryComponent } from './pages/views/custom-library/librar
 import { LibraryAttachmentComponent } from './pages/views/custom-library/library-attachment/library-attachment.component';
 import { EditLibraryAttachmentComponent } from './pages/views/custom-library/edit-library-attachment/edit-library-attachment.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddLessonQuestionsComponent } from './pages/views/subjects/add-lesson-questions/add-lesson-questions.component';
+import { LessonQuestionsComponent } from './pages/views/subjects/lesson-questions/lesson-questions.component';
+import { CompetitionsComponent } from './pages/views/competitions/competitions.component';
+import { AddCompetitionComponent } from './pages/views/competitions/add-competition/add-competition.component';
+import { EditCompetitionComponent } from './pages/views/competitions/edit-competition/edit-competition.component';
+import { AddCompetitionQuestionsComponent } from './pages/views/competitions/add-competition-questions/add-competition-questions.component';
+import { CompetitionQuestionsComponent } from './pages/views/competitions/competition-questions/competition-questions.component';
 
 
 registerLocaleData(en);
@@ -82,6 +89,13 @@ registerLocaleData(en);
     LibrarySubCategoryComponent,
     LibraryAttachmentComponent,
     EditLibraryAttachmentComponent,
+    AddLessonQuestionsComponent,
+    LessonQuestionsComponent,
+    CompetitionsComponent,
+    AddCompetitionComponent,
+    EditCompetitionComponent,
+    AddCompetitionQuestionsComponent,
+    CompetitionQuestionsComponent,
 
   ],
   imports: [
@@ -97,7 +111,7 @@ registerLocaleData(en);
     ReactiveFormsModule,
     SharedModule,
     QRCodeModule,
-    NgbDropdownModule
+    NgbDropdownModule,
 
   ],
   providers: [AuthService,

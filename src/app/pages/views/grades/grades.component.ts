@@ -37,7 +37,7 @@ export class GradesComponent implements OnInit {
 
   RolesEnum = RolesEnum;
   defaultSelectedValue: string = "default"
-  countries: Array<ICountryModel> = [];
+  countries$ = this._CountryService.countries$
 
   listOfGrades: IGradesGetAll = {
     rowCount: 0,
@@ -86,7 +86,7 @@ export class GradesComponent implements OnInit {
     private HttpMethods: GradesService,
     private modalService: NgbModal,
     private _formBuilder: FormBuilder,
-    private countryService: CountryService
+    private _CountryService: CountryService
   ) {
 
     this.gradesFilter = this._formBuilder.group({
@@ -114,7 +114,6 @@ export class GradesComponent implements OnInit {
 
     document.title = `${env.webSiteName} | الصفوف`
 
-    this.getAllCountries();
     this.getAllGrades()
     this.HttpMethods.getAllStages().subscribe(res => {
       this.listOfStages = res
@@ -129,9 +128,7 @@ export class GradesComponent implements OnInit {
     })
 
   }
-  getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
-  }
+
   getAllGrades() {
     this.HttpMethods.getAllGrades({ ...this.gradesFilter.value, ...this.pagination }).subscribe(res => {
       this.listOfGrades = res

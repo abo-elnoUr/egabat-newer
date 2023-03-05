@@ -25,7 +25,6 @@ export class CreateLibraryComponent implements OnInit {
   createLibraryForm!: FormGroup;
   gradeId: string = "";
   listOfSemsters: ISemester[] = []
-  listOfCounrties: ICountryModel[] = []
   listOfStages: IStage[] = []
   listOfGrades: IGrade[] = []
   listOfSemester: any[] = []
@@ -36,6 +35,7 @@ export class CreateLibraryComponent implements OnInit {
   previewImage: string
   fileName: string = ""
   isSubmiting: boolean = false
+  countries$ = this._CountryService.countries$
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -66,8 +66,8 @@ export class CreateLibraryComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCountries();
     document.title = "المكتبات"
+    this.getStages()
   }
 
   getLibraryImage(image: any) {
@@ -130,15 +130,6 @@ export class CreateLibraryComponent implements OnInit {
     })
   }
 
-
-  getCountries() {
-    this._CountryService.getAllCountries().subscribe({
-      next: (res) => {
-        this.listOfCounrties = res
-        this.getStages()
-      }
-    })
-  }
 
   getStages() {
     this._StageHttpService.getAllStages().subscribe({

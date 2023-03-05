@@ -5,6 +5,7 @@ export interface ISubjectFilterResponse {
   rowCount: number
 }
 
+
 export interface ISubject {
   country: string,
   tempSubjectId: string,
@@ -90,4 +91,25 @@ export interface SubjectQuestionAnswerResponse {
   answer_Id: string;
   answer: string;
   is_Selected: boolean;
+}
+
+export interface CreateSubjectDto {
+  sectionId: string;
+  gradeId: string;
+  subjectName: string;
+  subjectImage: FormFile;
+  index: number;
+}
+
+export interface FormFile {
+  contentType: string;
+  contentDisposition: string;
+  headers: HeaderDictionary;
+  length: number;
+  name: string;
+  fileName: string;
+}
+
+export interface HeaderDictionary {
+  contentLength: number | null;
 }

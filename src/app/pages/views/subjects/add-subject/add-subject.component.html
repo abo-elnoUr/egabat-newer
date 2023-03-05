@@ -1,0 +1,68 @@
+<!-- <ng-template let-modal> -->
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> اضافة مادة </h4>
+  </div>
+  <form class="modal-body" [formGroup]="subjectForm"
+    (ngSubmit)="createSubject()">
+    <div>
+      <div class="input-group mb-3">
+        <label class="mb-2" for="inputGroupSelect01">الدولة</label>
+        <ng-select [items]="countries$ | async" class="w-100"
+        (change)="filterStagesAndGradesByCountry($event)"
+         bindLabel="name" bindValue="id"
+        placeholder="اختر الدوله"></ng-select>
+      </div>
+
+      <div class="input-group mb-3">
+        <label class="mb-2" for="inputGroupSelect01">المجموعه</label>
+        <ng-select [items]="listOfSections" bindLabel="sectionName" class="w-100"
+        formControlName="sectionId" bindValue="sectionId" placeholder="اختر
+        المجموعه"></ng-select>
+      </div>
+
+      <div class="input-group mb-3">
+        <label class="mb-2" for="inputGroupSelect01">المرحلة</label>
+        <ng-select [items]="listOfStages" bindLabel="stageName" class="w-100"
+        (change)="getGradesByStageId($event); resetGradeId()" formControlName="stageId"
+        bindValue="stageId" placeholder="اختر المرحله"></ng-select>
+      </div>
+
+      <div class="input-group mb-3">
+        <label class="mb-2" for="inputGroupSelect01">الصف الدراسي</label>
+        <ng-select [items]="listOfGrades" bindLabel="gradeName" class="w-100"
+        formControlName="gradeId" bindValue="gradeId" placeholder="اختر الصف
+        الدراسي"></ng-select>
+      </div>
+
+      <div class=" mb-3">
+        <span class="mb-2" id="basic-addon1">اسم المادة</span>
+        <input type="text" class="form-control" formControlName="subjectName"
+          placeholder="اكتب اسم المادة">
+      </div>
+      <div class=" mb-3">
+        <span class="mb-2" id="basic-addon1">رقم المادة</span>
+        <input type="text" class="form-control" formControlName="index"
+          placeholder="اكتب رقم المادة">
+      </div>
+
+      <div class="mb-3">
+        <span class="mb-2" id="basic-addon1">صورة المادة</span>
+        <input type="file" class="form-control" placeholder="اكتب اسم المادة"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          (change)="uploadFile($any($event.target).files)">
+      </div>
+      <a> <i class="fa fa-eye m-2" *ngIf="subjectImage" (click)="previewFile()"></i></a>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success"
+        [disabled]="subjectForm.invalid" type="submit" (click)="_NgbActiveModal.close('')" > <i
+          class="fa fa-save"></i>
+        حفظ</button>
+      <button type="button" class="btn btn-outline-danger"
+        (click)="_NgbActiveModal.close('')"> <i class="fa fa-times-circle"></i>
+        إلغاء</button>
+    </div>
+  </form>
+<!-- </ng-template> -->

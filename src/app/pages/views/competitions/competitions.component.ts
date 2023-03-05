@@ -65,6 +65,13 @@ export class CompetitionsComponent implements OnInit {
     })
   }
 
+  warningDeleting(id: string) {
+    this._swal.warningDeleting().then((result) => {
+      if (result.isConfirmed) {
+        this.deleteCompetition(id);
+      }
+    });
+  }
 
   deleteCompetition(id: string) {
     this._CompetitionService.deleteCompetition(id).subscribe((response) => {
@@ -73,13 +80,6 @@ export class CompetitionsComponent implements OnInit {
     });
   }
 
-  warningDeleting(id: string) {
-    this._swal.warningDeleting().then((result) => {
-      if (result.isConfirmed) {
-        this.deleteCompetition(id);
-      }
-    });
-  }
 
 
 }

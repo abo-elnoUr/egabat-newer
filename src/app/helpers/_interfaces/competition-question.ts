@@ -1,7 +1,7 @@
-export interface CreateCompetitionQuestionDto {
-  question: string;
-  question_Image: FormFile;
+export interface AddCompetitionQuestionDto {
   competition_Id: string;
+  question_Text: string;
+  question_Image: FormFile;
   createCompetitionQuestionAnswerDtos: CreateCompetitionQuestionAnswerDto[];
 }
 
@@ -14,6 +14,7 @@ export interface CompetitionQuestionResponse{
   competitionQuestions: ResponseCompetitionQuestion[];
   rowCount: number;
 }
+
 
 export interface ResponseCompetitionQuestion {
   competition_Question_Id: string;

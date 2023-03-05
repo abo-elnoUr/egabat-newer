@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { IGrade } from 'src/app/helpers/_interfaces/grade';
 import { IStage } from 'src/app/helpers/_interfaces/stage';
 import {
+  CreateSubjectDto,
   IEditSubject,
   ISubject,
   ISubjectFilterResponse,
@@ -14,13 +15,14 @@ import { environment } from '../../../../environments/environment';
 import { ISection } from 'src/app/helpers/_interfaces/section';
 import { SectionService } from '../sections/api/section.service';
 import Swal from 'sweetalert2';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ESectionsID } from 'src/app/helpers/enums/sections-ids';
 import { StateService } from 'src/app/helpers/services/state.service';
 import { RolesEnum } from 'src/app/helpers/enums/roles-enum';
 import { ICountryModel } from '../../../models/country.model';
 import { CountryService } from '../../../shared/country.service';
 import { SweetAlertService } from 'src/app/helpers/services/sweet-alert.service';
+import { AddSubjectComponent } from './add-subject/add-subject.component';
 
 @Component({
   selector: 'app-subjects',
@@ -46,11 +48,13 @@ export class SubjectsComponent implements OnInit {
     subjects: [],
   };
 
+  editSubjectForm: FormGroup
+
   listOfSubjects: Array<ISubject>;
   listOfGrades: Array<IGrade>;
   listOfStages: Array<IStage>;
   listGradesByStageId: Array<IGrade>;
-  countries: Array<ICountryModel> = [];
+  country: ''
 
   listOfGradesByStageId: Array<IGrade> = [];
 
@@ -62,29 +66,63 @@ export class SubjectsComponent implements OnInit {
   deleteSubjectId = '';
   listOfSections: Array<ISection> = [];
 
+  pagination = {
+    pageSize: 20,
+    pageNo: 1,
+  };
+
+  filterSubjectsForm: FormGroup;
+  isLoading: boolean = false
+  countries$ = this._CountryService.countries$
+
+  constructor(
+    private HttpMethods: SubjectService,
+    private modalService: NgbModal,
+    private _sectionService: SectionService,
+    private _formBuilder: FormBuilder,
+    private _stateService: StateService,
+    private _CountryService: CountryService,
+    private _SweetAlertService: SweetAlertService,
+    private _NgbModal: NgbModal,
+  ) {
+    this.filterSubjectsForm = this._formBuilder.group({
+      name: [''],
+      gradeId: [null],
+      sectionId: [null],
+      stageId: [null],
+      isActive: null,
+      countryId: [null],
+    });
+  }
+
+  ngOnInit(): void {
+    document.title = `${environment.webSiteName} | المواد`;
+    this.createEditSubjectForm()
+    this.filtrationSubjects();
+  }
+
+
+
+  createEditSubjectForm() {
+    this.editSubjectForm = new FormGroup({
+      subjectId: new FormControl(null, Validators.required),
+      gradeId: new FormControl(null, Validators.required),
+      stageId: new FormControl(null, Validators.required),
+      subjectName: new FormControl('', Validators.required),
+      sectionId: new FormControl(null, Validators.required),
+      country: new FormControl(null, Validators.required),
+      subjectImage: new FormControl(null),
+      isActive: new FormControl(null),
+      index: new FormControl(0),
+    })
+  }
+
   newSubject = {
     sectionId: '',
     stageId: '',
     gradeId: '',
     subjectName: '',
     index: 0,
-  };
-
-  editSubjectSnapShotData: ISubject = {
-    country: '',
-    tempSubjectId: '',
-    subjectId: '',
-    subjectName: '',
-    stageId: '',
-    stageName: '',
-    gradeId: '',
-    gradeName: '',
-    sectionName: '',
-    sectionId: '',
-    isActive: false,
-    subjectImage: '',
-    index: 0,
-    permessions: [],
   };
 
   upDateSubject: IEditSubject = {
@@ -97,59 +135,22 @@ export class SubjectsComponent implements OnInit {
     subjectImage: '',
     index: 0,
   };
-  pagination = {
-    pageSize: 20,
-    pageNo: 1,
-  };
-  filterSubjectsForm: FormGroup;
 
-  constructor(
-    private HttpMethods: SubjectService,
-    private modalService: NgbModal,
-    private _sectionService: SectionService,
-    private _formBuilder: FormBuilder,
-    private _stateService: StateService,
-    private countryService: CountryService,
-    private _SweetAlertService: SweetAlertService
-  ) {
-    this.filterSubjectsForm = this._formBuilder.group({
-      name: [''],
-      gradeId: [null],
-      sectionId: [null],
-      stageId: [null],
-      isActive: null,
-      countryId: [null],
-    });
+  openAddSubject(){
+    this._NgbModal.open(AddSubjectComponent, { centered: true })
   }
 
-  isLoading: boolean = false;
-  getAllCountries() {
-    this.countryService
-      .getAllCountries()
-      .subscribe((res) => (this.countries = res));
-  }
+
+
   filtrationSubjects() {
     let filter = { ...this.filterSubjectsForm.value, ...this.pagination };
-    // console.log('Filter', filter);
     let stageId = this.filterSubjectsForm.get('stageId')?.value;
-    // console.log('Stage ID', stageId);
     this.isLoading = true;
     this.HttpMethods.filtrationSubjects(filter).subscribe((response) => {
       this.isLoading = false;
-      // console.log('Responsessssssssssubjects', response);
-      console.log(response);
       this.subjectsData = response;
     });
     if (stageId) this.getGradesByStageId(stageId);
-  }
-
-  ngOnInit(): void {
-    document.title = `${environment.webSiteName} | المواد`;
-    this.getAllCountries();
-    // this.getAllSubjects();
-    // this.getAllStages();
-    // this.getAllSections();
-    this.filtrationSubjects();
   }
 
   // Get All Subjects
@@ -184,57 +185,40 @@ export class SubjectsComponent implements OnInit {
   }
 
   // Get Grades By Stage Id
-  getGradesByStageId(stageId: string) {
-    this.HttpMethods.getGradesByStageId(stageId).subscribe((res) => {
-      let result: any = res;
-      this.listOfGradesByStageId = result;
-      this.listOfGrades = result;
-    });
+  getGradesByStageId(stageId: IStage) {
+    if(stageId){
+      // this.editSubjectForm.get('gradeId').reset()
+      this.HttpMethods.getGradesByStageId(stageId.stageId).subscribe((res) => {
+        let result: any = res;
+        this.listOfGradesByStageId = result;
+        this.listOfGrades = result;
+      })
+    }
   }
-
+  resetGradeId() {
+    this.editSubjectForm.get('gradeId').reset()
+  }
   // Get Subject By Id
   getSubjectById(subjectId: string) {
     this.HttpMethods.getSubjectById(subjectId).subscribe((res) => {
-      let result: any = res;
-      console.log('Subject Data', res);
-      this.editSubjectSnapShotData = {
-        country: result.country,
-        tempSubjectId: result.tempSubjectId,
-        subjectId: result.subjectId,
-        subjectName: result.subjectName,
-        gradeId: result.gradeId,
-        gradeName: result.gradeName,
-        stageId: result.stageId,
-        stageName: result.stageName,
-        sectionName: result.sectionName,
-        sectionId: result.sectionId,
-        isActive: result.isActive,
-        subjectImage: res.subjectImage,
-        index: result.index,
-        permessions: [],
-      };
-
+      let result: any = res
+      this.country = result.country,
       this.filterStagesAndGradesByCountry(result.country, false);
-      this.upDateSubject = {
+      this.editSubjectForm.patchValue({
         subjectId: result.subjectId,
         gradeId: result.gradeId,
         stageId: result.stageId,
         subjectName: result.subjectName,
+        country: result.country,
         sectionId: result.sectionId,
         isActive: result.isActive,
         subjectImage: res.subjectImage,
         index: result.index,
-      };
+      })
+      this.getGradesByStageId(result)
+
     });
   }
-  /**
-   *
-   *  {
-    "sectionId": "dda9956b-ceae-4bcf-8880-121e496826ef",
-    * @param gradeId
-    "gradeId": "7489b01a-499a-41fd-be11-7c671dc900b3"
-}
-   */
 
   // Get Subjects By Grade Id
   getSubjectsByGradeId(gradeId: string) {
@@ -260,45 +244,24 @@ export class SubjectsComponent implements OnInit {
   subjectImage: File;
   uploadFile(files: any) {
     this.subjectImage = files[0];
+    this.editSubjectForm.get('subjectImage').setValue(files[0])
   }
 
   previewFile() {
-    //let  fileItem = this.Files.controls[index] as FormGroup;
-
     window.open(window.URL.createObjectURL(this.subjectImage));
   }
 
-  collectDataCreateSubject() {
-    let fd = new FormData();
-    fd.append('SectionId', this.newSubject.sectionId);
-    fd.append('GradeId', this.newSubject.gradeId);
-    fd.append('SubjectName', this.newSubject.subjectName);
-    fd.append('SubjectImage', this.subjectImage);
-    fd.append('index', `${this.newSubject.index}`);
-    return fd;
-  }
-  // Create Subject
-  createSubject() {
-    this.HttpMethods.createSubject(this.collectDataCreateSubject()).subscribe({
-      next: (res) => {
-        this.upDateSubjectsTable();
-      },
-      error: (err) => {
-        this._SweetAlertService.errorMessage(err)
-      }
-    }
-    );
-  }
+
 
   // Edit Subject
   editSubject() {
     let fd = new FormData();
-    fd.append('SectionId', this.upDateSubject.sectionId);
-    fd.append('GradeId', this.upDateSubject.gradeId);
-    fd.append('SubjectName', this.upDateSubject.subjectName);
-    fd.append('SubjectId', this.upDateSubject.subjectId);
-    fd.append('SubjectImage', this.subjectImage);
-    fd.append('Index', `${this.upDateSubject.index}`);
+    fd.append('SectionId', this.editSubjectForm.get('sectionId').value);
+    fd.append('GradeId', this.editSubjectForm.get('gradeId').value);
+    fd.append('SubjectName', this.editSubjectForm.get('subjectName').value);
+    fd.append('SubjectId', this.editSubjectForm.get('subjectId').value);
+    fd.append('SubjectImage', this.editSubjectForm.get('subjectImage').value);
+    fd.append('Index', this.editSubjectForm.get('index').value);
 
     this.HttpMethods.editSubject(fd).subscribe((res) => {
       this.upDateSubjectsTable();
@@ -338,7 +301,6 @@ export class SubjectsComponent implements OnInit {
   }
 
   open(content: any, subjectId: string) {
-    // this.getAllGrades()
     this.getSubjectById(subjectId);
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title' })

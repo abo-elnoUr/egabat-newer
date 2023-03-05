@@ -17,7 +17,7 @@
             <select (change)="getStagesByCountryId($any($event.target).value);getAllGrades()"
               formControlName="countryId" class="form-select" id="inputGroupSelect01">
               <option selected [ngValue]="null"> الكل </option>
-              <option *ngFor="let country of countries" [value]="country.id"> {{country.name}}
+              <option *ngFor="let country of countries$ | async" [value]="country.id"> {{country.name}}
               </option>
             </select>
           </div>
@@ -125,14 +125,14 @@
 </ng-template>
 
 <ng-template #AddModal let-modal>
-  <app-create-grade [countries]="countries" [modal]="modal"></app-create-grade>
+  <app-create-grade [countries]="countries$ | async" [modal]="modal"></app-create-grade>
 </ng-template>
 
 
 
 <!-- Edit Stage Modal -->
 <ng-template #EditModal let-modal>
-  <app-edit-grade [modal]='modal' [countries]="countries" [gradeId]="gradeId"></app-edit-grade>
+  <app-edit-grade [modal]='modal' [countries]="countries$ | async" [gradeId]="gradeId"></app-edit-grade>
 </ng-template>
 
 

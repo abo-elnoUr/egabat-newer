@@ -94,17 +94,10 @@ export class EditCompetitionComponent implements OnInit {
       this._CompetitionService.getCompetitionById(id).subscribe({
         next: (competiton) => {
           this.competitionById = competiton
-          this.image = competiton.competition_Image
-          this.competitonId = competiton.id
+          this.image = competiton.image
+          this.competitonId = competiton.competitionId
           this.editCompetitionForm.patchValue(competiton)
-          this.viewStages = [...competiton.competitionStageResponses]
-          this.viewStages.forEach(vs => {
-            this.stages.forEach((s) => {
-              if(s.stageId == vs.stageId){
-                ids.push(s.stageId);
-              }
-            })
-          })
+
           ids.forEach(id => {
             this.stages =  this.stages.filter(({stageId}) => stageId != id)
           })

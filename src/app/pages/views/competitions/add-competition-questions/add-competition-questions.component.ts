@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SweetAlertService } from 'src/app/helpers/services/sweet-alert.service';
 import { ResponseCompetitionDto } from 'src/app/helpers/_interfaces/competition';
@@ -37,10 +37,10 @@ export class AddCompetitionQuestionsComponent implements OnInit {
 
   createCopmetitionQuestionFrom(){
     this.addCompetionQuestionForm = this._formBulider.group({
-      question: [''],
+      question: ['', Validators.required],
       competition_Id: [this.competitionId],
       question_Image: [null],
-      createCompetitionQuestionAnswerDtos: this._formBulider.array([])
+      createCompetitionQuestionAnswerDtos: this._formBulider.array([this.newAnswers()], Validators.required)
     })
   }
 
@@ -55,7 +55,7 @@ export class AddCompetitionQuestionsComponent implements OnInit {
 
   newAnswers() {
     return this._formBulider.group({
-      answer_Dto: [''],
+      answer_Dto: ['', Validators.required],
       is_SelectedDto: [false]
     })
   }
@@ -98,12 +98,10 @@ export class AddCompetitionQuestionsComponent implements OnInit {
   }
 
   addQuestion(){
-
     const questionForm = new FormData()
-    questionForm.append('question', this.addCompetionQuestionForm.get('question').value)
+    questionForm.append('question_Text', this.addCompetionQuestionForm.get('question').value)
     questionForm.append('question_Image', this.addCompetionQuestionForm.get('question_Image').value)
     questionForm.append('competition_Id', this.addCompetionQuestionForm.get('competition_Id').value)
-
 
     const answers = this.addCompetionQuestionForm.get('createCompetitionQuestionAnswerDtos').value
 
@@ -113,19 +111,23 @@ export class AddCompetitionQuestionsComponent implements OnInit {
       if(answers[i]?.is_SelectedDto != true){
         console.log('no selected');
       }
-
     }
 
     this._CompetitionService.addCompetitionQuestion(questionForm).subscribe({
       next: (response) => {
         this._swal.createSuccess()
-        this.addCompetionQuestionForm.reset()
-        this._Router.navigateByUrl(`Admin/dashboard/competition-question/${this.competitionId}`)
+        this.resetQuestionForm()
       },
       error: (error) => {
         console.log(error);
       }
     })
+  }
+
+  resetQuestionForm(){
+    this.addCompetionQuestionForm.reset()
+    this.Answers.clear()
+    this.createCopmetitionQuestionFrom()
   }
 
 

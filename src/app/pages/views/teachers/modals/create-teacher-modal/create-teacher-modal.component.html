@@ -40,7 +40,7 @@
             <div class="input-group mb-3">
                 <select class="form-select" (change)="filterByCountry($any($event.target).value)">
                     <option selected disabled> الدولة </option>
-                    <option *ngFor="let country of countries" [value]="country.id"> {{country.name}} </option>
+                    <option *ngFor="let country of countries$ | async" [value]="country.id"> {{country.name}} </option>
                 </select>
             </div>
         </div>

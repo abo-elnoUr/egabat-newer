@@ -18,7 +18,6 @@ export class SectionsComponent implements OnInit {
   @ViewChild('SuccessSwal') private successSwal: SwalComponent;
   @ViewChild('ErrorSwal') private errorSwal: SwalComponent;
 
-  countries: Array<ICountryModel> = [];
   closeResult = '';
   errorMessage: string
   listOfSections: ISection[]
@@ -27,18 +26,16 @@ export class SectionsComponent implements OnInit {
   editSectionIndex: number = 0
   editSectionCountry: string = '';
   deleteSectionId: string = ""
+  countries$ = this._CountryService.countries$
 
   countryId: string = "";
   constructor(private _sectionService: SectionService,
     private modalService: NgbModal,
-    private countryService: CountryService) {
+    private _CountryService: CountryService) {
 
   }
-  getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
-  }
+
   ngOnInit(): void {
-    this.getAllCountries();
     this.getAllSections()
   }
 

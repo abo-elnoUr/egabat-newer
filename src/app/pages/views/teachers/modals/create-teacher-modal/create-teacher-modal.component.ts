@@ -27,7 +27,7 @@ export class CreateTeacherModalComponent implements OnInit {
   @Input() modal: any;
   @ViewChild('SuccessSwal') private successSwal: SwalComponent;
 
-  countries: Array<ICountryModel> = [];
+  countries$ = this._CountryService.countries$
   listOfStages: Array<IStage>;
   listOfGrade: Array<IGrade>;
   listOfSubjects: Array<any>;
@@ -59,13 +59,11 @@ export class CreateTeacherModalComponent implements OnInit {
     private modalService: NgbModal,
     private teahcerMethods: TeachersComponent,
     private _sectionService: SectionService,
-    private countryService: CountryService) { }
+    private _CountryService: CountryService) { }
 
 
   ngOnInit(): void {
-    // this.getSages();
-    // this.getAllSections()
-    this.getAllCountries();
+
   }
 
   filterByCountry(countryId: string) {
@@ -80,9 +78,7 @@ export class CreateTeacherModalComponent implements OnInit {
       }
     )
   }
-  getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
-  }
+
   getPermessionsForView(subject: any): string {
     var permessions: Array<string> = [];
     for (let per of subject.permessions) {

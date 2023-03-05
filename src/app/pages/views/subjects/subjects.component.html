@@ -1,6 +1,8 @@
 <div class="d-flex justify-content-end form-group">
-  <button *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" class="btn btn-primary mb-3"
-    (click)="openAddModal(AddModal)"> <i class="fa fa-plus"></i>
+  <!-- openAddModal(AddModal) -->
+  <button *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" class="btn
+    btn-primary mb-3"
+    (click)="openAddSubject()"> <i class="fa fa-plus"></i>
     اضافة مادة
   </button>
 </div>
@@ -10,10 +12,13 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01"> الدولة</label>
-          <select formControlName="countryId" class="form-select" id="inputGroupSelect01"
+          <select formControlName="countryId" class="form-select"
+            id="inputGroupSelect01"
             (change)="filterStagesAndGradesByCountry($any($event.target).value)">
             <option selected [ngValue]="null"> اختر دولة</option>
-            <option *ngFor="let country of countries" [value]="country.id"> {{country.name}}
+            <option *ngFor="let country of countries$ | async"
+              [value]="country.id">
+              {{country.name}}
             </option>
           </select>
         </div>
@@ -22,10 +27,12 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01"> المجموعات</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="sectionId"
+          <select class="form-select" id="inputGroupSelect01"
+            formControlName="sectionId"
             (change)="filtrationSubjects()">
             <option selected [ngValue]="null"> كل المجموعات </option>
-            <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}}
+            <option *ngFor="let section of listOfSections"
+              [value]="section.sectionId"> {{section.sectionName}}
             </option>
           </select>
         </div>
@@ -33,9 +40,11 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="stageId" (change)="filtrationSubjects()">
+          <select class="form-select" id="inputGroupSelect01"
+            formControlName="stageId" (change)="filtrationSubjects()">
             <option selected [ngValue]="null"> الكل </option>
-            <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}}
+            <option *ngFor="let stage of listOfStages" [value]="stage.stageId">
+              {{stage.stageName}}
             </option>
           </select>
         </div>
@@ -43,16 +52,19 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01"> الصف</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="gradeId" (change)="filtrationSubjects()">
+          <select class="form-select" id="inputGroupSelect01"
+            formControlName="gradeId" (change)="filtrationSubjects()">
             <option selected [ngValue]="null"> كل الصفوف </option>
-            <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"> {{grade.gradeName}} </option>
+            <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId">
+              {{grade.gradeName}} </option>
           </select>
         </div>
       </div>
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01"> حالة التفعيل</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="isActive"
+          <select class="form-select" id="inputGroupSelect01"
+            formControlName="isActive"
             (change)="filtrationSubjects()">
             <option selected [ngValue]="null"> الكل </option>
             <option [ngValue]="true"> مفعل </option>
@@ -63,7 +75,8 @@
       <div class="col-md-3">
         <div class="input-group mb-3">
           <label class="input-group-text" for="inputGroupSelect01">اسم المادة</label>
-          <input class="form-control" id="inputGroupSelect01" formControlName="name"
+          <input class="form-control" id="inputGroupSelect01"
+            formControlName="name"
             (keyup.Enter)="filtrationSubjects()" />
         </div>
       </div>
@@ -73,30 +86,6 @@
 
 <ng-container *ngIf="!isLoading ; then view_table ; else loading_skeleton "></ng-container>
 <ng-template #view_table>
-
-  <!-- <div class="row" >
-    <div class="col-md-4" *ngFor="let subject of subjectsData.subjects; index as i">
-      <div class="card" style="width: 18rem;">
-        <img *ngIf="subject.subjectImage" [src]="SITE_URL+subject.subjectImage" class="card-img-top" alt="...">
-        <div class="card-body">
-          <div class='d-flex justify-content-end'>
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-primary  remove-after" id="dropdownBasic1" ngbDropdownToggle> <i class="fa fa-ellipsis-v"></i> </button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class='text-right'>
-                <button ngbDropdownItem>الدروس</button>
-                <button ngbDropdownItem>تعديل</button>
-                <button ngbDropdownItem>حذف</button>
-              </div>
-            </div>
-          </div>
-          <h5 class="card-title"> اسم المادة : {{subject.subjectName}} </h5>
-          <p>المجموعة : {{subject.sectionName}} </p>
-          <p>المرحلة الدراسية : {{subject.stageName}}</p>
-          <p>الصف الدراسي : {{subject.gradeName}}</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   <table class="table mt-4 table-sm table-hover ">
     <thead>
@@ -108,9 +97,12 @@
         <th scope="col"> الوحدات </th>
         <th scope="col"> بنك الأسئلة </th>
         <th scope="col">اسئله الماده</th>
-        <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" scope="col">تفعيل </th>
-        <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" scope="col">تعديل</th>
-        <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]" scope="col">حذف</th>
+        <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]"
+          scope="col">تفعيل </th>
+        <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]"
+          scope="col">تعديل</th>
+        <th *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]"
+          scope="col">حذف</th>
 
       </tr>
     </thead>
@@ -122,261 +114,161 @@
         <td> {{ subject.subjectName }} </td>
         <td>
           <div>
-            <!-- <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
-              routerLink="{{subject.subjectId}}/units" *ngIf="subject.sectionId === SectionID.PUBLIC"> <i
-                class="icofont-paper"></i> </a> -->
-            <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
-              routerLink="{{subject.subjectId}}/units"> <i class="icofont-paper"></i> </a>
+            <a class='btn btn-outline-info btn-sm'
+              (click)="setCurrentSubjectTitle(subject.subjectName);"
+              routerLink="{{subject.subjectId}}/units"> <i
+                class="icofont-paper"></i> </a>
           </div>
-          <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
-              class="icofont-paper"></i> </button> -->
         </td>
         <td>
           <div>
-            <!-- <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
-              routerLink="{{subject.subjectId}}/questions-bank" *ngIf="subject.sectionId === SectionID.PUBLIC"> <i
-                class="icofont-paper"></i> </a> -->
-            <a class='btn btn-outline-info btn-sm' (click)="setCurrentSubjectTitle(subject.subjectName);"
-              routerLink="{{subject.subjectId}}/questions-bank"> <i class="icofont-paper"></i> </a>
+            <a class='btn btn-outline-info btn-sm'
+              (click)="setCurrentSubjectTitle(subject.subjectName);"
+              routerLink="{{subject.subjectId}}/questions-bank"> <i
+                class="icofont-paper"></i> </a>
           </div>
-          <!-- <button class='btn btn-outline-info btn-sm' disabled *ngIf="subject.sectionId !== SectionID.PUBLIC"> <i
-              class="icofont-paper"></i> </button> -->
         </td>
         <td>
           <a class='btn btn-outline-info btn-sm'
-              routerLink="lessonQuestions/{{subject.subjectId}}"> اسئله الماده </a>
+            routerLink="lessonQuestions/{{subject.subjectId}}"> اسئله الماده
+          </a>
         </td>
         <td *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]">
           <div class='switch-button'>
-            <input id="{{subject.subjectId}}" name='lang' (change)="toggleSubjectActivation(subject.subjectId)"
+            <input id="{{subject.subjectId}}" name='lang'
+              (change)="toggleSubjectActivation(subject.subjectId)"
               type='checkbox' [checked]="subject.isActive ? true : false " />
             <label for="{{subject.subjectId}}"></label>
           </div>
         </td>
         <td *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]">
           <!-- (click)="open(EditModal, stage.stageId)" -->
-          <button class="btn btn-outline-primary btn-sm" (click)="open(EditModal, subject.subjectId)"> <i
+          <button class="btn btn-outline-primary btn-sm"
+            (click)="open(EditModal, subject.subjectId)"> <i
               class="fa fa-edit"></i>
           </button>
         </td>
         <td *RoleAction="[RolesEnum.SUPER_ADMIN, RolesEnum.SUBJECTS]">
           <!--  -->
           <button class="btn btn-outline-danger btn-sm" [swal]="ConfirmSwal"
-            (click)="deleteSubjectId = subject.subjectId"> <i class="fa fa-trash"></i>
+            (click)="deleteSubjectId= subject.subjectId"> <i class="fa
+              fa-trash"></i>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="d-flex justify-content-center aligns-item-center">
-    <ngb-pagination [collectionSize]="subjectsData.rowCount" [(page)]="pagination.pageNo"
+    <ngb-pagination [collectionSize]="subjectsData.rowCount"
+      [(page)]="pagination.pageNo"
       [pageSize]="pagination.pageSize" [maxSize]="3" [boundaryLinks]="true"
       (pageChange)="filtrationSubjects()"></ngb-pagination>
   </div>
-
 </ng-template>
 
-<ng-template #loading_skeleton>
-  <ngx-skeleton-loader count="2" appearance="line" [theme]="{
-        'border-radius': '5px',
-        height: '40px',
-        'background-color': '#efefef',
-        width: '130px',
-        border: '1px solid white'
-      }"></ngx-skeleton-loader>
-
-  <div class="item">
-    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
-            'border-radius': '5px',
-            height: '30px',
-            'background-color': '#efefef',
-            border: '1px solid white'
-          }"></ngx-skeleton-loader>
-  </div>
-</ng-template>
-
-
-
-<ng-template #AddModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title"> اضافة مادة </h4>
-  </div>
-  <form class="modal-body" (ngSubmit)="createSubject()" >
-    <div>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">الدولة</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="filterStagesAndGradesByCountry($any($event.target).value,false) ">
-          <option selected disabled> اختر دولة </option>
-          <option *ngFor="let country of countries" [value]="country.id"> {{country.name}} </option>
-        </select>
-      </div>
-
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">المجموعه</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="newSubject.stageId = $any($event.target).value ; selectSection($any($event.target).value) ">
-          <option selected disabled> اختر المجموعة </option>
-          <option *ngFor="let section of listOfSections" [value]="section.sectionId"> {{section.sectionName}} </option>
-        </select>
-      </div>
-
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="newSubject.stageId = $any($event.target).value ; getGradesByStageId($any($event.target).value) ">
-          <option selected disabled> اختر مرحلة </option>
-          <option *ngFor="let stage of listOfStages" [value]="stage.stageId"> {{stage.stageName}} </option>
-        </select>
-      </div>
-
-
-
-
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">الصف الدراسي</label>
-        <select class="form-select" id="inputGroupSelect01" (change)="newSubject.gradeId = $any($event.target).value "
-          [disabled]="!newSubject.stageId || !listOfGradesByStageId.length  ">
-          <option selected> الصف الدراسي </option>
-          <option *ngFor="let grade of listOfGradesByStageId" [value]="grade.gradeId"> {{grade.gradeName}}
-          </option>
-        </select>
-      </div>
-
-
-
-
-
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">اسم المادة</span>
-        <input type="text" class="form-control" placeholder="اكتب اسم المادة" aria-label="Username"
-          aria-describedby="basic-addon1" (keyup)="newSubject.subjectName = $any($event.target).value">
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">رقم المادة</span>
-        <input type="text" class="form-control" placeholder="اكتب رقم المادة" aria-label="Username"
-          aria-describedby="basic-addon1" (keyup)="newSubject.index = $any($event.target).value">
-      </div>
-
-
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">صورة المادة</span>
-        <input type="file" class="form-control" placeholder="اكتب اسم المادة" aria-label="Username"
-          aria-describedby="basic-addon1" (change)="uploadFile($any($event.target).files)">
-      </div>
-      <a> <i class="fa fa-eye m-2" *ngIf="subjectImage" (click)="previewFile()"></i></a>
-
-    </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" type="submit" (click)="createSubject()" [disabled]="!newSubject"> <i
-        class="fa fa-save"></i>
-      حفظ</button>
-    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
-      إلغاء</button>
-  </div>
-</form>
-</ng-template>
 
 
 <ng-template #EditModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title"> تعديل مادة </h4>
   </div>
-  <div class="modal-body">
-    <div>
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">الدولة</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="filterStagesAndGradesByCountry($any($event.target).value,false)">
-          <option selected disabled> اختر دولة </option>
-          <option *ngFor="let country of countries" [value]="country.id"
-            [selected]="country.id == editSubjectSnapShotData.country"> {{country.name}} </option>
-        </select>
-      </div>
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="upDateSubject.sectionId = $any($event.target).value">
-          <option selected disabled> اختر مجموعة </option>
-          <option *ngFor="let section of listOfSections" [value]="section.sectionId"
-            [selected]="section.sectionId === upDateSubject.sectionId "> {{section.sectionName}} </option>
-        </select>
-      </div>
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">المرحلة</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="upDateSubject.stageId = $any($event.target).value ; getGradesByStageId($any($event.target).value) ">
-          <option selected disabled> اختر مرحلة </option>
-          <option *ngFor="let stage of listOfStages" [value]="stage.stageId"
-            [selected]="stage.stageId === upDateSubject.stageId"> {{stage.stageName}} </option>
-        </select>
-      </div>
-
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">الصف الدراسي</label>
-        <select class="form-select" id="inputGroupSelect01"
-          (change)="upDateSubject.gradeId = $any($event.target).value ">
-          <option selected> الصف الدراسي </option>
-          <option *ngFor="let grade of listOfGrades" [value]="grade.gradeId"
-            [selected]="grade.gradeId == upDateSubject.gradeId"> {{grade.gradeName}} </option>
-        </select>
-      </div>
-
-
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">اسم المادة</span>
-        <input type="text" class="form-control" placeholder="اكتب اسم المادة" aria-label="Username"
-          [value]="upDateSubject.subjectName" aria-describedby="basic-addon1"
-          (keyup)="upDateSubject.subjectName = $any($event.target).value">
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">رقم المادة</span>
-        <input type="text" class="form-control" placeholder="اكتب المادة المادة" aria-label="Username"
-          [value]="upDateSubject.index" aria-describedby="basic-addon1"
-          (keyup)="upDateSubject.index = $any($event.target).value">
-      </div>
-
-
-      <div class=" mb-3">
-        <div class="input-group">
-          <span class="input-group-text" id="basic-addon1">صورة المادة</span>
-          <input type="file" class="form-control" accept="image/png , image/jpeg , image/jpg"
-            placeholder="اكتب اسم المادة" aria-label="Username" aria-describedby="basic-addon1"
-            (change)="uploadFile($any($event.target).files)">
-        </div>
-
-
-        <img *ngIf="upDateSubject.subjectImage" [src]="SITE_URL+upDateSubject.subjectImage" width="100px"
-          height="100px" />
-        <span class='text-danger' *ngIf="!upDateSubject.subjectImage"> لا يوجد صورة </span>
-      </div>
-
+  <form class="modal-body" (ngSubmit)="editSubject()"
+    [formGroup]="editSubjectForm">
+    <div class="input-group mb-3">
+      <label class="mb-2">الدولة</label>
+      <ng-select [items]="countries$ | async" class="w-100"
+        formControlName="country" bindLabel="name" bindValue="id"
+        placeholder="اختر الدوله"></ng-select>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" (click)="editSubject()" [disabled]="!newSubject"> <i
-        class="fa fa-save"></i>
-      حفظ</button>
-    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
-      إلغاء</button>
-  </div>
+
+    <div class="input-group mb-3">
+      <label class="mb-2" for="inputGroupSelect01">المجموعه</label>
+      <ng-select [items]="listOfSections" bindLabel="sectionName" class="w-100"
+        formControlName="sectionId" bindValue="sectionId" placeholder="اختر
+        المجموعه"></ng-select>
+    </div>
+
+    <div class="input-group mb-3">
+      <label class="mb-2" for="inputGroupSelect01">المرحلة</label>
+      <ng-select [items]="listOfStages" bindLabel="stageName" class="w-100"
+        (change)="getGradesByStageId($event); resetGradeId()" formControlName="stageId"
+        bindValue="stageId" placeholder="اختر المرحله"></ng-select>
+    </div>
+
+    <div class="input-group mb-3">
+      <label class="mb-2" for="inputGroupSelect01">الصف الدراسي</label>
+      <ng-select [items]="listOfGrades" bindLabel="gradeName" class="w-100"
+        formControlName="gradeId" bindValue="gradeId" placeholder="اختر الصف
+        الدراسي"></ng-select>
+    </div>
+
+    <div class=" mb-3">
+      <span class="mb-2" id="basic-addon1">اسم المادة</span>
+      <input type="text" class="form-control" placeholder="اكتب اسم المادة"
+        formControlName="subjectName">
+    </div>
+    <div class=" mb-3">
+      <span class="mb-2" id="basic-addon1">رقم المادة</span>
+      <input type="text" class="form-control" placeholder="اكتب المادة المادة"
+        formControlName="index">
+    </div>
+
+    <div class=" mb-3">
+      <span class="mb-2" id="basic-addon1">صورة المادة</span>
+      <input type="file" class="form-control" accept="image/png , image/jpeg
+        , image/jpg"
+        placeholder="اكتب اسم المادة" aria-label="Username"
+        aria-describedby="basic-addon1"
+        (change)="uploadFile($any($event.target).files)">
+
+      <img *ngIf="upDateSubject.subjectImage"
+        [src]="SITE_URL+upDateSubject.subjectImage" width="100px"
+        height="100px" />
+      <span class='text-danger' *ngIf="!upDateSubject.subjectImage"> لا يوجد
+        صورة </span>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-success"
+        [disabled]="editSubjectForm.invalid"> <i
+          class="fa fa-save"></i>
+        حفظ</button>
+      <button type="button" class="btn btn-outline-danger"
+        (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
+        إلغاء</button>
+    </div>
+  </form>
+
 </ng-template>
 
 <!-- Success Modal Swal -->
-<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true" [confirmButtonText]="'حسناً'"
+<swal #SuccessSwal title="عملية ناجحة" icon="success" [showConfirmButton]="true"
+  [confirmButtonText]="'حسناً'"
   [confirmButtonColor]="'#28a745'" class="swal-modal">
 </swal>
 
-
 <!-- Confirm Delete Stage Modal Swal -->
-<swal #ConfirmSwal title="انتبه" [text]="'هل انت متأكد من حذف هذه المادة'" icon="warning" [showConfirmButton]="true"
-  [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'" [showCancelButton]="true" [cancelButtonText]="'إالغاء'"
+<swal #ConfirmSwal title="انتبه" [text]="'هل انت متأكد من حذف هذه المادة'"
+  icon="warning" [showConfirmButton]="true"
+  [confirmButtonText]="'حسناً'" [confirmButtonColor]="'#28a745'"
+  [showCancelButton]="true" [cancelButtonText]="'إالغاء'"
   class="swal-modal" (confirm)="deleteSubject()">
 </swal>
+
+<ng-template #loading_skeleton>
+  <ngx-skeleton-loader count="2" appearance="line" [theme]="{
+    'border-radius': '5px',
+    height: '40px',
+    'background-color': '#efefef',
+    width: '130px',
+    border: '1px solid white'
+    }"></ngx-skeleton-loader>
+
+  <div class="item">
+    <ngx-skeleton-loader count="5" appearance="line" [theme]="{
+      'border-radius': '5px',
+      height: '30px',
+      'background-color': '#efefef',
+      border: '1px solid white'
+      }"></ngx-skeleton-loader>
+  </div>
+</ng-template>

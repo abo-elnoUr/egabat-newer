@@ -4,10 +4,10 @@
   </button>
 </div>
 <div>
-  <form [formGroup]="filterTeacherForm">
+  <form [formGroup]="filterTeacherForm" >
     <div class="row">
       <div class="col-md-3">
-        <div class="input-group mb-3">
+        <div class="input-group mb-3" >
           <label class="input-group-text" for="inputGroupSelect01"> المرحلة</label>
           <select class="form-select" formControlName="stageId"
             (change)="this.getTeachers(); getGradeByStageId($any($event.target).value)">
@@ -139,8 +139,11 @@
     </div>
   </ng-template>
 
-  <ngb-pagination [collectionSize]="teachersData.rowCount" [(page)]="pagination.pageNo" [pageSize]="pagination.pageSize"
+  <div class="d-flex justify-content-center align-items-center ">
+
+    <ngb-pagination [collectionSize]="teachersData?.rowCount" [(page)]="pagination.pageNo" [pageSize]="pagination.pageSize"
     [maxSize]="3" [boundaryLinks]="true" (pageChange)="getTeachers()"></ngb-pagination>
+  </div>
 
 </div>
 

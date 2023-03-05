@@ -29,12 +29,12 @@ export class ModifyTeacherSubjectsComponent implements OnInit {
     private modalService: NgbModal,
     private teacherMethods: TeachersComponent,
     private _sectionService: SectionService,
-    private countryService: CountryService
+    private _CountryService: CountryService
   ) { }
 
 
 
-  countries: Array<ICountryModel> = [];
+  countries$ = this._CountryService.countries$
   listOfStages: Array<IStage>;
   listOfGrade: Array<IGrade>;
   listOfSubjects: Array<ISubject>;
@@ -61,9 +61,7 @@ export class ModifyTeacherSubjectsComponent implements OnInit {
       }
     )
   }
-  getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
-  }
+
   modifyPermessions(subject: string, permession: string, status: boolean) {
     // let stat:boolean= status==='on';
     console.log('status', status);
@@ -77,7 +75,6 @@ export class ModifyTeacherSubjectsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getTeacherSubjects(this.teacherId)
-    this.getAllCountries();
 
     // this.getSages()
     // this.getSections()

@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between form-group my-2">
   <div class="arrow_back">
-    <a class="back" routerLink="/Admin/dashboard/competitions/competition-questions">
+    <a class="back" routerLink="/Admin/dashboard/competitions/competition-questions/{{ competitionId }}">
       <button class="btn btn-primary">العودة</button>
     </a>
   </div>
@@ -26,13 +26,13 @@
   <div class="col-md-6">
     <div class="form-group">
       <label class="my-2">بدايه المسابقه</label>
-      <input type="text" disabled class="form-control" [value]="competitionById?.startDate | date:'yyyy-MM-dd'">
+      <input type="text" disabled class="form-control" [value]="competitionById?.start_Date | date:'yyyy-MM-dd'">
     </div>
   </div>
   <div class="col-md-6">
     <div class="form-group">
       <label class="my-2">نهايه المسابقه</label>
-      <input type="text" disabled class="form-control" [value]="competitionById?.endDate | date:'yyyy-MM-dd'">
+      <input type="text" disabled class="form-control" [value]="competitionById?.end_Date | date:'yyyy-MM-dd'">
     </div>
   </div>
 </div>
@@ -71,5 +71,5 @@
     <button (click)="addAnswer()" class="btn btn-outline-dark my-2">زود اجابه</button>
   </form>
 </div>
-<button class="btn btn-outline-primary my-2" (click)="addQuestion()" [disabled]="addCompetionQuestionForm.get('question').invalid || mustSelect == false">حفظ</button>
+<button class="btn btn-outline-primary my-2" (click)="addQuestion()" [disabled]="mustSelect == false">حفظ</button>
 

@@ -12,7 +12,7 @@
                 <label class="mb-2" for="exampleFormControlSelect6">الدولة</label>
                 <select type="text" class="form-control" id="semesterName" formControlName="countryId">
                   <option value="">أختر الدولة</option>
-                  <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                  <option *ngFor="let country of countries$ | async" [value]="country.id">{{country.name}}</option>
                 </select>
               </div>
             </div>

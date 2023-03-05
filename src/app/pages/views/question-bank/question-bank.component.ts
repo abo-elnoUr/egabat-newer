@@ -20,7 +20,7 @@ import { QuestionsBankService } from './questions-bank.service';
 })
 export class QuestionBankComponent implements OnInit {
   constructor(
-    private countryService: CountryService,
+    private _CountryService: CountryService,
     private sectionService: SectionService,
     private HttpMethods: SubjectService,
     private _formBuilder: FormBuilder,
@@ -50,7 +50,7 @@ export class QuestionBankComponent implements OnInit {
   questions: IQuestionBankResponse = { count: 0, questions: [] };
 
   isLoading: boolean;
-  countries: Array<ICountryModel> = [];
+  countries$ = this._CountryService.countries$
   listOfSections: Array<ISection> = [];
   listOfGrades: Array<IGrade> = [];
   listOfStages: Array<IStage> = [];
@@ -61,7 +61,6 @@ export class QuestionBankComponent implements OnInit {
     this._stateService.currentSubject.subscribe(
       (res) => (this.subjectName = res)
     );
-    this.getAllCountries();
     this.filtrationSubjects();
   }
   Add() {
@@ -70,11 +69,7 @@ export class QuestionBankComponent implements OnInit {
     ]);
   }
 
-  getAllCountries() {
-    this.countryService
-      .getAllCountries()
-      .subscribe((res) => (this.countries = res));
-  }
+
   filterStagesAndGradesByCountry(countryId: string, fromtable = true) {
     if (!countryId || !countryId.length) {
       this.listOfStages = [] = this.listOfSections = [];

@@ -8,20 +8,19 @@ export interface EditCompetitionDto extends CreateCompetitionDto {
   id: string;
 }
 
+
 export interface ResponseCompetitionDto {
-  id: string;
+  competitionId: string;
   address: string;
-  competition_Image: string;
-  startDate: string;
-  endDate: string;
+  image: string;
   timer: number;
-  competitionStageResponses: CompetitionStageResponse[];
+  start_Date: string;
+  end_Date: string;
+  stageId: string | null;
+  gradeId: string | null;
+  general: boolean;
 }
 
-export interface CompetitionStageResponse {
-  stageId: string | null;
-  stageName?: string | null;
-}
 
 export interface CreateCompetitionDto {
   address: string;

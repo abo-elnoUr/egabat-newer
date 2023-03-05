@@ -14,12 +14,12 @@ export class AddSemesterComponent implements OnInit {
 
 
   createSemesterForm: FormGroup;
-countries:Array<ICountryModel>=[];
+  countries$ = this._CountryService.countries$
   constructor(
     private _route: Router,
     private _semesterService: SemesterService,
     private _formBuilder: FormBuilder,
-    private countryService:CountryService
+    private _CountryService:CountryService
   ) {
     this.createSemesterForm = this._formBuilder.group({
       "countryId":['',[Validators.required]],
@@ -30,12 +30,8 @@ countries:Array<ICountryModel>=[];
     })
 
   }
-  getAllCountries()
-  {
-    this.countryService.getAllCountries().subscribe(res=>this.countries=res);
-  }
+
   ngOnInit(): void {
-    this.getAllCountries();
   }
 
   isSubmiting: boolean = false;

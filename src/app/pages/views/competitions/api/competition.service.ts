@@ -21,7 +21,7 @@ export class CompetitionService {
   }
 
   getAllCompetitions(filter: PaginationDto) {
-    return this.http.post<CompetitionResponse>(`${env.API_ROOT}/api/Competition/GetCompetitions`, filter).pipe(catchError(this.handleError.logError))
+    return this.http.get<CompetitionResponse>(`${env.API_ROOT}/api/Competition/GetAllCompetitions/?pageSize=${filter.pageSize}&pageNumber=${filter.pageNo}`).pipe(catchError(this.handleError.logError))
   }
 
   addCompetition(competion:any) {
@@ -33,11 +33,11 @@ export class CompetitionService {
   }
 
   getCompetitionById(competitionId: string) {
-    return this.http.get<ResponseCompetitionDto>(`${env.API_ROOT}/api/Competition/GetCompetitionById/${competitionId}`).pipe(catchError(this.handleError.logError))
+    return this.http.get<ResponseCompetitionDto>(`${env.API_ROOT}/api/Competition/GetCompetitionByCompetitionId?competitionId=${competitionId}`).pipe(catchError(this.handleError.logError))
   }
 
   deleteCompetition(competitionId: string) {
-    return this.http.delete(`${env.API_ROOT}/api/Competition/DeleteCompetition/${competitionId}`).pipe(catchError(this.handleError.logError))
+    return this.http.delete(`${env.API_ROOT}/api/Competition/DeleteCompetition?competitionId=${competitionId}`).pipe(catchError(this.handleError.logError))
   }
 
   activation(competitionId:string) {
@@ -55,7 +55,7 @@ export class CompetitionService {
   }
 
   addCompetitionQuestion(competionQuestion:any) {
-    return this.http.post(`${env.API_ROOT}/api/Competition/AddCompetitionQuestion`, competionQuestion).pipe(catchError(this.handleError.logError))
+    return this.http.post(`${env.API_ROOT}/api/CompetitionQuestion/AddCompetitionQuestion`, competionQuestion).pipe(catchError(this.handleError.logError))
   }
 
   editCompetitionQuestion(competion: any) {
@@ -67,7 +67,7 @@ export class CompetitionService {
   }
 
   getCompetitionQuestionByCompetitionId(competitionId: string) {
-    return this.http.get<ResponseCompetitionQuestion[]>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestionsByCompetitionId/${competitionId}`).pipe(catchError(this.handleError.logError))
+    return this.http.get<ResponseCompetitionQuestion[]>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestionsWithAnswers?competitionId=${competitionId}`).pipe(catchError(this.handleError.logError))
   }
 
   deleteCompetitionQuestion(competitionQuestionId: string) {

@@ -50,6 +50,7 @@ import { AddCompetitionQuestionsComponent } from '../views/competitions/add-comp
 import { EditCompetitionComponent } from '../views/competitions/edit-competition/edit-competition.component';
 import { CompetitionQuestionsComponent } from '../views/competitions/competition-questions/competition-questions.component';
 import { AddCompetitionComponent } from '../views/competitions/add-competition/add-competition.component';
+import { AddSubjectComponent } from '../views/subjects/add-subject/add-subject.component';
 
 
 const routes: Routes = [
@@ -103,6 +104,10 @@ const routes: Routes = [
           {
             path: "",
             component: SubjectsComponent,
+          },
+          {
+            path: "addSubject",
+            component: AddSubjectComponent,
           },
           {
             path: ":subjectId/questions-bank",
@@ -179,8 +184,8 @@ const routes: Routes = [
           { path: "", component: CompetitionsComponent },
           { path: "add-competition", component:  AddCompetitionComponent},
           { path: "edit-competition/:id", component: EditCompetitionComponent },
-          { path: "competition-questions", component: CompetitionQuestionsComponent },
-          { path: "add-competition-questions", component: AddCompetitionQuestionsComponent },
+          { path: "competition-questions/:id", component: CompetitionQuestionsComponent },
+          { path: "add-competition-questions/:id", component: AddCompetitionQuestionsComponent },
         ]
       },
       { path: 'messages', component: MessagesComponent, data: { page: RolesEnum.TECH_SUPPORT }, canActivate: [RolesGuard] },

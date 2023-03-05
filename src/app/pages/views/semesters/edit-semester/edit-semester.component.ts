@@ -16,13 +16,13 @@ export class EditSemesterComponent implements OnInit {
 
   updateSemsterForm: FormGroup;
 
-  countries: Array<ICountryModel> = [];
+  countries$ = this._CountryService.countries$
   constructor(
     private _activeRoute: ActivatedRoute,
     private _route: Router,
     private _semesterService: SemesterService,
     private _formBuilder: FormBuilder,
-    private countryService: CountryService
+    private _CountryService: CountryService
   ) {
     this.semesterId = this._activeRoute.snapshot.params['semesterId'];
 
@@ -36,11 +36,8 @@ export class EditSemesterComponent implements OnInit {
     })
 
   }
-  getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
-  }
+
   ngOnInit(): void {
-    this.getAllCountries();
     this.getSemesterData();
   }
 

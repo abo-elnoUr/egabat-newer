@@ -13,7 +13,7 @@
       <div class="input-group">
         <select (change)="getCountrySections($any($event.target).value)" id="newStageName" class="form-control">
           <option value="">اختر الدولة</option>
-          <option *ngFor="let country of countries" [value]="country.id">
+          <option *ngFor="let country of countries$ | async" [value]="country.id">
             {{ country.name }}
           </option>
         </select>
@@ -95,12 +95,12 @@
 
 <!-- Create Stage Modal -->
 <ng-template #AddModal let-modal>
-  <app-add-section [modal]="modal" [countries]="countries"></app-add-section>
+  <app-add-section [modal]="modal" [countries]="countries$ | async"></app-add-section>
 </ng-template>
 
 <!-- Edit Stage Modal -->
 <ng-template #EditModal let-modal>
-  <app-edit-section [modal]="modal" [countryId]="editSectionCountry" [countries]="countries"
+  <app-edit-section [modal]="modal" [countryId]="editSectionCountry" [countries]="countries$ | async"
     [sectionId]="editingSectionId" [sectionName]="editSectionName" [index]="editSectionIndex"></app-edit-section>
 </ng-template>
 

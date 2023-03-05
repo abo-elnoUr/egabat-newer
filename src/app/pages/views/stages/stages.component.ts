@@ -28,31 +28,17 @@ interface IStage {
 export class StagesComponent implements OnInit {
   @ViewChild('SuccessSwal') private successSwal: SwalComponent;
   closeResult = '';
-  countries: Array<ICountryModel> = [];
   listOfStages: any;
   deleteStageId: string = "";
   sendRequest: Boolean = false;
-
-
   editingStageId: string = ""
-
-
-
-
-
-
   createNewStage: FormGroup;
-
   public countryId: string;
-
-  getAllCountries() {
-    this.countryService.getAllCountries().subscribe(res => this.countries = res);
-  }
-
+  countries$ = this._CountryService.countries$
 
   constructor(private HttpMethods: StageHttpService,
     private modalService: NgbModal, private FB: FormBuilder,
-    private countryService: CountryService) {
+    private _CountryService: CountryService) {
 
 
     this.createNewStage = this.FB.group({
@@ -73,7 +59,6 @@ export class StagesComponent implements OnInit {
 
   ngOnInit(): void {
     document.title = `${env.webSiteName} | المراحل`
-    this.getAllCountries();
     this.getAllStages()
 
   }

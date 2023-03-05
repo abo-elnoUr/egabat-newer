@@ -30,12 +30,12 @@ export class CustomLibraryComponent implements OnInit {
   listOfStages: IStage[] = []
   listOfGrades: IGrade[] = []
   listOfSemester: ISemester[] = []
-  listOfCountries: ICountryModel[] = []
+
   mainCategoryId: string = ''
   imgUrl = `${environment.API_ROOT}/`
   currentImage: string = ''
   general: boolean = true
-
+  countries$ = this._CountryService.countries$
   pagination = {
     pageSize: 10,
     pageNo: 1
@@ -49,7 +49,7 @@ export class CustomLibraryComponent implements OnInit {
     private _SemesterService: SemesterService,
     private _CustomLibraryService: CustomLibraryService,
     private _SweetAlertService: SweetAlertService,
-    private _countryService: CountryService
+    private _CountryService: CountryService
   ) { }
 
   ngOnInit(): void {
@@ -61,18 +61,10 @@ export class CustomLibraryComponent implements OnInit {
     // this.getStages()
     this.getLibrarys()
     this.getSemesters()
-    this.getCountries();
+    this.getStages()
+
   }
 
-  getCountries() {
-    this._countryService.getAllCountries().subscribe({
-      next: (res) => {
-        //console.log(res);
-        this.listOfCountries = res
-        this.getStages()
-      }
-    })
-  }
   createAddLibraryForm() {
     this.libraryForm = this._FormBuilder.group({
       name: [''],

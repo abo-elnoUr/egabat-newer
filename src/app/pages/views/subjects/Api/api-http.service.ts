@@ -5,7 +5,7 @@ import { catchError, shareReplay } from "rxjs/operators"
 import { environment } from 'src/environments/environment';
 
 const env = environment
-import { ISubject, ISubjectFilterResponse, SubjectQuestionResponse } from 'src/app/helpers/_interfaces/subject';
+import { CreateSubjectDto, ISubject, ISubjectFilterResponse, SubjectQuestionResponse } from 'src/app/helpers/_interfaces/subject';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'

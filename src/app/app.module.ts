@@ -54,6 +54,7 @@ import { AddCompetitionComponent } from './pages/views/competitions/add-competit
 import { EditCompetitionComponent } from './pages/views/competitions/edit-competition/edit-competition.component';
 import { AddCompetitionQuestionsComponent } from './pages/views/competitions/add-competition-questions/add-competition-questions.component';
 import { CompetitionQuestionsComponent } from './pages/views/competitions/competition-questions/competition-questions.component';
+import { AddSubjectComponent } from './pages/views/subjects/add-subject/add-subject.component';
 
 
 registerLocaleData(en);
@@ -96,6 +97,7 @@ registerLocaleData(en);
     EditCompetitionComponent,
     AddCompetitionQuestionsComponent,
     CompetitionQuestionsComponent,
+    AddSubjectComponent,
 
   ],
   imports: [

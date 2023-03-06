@@ -49,11 +49,10 @@ export class CompetitionQuestionsComponent implements OnInit {
 
   createEditAnswerFrom(){
     this.editAnswerForm = this._formBulider.group({
-      answerText: [''],
-      isSelected: [false],
-      competitionId:[this.competitionId],
-      questionId:[this.questionId],
-      answerId: [this.answerId]
+      answer_Text: [''],
+      is_Selected: [false],
+      question_Id:[this.questionId],
+      answer_Id: [this.answerId]
     })
   }
 
@@ -84,8 +83,8 @@ export class CompetitionQuestionsComponent implements OnInit {
 	}
 
   openEditAnswer(content: any, answer: string, isSelected: boolean){
-    this.editAnswerForm.get('answerText').setValue(answer)
-    this.editAnswerForm.get('isSelected').setValue(isSelected)
+    this.editAnswerForm.get('answer_Text').setValue(answer)
+    this.editAnswerForm.get('is_Selected').setValue(isSelected)
 		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then(
 			(result) => {
 				this.closeResult = `Closed with: ${result}`;
@@ -126,8 +125,8 @@ export class CompetitionQuestionsComponent implements OnInit {
   }
 
   editAnswers(){
-    this.editAnswerForm.get('questionId').setValue(this.questionId)
-    this.editAnswerForm.get('answerId').setValue(this.answerId)
+    this.editAnswerForm.get('question_Id').setValue(this.questionId)
+    this.editAnswerForm.get('answer_Id').setValue(this.answerId)
 
     this._CompetitionService.editCompetitionQuestionAnswer(this.editAnswerForm.value).subscribe({
       next: (res) => {

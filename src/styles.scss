@@ -15,7 +15,7 @@ body {
   // background-color: #efefef;
   /* width */
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 3px;
   }
 
   /* Track */
@@ -34,6 +34,15 @@ body {
     background: #40514e;
   }
 }
+
+// ****************************
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container, .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value{
+  margin-right: 5px;
+}
+
+
+// ****************************
 
 table {
   font-family: "Cairo", serif;

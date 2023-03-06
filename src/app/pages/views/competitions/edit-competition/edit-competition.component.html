@@ -27,14 +27,14 @@
       <div class="form-group">
         <label class="my-2">بدايه المسابقه</label>
         <!-- [value]="editCompetitionForm.get('startDate').value | date:'yyyy-MM-dd hh:mm:ss'" -->
-        <input type="datetime-local" class="form-control" formControlName="startDate" >
+        <input type="datetime-local" class="form-control" formControlName="start_Date" >
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group">
         <label class="my-2">نهايه المسابقه</label>
         <!-- [value]="editCompetitionForm.get('endDate').value | date:'yyyy-MM-dd hh:mm:ss'" -->
-        <input type="datetime-local" class="form-control" formControlName="endDate" >
+        <input type="datetime-local" class="form-control" formControlName="end_Date" >
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@
         <label class="my-2">الصوره</label>
         <div class="d-flex">
           <input type="file" class="form-control" (change)="selectImage($event)">
-          <img *ngIf="image" class="me-2" [src]="imageUrl + '/' + image" width="35" >
+          <img *ngIf="image" class="me-2 rounded" [src]="imageUrl + '/' + image" width="40" height="35" >
         </div>
       </div>
     </div>
@@ -60,35 +60,30 @@
   </div>
   <div *ngIf="!showStage">
     <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
+      <div class="col">
+        <div class="form-group mb-2">
           <label class="my-2">المرحله</label>
-          <select  (change)="selectStage($any($event.target).value)" class="form-select">
-            <option [value]="null" selected>اختر مرحله</option>
-            <option *ngFor="let stage of stages; let i = index" [value]="stage.stageId">{{ stage.stageName }}</option>
-          </select>
+          <ng-select [items]="listOfStages"
+            bindLabel="stageName"
+            bindValue="stageId"
+            placeholder="اختر مرحله"
+            (change)="getGrades($event)"
+            formControlName="stageId">
+          </ng-select>
         </div>
       </div>
-      <div class="col-md-6"></div>
+      <div class="col">
+        <div class="form-group mb-2">
+          <label class="my-2">الصف</label>
+          <ng-select [items]="listOfGrades"
+            bindLabel="gradeName"
+            bindValue="gradeId"
+            placeholder="اختر صف"
+            formControlName="gradeId">
+          </ng-select>
+        </div>
+      </div>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">اسم المرحله</th>
-          <th scope="col">عمليات</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let st of viewStages; let i = index">
-          <td scope="col">{{ i+1 }}</td>
-          <td>{{ st.stageName }}</td>
-          <td>
-            <span style="cursor: pointer;" (click)="removeFromStagesTable(i)"> <i class="icofont-ui-delete text-danger fs-4"></i> </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </form>
 </div>

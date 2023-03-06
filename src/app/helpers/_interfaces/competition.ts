@@ -5,7 +5,7 @@ export interface CompetitionResponse{
 }
 
 export interface EditCompetitionDto extends CreateCompetitionDto {
-  id: string;
+  competitionId: string;
 }
 
 

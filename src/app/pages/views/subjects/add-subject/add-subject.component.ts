@@ -19,7 +19,6 @@ import { SubjectService } from '../Api/api-http.service';
 })
 export class AddSubjectComponent implements OnInit {
 
-  @ViewChild('SuccessSwal') private successSwal: SwalComponent;
   subjectForm: FormGroup
   subjectImage: File
   filterSubjectsForm: FormGroup
@@ -115,8 +114,7 @@ export class AddSubjectComponent implements OnInit {
   createSubject() {
     this._SubjectService.createSubject(this.collectDataCreateSubject()).subscribe({
       next: (res) => {
-        console.log(res);
-
+        this._SweetAlertService.createSuccess()
       },
       error: (err) => {
         this._SweetAlertService.errorMessage(err)

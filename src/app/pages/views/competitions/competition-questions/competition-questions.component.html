@@ -11,7 +11,7 @@
 <div class="mt-3">
 <nav aria-label="breadcrumb"  style="--bs-breadcrumb-divider: '';">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/Admin/dashboard/competition']">المسابقات</a></li>
+    <li class="breadcrumb-item"><a [routerLink]="['/Admin/dashboard/competitions']">المسابقات</a></li>
     <li class="mx-2">/</li>
     <li class="breadcrumb-item" aria-current="page">اسئله المسابقات</li>
     <li class="mx-2">/</li>
@@ -107,10 +107,10 @@
     <div [formGroup]="editAnswerForm">
       <div class="form-group mb-2">
         <label class="mb-2">الاجابه</label>
-        <input type="text" class="form-control" formControlName="answerText">
+        <input type="text" class="form-control" formControlName="answer_Text">
       </div>
       <div class="form-group">
-        <input type="checkbox" class="ms-1" formControlName="isSelected">
+        <input type="checkbox" class="ms-1" formControlName="is_Selected">
         <label>إجابه صحيحه</label>
       </div>
     </div>

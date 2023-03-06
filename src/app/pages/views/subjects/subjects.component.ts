@@ -198,6 +198,7 @@ export class SubjectsComponent implements OnInit {
   resetGradeId() {
     this.editSubjectForm.get('gradeId').reset()
   }
+  imageSubject: string
   // Get Subject By Id
   getSubjectById(subjectId: string) {
     this.HttpMethods.getSubjectById(subjectId).subscribe((res) => {
@@ -212,9 +213,12 @@ export class SubjectsComponent implements OnInit {
         country: result.country,
         sectionId: result.sectionId,
         isActive: result.isActive,
-        subjectImage: res.subjectImage,
+        subjectImage: result.subjectImage,
         index: result.index,
       })
+      this.imageSubject = result.subjectImage
+      console.log(result.subjectImage);
+
       this.getGradesByStageId(result)
 
     });

@@ -35,15 +35,13 @@
     <button hidden type="submit" [disabled]="addSectionForm.invalid" ></button>
   </form>
 
-</div>
-<div class="modal-footer">
-  <button type="submit" (click)="add()" [disabled]="addSectionForm.invalid" class="btn btn-outline-success"> <i
-      class="fa fa-save"></i>
-    حفظ</button>
-
-
-  <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
-    إلغاء</button>
+  <div class="modal-footer">
+    <button type="submit" [disabled]="addSectionForm.invalid" class="btn btn-outline-success"> <i
+        class="fa fa-save"></i>
+      حفظ</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('')"> <i class="fa fa-times-circle"></i>
+      إلغاء</button>
+  </div>
 </div>
 
 

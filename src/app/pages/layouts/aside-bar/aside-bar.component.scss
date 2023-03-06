@@ -9,7 +9,7 @@ aside {
         overflow: auto;
 
         &::-webkit-scrollbar {
-            width: 10px;
+            width: 5px;
           }
 
           /* Track */
@@ -53,7 +53,7 @@ aside {
                             right: 15px;
                             transform: translateY(-50%);
                         }
-                        
+
                         &:hover ,&.active-link {
                             background-color: #30e3ca;
                            color: #40514e;

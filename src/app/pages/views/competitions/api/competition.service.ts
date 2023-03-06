@@ -40,9 +40,9 @@ export class CompetitionService {
     return this.http.delete(`${env.API_ROOT}/api/Competition/DeleteCompetition?competitionId=${competitionId}`).pipe(catchError(this.handleError.logError))
   }
 
-  activation(competitionId:string) {
-    return this.http.put(`${env.API_ROOT}/api/Competition/CompetitionActivation/${competitionId}`, {})
-  }
+  // activation(competitionId:string) {
+  //   return this.http.put(`${env.API_ROOT}/api/Competition/CompetitionActivation/${competitionId}`, {})
+  // }
 
   // filterDate(filter: FilterDate){
   //   return this.http.post(`${env.API_ROOT}/api/Competition/FilterCompetitionsByDate`, filter).pipe(catchError(this.handleError.logError))
@@ -50,9 +50,9 @@ export class CompetitionService {
 
   // ********************************** Competition question *************************************
 
-  getAllCompetitionQuestions(filter: any) {
-    return this.http.post<CompetitionQuestionResponse>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestions`, filter).pipe(catchError(this.handleError.logError))
-  }
+  // getAllCompetitionQuestions(filter: any) {
+  //   return this.http.post<CompetitionQuestionResponse>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestions`, filter).pipe(catchError(this.handleError.logError))
+  // }
 
   addCompetitionQuestion(competionQuestion:any) {
     return this.http.post(`${env.API_ROOT}/api/CompetitionQuestion/AddCompetitionQuestion`, competionQuestion).pipe(catchError(this.handleError.logError))
@@ -62,21 +62,21 @@ export class CompetitionService {
     return this.http.put(`${env.API_ROOT}/api/CompetitionQuestion/EditCompetitionQuestion`, competion).pipe(catchError(this.handleError.logError))
   }
 
-  getCompetitionQuestionById(competitionQuestionId: string) {
-    return this.http.get<ResponseCompetitionQuestion>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestionsByCompetitionId/${competitionQuestionId}`).pipe(catchError(this.handleError.logError))
-  }
+  // getCompetitionQuestionById(competitionQuestionId: string) {
+  //   return this.http.get<ResponseCompetitionQuestion>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestionsByCompetitionId/${competitionQuestionId}`).pipe(catchError(this.handleError.logError))
+  // }
 
   getCompetitionQuestionByCompetitionId(competitionId: string) {
     return this.http.get<ResponseCompetitionQuestion[]>(`${env.API_ROOT}/api/CompetitionQuestion/GetCompetitionQuestionsWithAnswers?competitionId=${competitionId}`).pipe(catchError(this.handleError.logError))
   }
 
   deleteCompetitionQuestion(competitionQuestionId: string) {
-    return this.http.delete(`${env.API_ROOT}/api/CompetitionQuestion/DeleteCompetitionQuestion/${competitionQuestionId}`).pipe(catchError(this.handleError.logError))
+    return this.http.delete(`${env.API_ROOT}/api/CompetitionQuestion/DeleteCompetitionQuestionWithAnswers?competitionQuestionId=${competitionQuestionId}`).pipe(catchError(this.handleError.logError))
   }
 
-  activationCompetionQuestion(competitionQuestionId:string) {
-    return this.http.put(`${env.API_ROOT}/api/CompetitionQuestion/CompetitionQuestionActivation/${competitionQuestionId}`, {})
-  }
+  // activationCompetionQuestion(competitionQuestionId:string) {
+  //   return this.http.put(`${env.API_ROOT}/api/CompetitionQuestion/CompetitionQuestionActivation/${competitionQuestionId}`, {})
+  // }
 
   // ********************************** Competition question answer *************************************
 
@@ -85,7 +85,7 @@ export class CompetitionService {
   }
 
   deleteCompetitionQuestionAnswer(answerId: string) {
-    return this.http.delete(`${env.API_ROOT}/api/CompetitionQuestion/DeleteCompetitionQuestionAnswer/${answerId}`).pipe(catchError(this.handleError.logError))
+    return this.http.delete(`${env.API_ROOT}/api/CompetitionQuestion/DeleteCompetitionQuestionAnswer?answerId=${answerId}`).pipe(catchError(this.handleError.logError))
   }
 
 }
